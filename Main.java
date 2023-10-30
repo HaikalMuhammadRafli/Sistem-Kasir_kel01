@@ -11,6 +11,8 @@ public class Main {
         String inputUsername, inputPassword;
         int choice1, choice2, choice3;
         double total = 0, subTotal;
+        String item[] = { "Ayam Bakar", "Es Teh" };
+        int stok[] = { 40, 50 };
         // String username = "admin", password = "admin123";
         // int hargaAyamBakar = 13000;
         // int hargaEsTeh = 3000;
@@ -104,9 +106,13 @@ public class Main {
                     while (stocking == true) {
                         System.out.println("Cafe The Orange Stok!");
                         // Todo: Gunakan perhitungan array
-                        // System.out.println("Pilih 1 untuk tambah stok Ayam Bakar (" + stokAyamBakar +
-                        // ")");
-                        // System.out.println("Pilih 3 untuk tambah stok Es Teh (" + stokEsTeh + ")");
+                        for (int i = 0; i < item.length; i++) {
+                            System.out.println(
+                                    "Pilih " + (i + 1) + " untuk tambah stok " + item[i] + " (" + stok[i] + ")");
+                        }
+
+                        System.out.println("Pilih 1 untuk tambah stok Ayam Bakar (" + stok[0] + ")");
+                        System.out.println("Pilih 2 untuk tambah stok Es Teh (" + stok[1] + ")");
                         System.out.println("Pilih 5 untuk selesai");
                         System.out.println("");
                         System.out.print("Pilihan : ");
@@ -118,14 +124,13 @@ public class Main {
                                 System.out.print("Tambah stok Ayam Bakar : ");
                                 int inputAyamBakar = sc.nextInt();
                                 // Todo: Gunakan perhitungan array
-                                // stokAyamBakar += inputAyamBakar;
+                                stok[0] += inputAyamBakar;
                                 break;
-
                             case 2:
                                 System.out.print("Tambah stok Es Teh : ");
                                 int inputEsTeh = sc.nextInt();
                                 // Todo: Gunakan perhitungan array
-                                // stokEsTeh += inputEsTeh;
+                                stok[1] += inputEsTeh;
                                 break;
 
                             case 3:
