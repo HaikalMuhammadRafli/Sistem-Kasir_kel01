@@ -7,6 +7,9 @@ public class Main {
 
     public static void main(String[] args) {
 
+        String[] username = { "haikal", "irsyad", "esa"};
+        String[] password = { "123", "456", "789" };
+            
         boolean session = true, access = false, ordering, stocking;
         String inputUsername, inputPassword;
         int choice1, choice2, choice3;
@@ -31,12 +34,17 @@ public class Main {
                 inputPassword = sc.nextLine();
 
                 // TODO: ganti menggunakan array username dan password
-                // if (inputUsername.equals(username) && inputPassword.equals(password)) {
-                // System.out.println("Login success!");
-                // System.out.println("Welcome " + username);
-                // access = true;
-                // }
-
+                
+                    for (int i = 0; i < username.length; i++) {
+                        if (inputUsername.equals(username[i]) && inputPassword.equals(password[i]) ) {
+                            System.out.println();
+                            System.out.println("login berhasil");
+                            access = true;
+                            break;
+                        }
+                    }
+                  
+        
             }
             // menu
 
