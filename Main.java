@@ -23,8 +23,15 @@ public class Main {
         items[1][3] = "10"; // diskon %
 
         // array for users
-        String[] username = { "haikal", "irsyad", "esa" };
-        String[] password = { "123", "456", "789" };
+        // String[] username = { "haikal", "irsyad", "esa" };
+        // String[] password = { "123", "456", "789" };
+        String users[][] = new String[3][3];
+        users[0][0] = "haikal" ;
+        users[0][1] = "123";
+        users[1][0] = "irsyad";
+        users[1][1] = "456";
+        users[2][0] = "esa";
+        users[2][1] = "789";
 
         // array for orders
         int latestOrders = 0;
@@ -60,8 +67,11 @@ public class Main {
                 System.out.print("Input password : ");
                 inputPassword = sc.nextLine();
 
-                for (int i = 0; i < username.length; i++) {
-                    if (inputUsername.equals(username[i]) && inputPassword.equals(password[i])) {
+                // TODO: ganti menggunakan array 2d username dan password
+
+                for (int i = 0; i < users.length; i++) {
+                    if (inputUsername.equals(users[i][0]) && inputPassword.equals(users[i][1])) {
+
                         System.out.println();
                         System.out.println("Login berhasil!");
                         access = true;
