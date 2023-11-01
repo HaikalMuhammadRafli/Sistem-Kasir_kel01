@@ -35,7 +35,7 @@ public class Main {
 
         // array for orders
         int latestOrders = 0;
-        String orders[][] = new String[20][5];
+        String orders[][] = new String[20][6];
         orders[0][0] = "Adi"; // nama pemesan
         orders[0][1] = "Irsyad"; // nama kasir
         orders[0][2] = "150000"; // subtotal
