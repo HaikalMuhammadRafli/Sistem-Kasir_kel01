@@ -41,6 +41,7 @@ public class Main {
         orders[0][2] = "150000"; // subtotal
         orders[0][3] = "50000"; // total diskon
         orders[0][4] = "100000"; // total
+        orders[0][5] = "Selesai"; // status pembayaran
 
         // array for order details
         int latestOrder_details = 0;
@@ -55,15 +56,12 @@ public class Main {
 
         boolean session = true, access = false, ordering, stocking;
         String inputUsername, inputPassword;
-        int choice1, choice2, choice3;
-
-        String item[] = { "Ayam Bakar", "Es Teh" };
-        int stok[] = { 40, 50 };
+        int choice1, choice2, choice3, jumlahMasuk;
 
         while (session == true) {
             // login
             while (access == false) {
-                System.out.println("LOGIN");
+                System.out.println("SILAHKAN LOGIN");
                 System.out.print("Input username : ");
                 inputUsername = sc.nextLine();
                 System.out.print("Input password : ");
@@ -73,11 +71,17 @@ public class Main {
 
                 for (int i = 0; i < users.length; i++) {
                     if (inputUsername.equals(users[i][0]) && inputPassword.equals(users[i][1])) {
+
                         System.out.println();
-                        System.out.println("login berhasil");
+                        System.out.println("Login berhasil!");
                         access = true;
                         break;
                     }
+                }
+
+                if (access != true) {
+                    System.out.println("Username dan password salah!");
+                    System.out.println("Silahkan coba lagi!\n");
                 }
 
             }
@@ -109,10 +113,11 @@ public class Main {
                             break;
                         }
                     }
-                    System.out.println(latestOrders);
 
                     System.out.print("Nama Pembeli : ");
                     orders[latestOrders][0] = sc.nextLine();
+                    System.out.println();
+
                     orders[latestOrders][1] = "Irsyad";
 
                     ordering = true;
@@ -175,7 +180,7 @@ public class Main {
 
                             order_details[latestOrder_details][1] = items[choice2 - 1][0]; // nama
 
-                            System.out.print("Beli Berapa PCS " + items[choice2 - 1][1] + " ? : ");
+                            System.out.print("Beli Berapa PCS " + items[choice2 - 1][0] + " ? : ");
                             order_details[latestOrder_details][2] = Integer.toString(sc.nextInt()); // jumlah
 
                             order_details[latestOrder_details][3] = items[choice2 - 1][1]; // harga
@@ -204,7 +209,7 @@ public class Main {
 
                         } else {
                             System.out.println("Menu tersebut tidak ada!");
-                            System.out.println("Silahkan coba lagi!");
+                            System.out.println("Silahkan coba lagi!\n");
                             continue;
 
                         }
@@ -217,42 +222,40 @@ public class Main {
 
                     while (stocking == true) {
                         System.out.println("Cafe The Orange Stok!");
-                        // Todo: Gunakan perhitungan array 2d
-                        for (int i = 0; i < item.length; i++) {
-                            System.out.println(
-                                    "Pilih " + (i + 1) + " untuk tambah stok " + item[i] + " (" + stok[i] + ")");
+                        for (int i = 0; i < items.length; i++) {
+                            if (items[i][0] != null) {
+                                System.out.println(
+                                        "Pilih " + (i + 1) + " untuk tambah stok " + items[i][0] + " (" + items[i][2]
+                                                + ")");
+                            }
                         }
-                        System.out.println("Pilih 3 untuk selesai");
-                        System.out.println("");
+
+                        System.out.println("[" + items.length + "] to exit\n");
+
                         System.out.print("Pilihan : ");
 
                         choice3 = sc.nextInt();
 
-                        switch (choice3) {
-                            case 1:
-                                System.out.print("Tambah stok Ayam Bakar : ");
-                                int inputAyamBakar = sc.nextInt();
-                                // Todo: Gunakan perhitungan array
-                                stok[0] += inputAyamBakar;
-                                break;
-                            case 2:
-                                System.out.print("Tambah stok Es Teh : ");
-                                int inputEsTeh = sc.nextInt();
-                                // Todo: Gunakan perhitungan array
-                                stok[1] += inputEsTeh;
-                                break;
+                        System.out.println();
 
-                            case 3:
-                                System.out.println("Thank you!");
-                                stocking = false;
-                                break;
-
-                            default:
-                                System.out.println("Item tersebut tidak tersedia!");
-                                System.out.println("Silahkan coba lagi");
-                                break;
+                        if (items[choice3 - 1][0] != null) {
+                            System.out.print("Tambah stok " + items[choice3 - 1][0] + " : ");
+                            jumlahMasuk = sc.nextInt();
+                            items[choice3 - 1][2] = Integer
+                                    .toString(Integer.parseInt(items[choice3 - 1][2]) + jumlahMasuk);
+                        } else if (choice3 == items.length) {
+                            System.out.println("Thank you!");
+                            stocking = false;
+                            break;
+                        } else {
+                            System.out.println("Item tersebut tidak tersedia!");
+                            System.out.println("Silahkan coba lagi");
+                            continue;
                         }
+
+                        continue;
                     }
+
                     break;
 
                 case 3:
