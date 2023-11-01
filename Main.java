@@ -210,10 +210,11 @@ public class Main {
 
                     while (stocking == true) {
                         System.out.println("Cafe The Orange Stok!");
-                        // Todo: Gunakan perhitungan array 2d
+
+                        // Tampilkan daftar item dan stok
                         for (int i = 0; i < item.length; i++) {
                             System.out.println(
-                                    "Pilih " + (i + 1) + " untuk tambah stok " + item[i] + " (" + stok[i] + ")");
+                                    "Pilih " + (i + 1) + " untuk tambah stok " + item[i] + " (" + stok[i][0] + ")");
                         }
                         System.out.println("Pilih 3 untuk selesai");
                         System.out.println("");
@@ -225,28 +226,21 @@ public class Main {
                             case 1:
                                 System.out.print("Tambah stok Ayam Bakar : ");
                                 int inputAyamBakar = sc.nextInt();
-                                // Todo: Gunakan perhitungan array
-                                stok[0] += inputAyamBakar;
+                                // Tambah stok item ke-1
+                                stok[0][0] += inputAyamBakar;
                                 break;
                             case 2:
                                 System.out.print("Tambah stok Es Teh : ");
                                 int inputEsTeh = sc.nextInt();
-                                // Todo: Gunakan perhitungan array
-                                stok[1] += inputEsTeh;
+                                // Tambah stok item ke-2
+                                stok[1][0] += inputEsTeh;
                                 break;
-
                             case 3:
-                                System.out.println("Thank you!");
+                                // Set stocking menjadi false
                                 stocking = false;
-                                break;
-
-                            default:
-                                System.out.println("Item tersebut tidak tersedia!");
-                                System.out.println("Silahkan coba lagi");
                                 break;
                         }
                     }
-                    break;
 
                 case 3:
                     System.out.println("Thank you for using this program!");
