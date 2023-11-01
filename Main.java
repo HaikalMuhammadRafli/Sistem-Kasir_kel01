@@ -62,7 +62,7 @@ public class Main {
                 System.out.print("Input password : ");
                 inputPassword = sc.nextLine();
 
-                // TODO: ganti menggunakan array username dan password
+                // TODO: ganti menggunakan array 2d username dan password
 
                 for (int i = 0; i < username.length; i++) {
                     if (inputUsername.equals(username[i]) && inputPassword.equals(password[i])) {
@@ -210,7 +210,7 @@ public class Main {
 
                     while (stocking == true) {
                         System.out.println("Cafe The Orange Stok!");
-                        // Todo: Gunakan perhitungan array
+                        // Todo: Gunakan perhitungan array 2d
                         for (int i = 0; i < item.length; i++) {
                             System.out.println(
                                     "Pilih " + (i + 1) + " untuk tambah stok " + item[i] + " (" + stok[i] + ")");
