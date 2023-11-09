@@ -57,7 +57,7 @@ public class Main {
 
         boolean session = true, access = false, ordering, stocking;
         String inputUsername, inputPassword;
-        int choice1, choice2, choice3, removeItemChoice, jumlahMasuk, user_id;
+        int choice1, choice2, choice3, removeItemChoice, jumlahMasuk, user_id = 0;
 
         while (session == true) {
             // login
@@ -67,8 +67,6 @@ public class Main {
                 inputUsername = sc.nextLine();
                 System.out.print("Input password : ");
                 inputPassword = sc.nextLine();
-
-                // TODO: ganti menggunakan array 2d username dan password
 
                 for (int i = 0; i < users.length; i++) {
                     if (inputUsername.equals(users[i][0]) && inputPassword.equals(users[i][1])) {
@@ -123,7 +121,7 @@ public class Main {
                     System.out.println();
 
                     // nama kasir
-                    orders[latestOrders][1] = "Irsyad";
+                    orders[latestOrders][1] = users[user_id][0];
 
                     ordering = true;
                     while (ordering == true) {
@@ -141,12 +139,14 @@ public class Main {
                         // looping menu
                         for (int i = 0; i < items.length; i++) {
                             if (items[i][0] != null) {
-                                System.out.println("[" + (i + 1) + "] Order " + items[i][0] + " (" + items[i][2] + ")");
+                                System.out.println("[" + (i + 1) + "] Order " + items[i][0] + " (" + items[i][2]
+                                        + ")    --  Rp " + items[i][1]);
                             }
                         }
 
                         System.out.println("[" + items.length + "] to cancel an item");
-                        System.out.println("[" + (items.length + 1) + "] to exit\n");
+                        System.out.println("[" + (items.length + 1) + "] to finish order");
+                        System.out.println("[" + (items.length + 2) + "] to exit\n");
                         System.out.println("List pembelian :");
 
                         // looping daftar pesanan
@@ -234,6 +234,16 @@ public class Main {
 
                             if (removeItemChoice < order_details.length && order_details[removeItemChoice][0]
                                     .equals(Integer.toString(latestOrders))) {
+
+                                // pengembalian stok
+                                for (int i = 0; i < items.length; i++) {
+                                    if (items[i][0].equals(order_details[removeItemChoice][1])) {
+                                        items[i][2] = Integer.toString(Integer.parseInt(items[i][2])
+                                                + Integer.parseInt(order_details[removeItemChoice][2]));
+                                        break;
+                                    }
+                                }
+
                                 // membuat satu baris menjadi null untuk dicancel
                                 for (int i = 0; i < order_details[removeItemChoice].length; i++) {
                                     if (order_details[removeItemChoice][0] != null
@@ -251,6 +261,8 @@ public class Main {
                             System.out.println("Your total : " + orders[latestOrders][4]);
                             ordering = false;
                             break;
+
+                        } else if (choice2 == items.length + 2) {
 
                         } else {
                             System.out.println("Menu tersebut tidak ada!");
