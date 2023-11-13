@@ -60,8 +60,8 @@ public class Main {
         order_details[0][6] = "100000"; // total per item
 
         boolean session = true, access = false, ordering, stocking, memberValid;
-        String inputUsername, inputPassword;
-        int choice1, choice2, choice3, removeItemChoice, paymentChoice;
+        String inputUsername, inputPassword, inputUsernameHistory;
+        int mainChoice, orderChoice, stockChoice, removeItemChoice, paymentChoice, historyChoice;
         char isMember;
 
         while (session == true) {
@@ -102,13 +102,14 @@ public class Main {
             System.out.println("Cafe The Orange!");
             System.out.println("Choose 1 to make an order");
             System.out.println("Choose 2 to add stok");
-            System.out.println("Choose 3 to exit the program");
+            System.out.println("Choose 3 to see sales history");
+            System.out.println("Choose 4 to exit the program");
             System.out.print("Input your answer : ");
-            choice1 = sc.nextInt();
+            mainChoice = sc.nextInt();
             sc.nextLine();
             System.out.println();
 
-            switch (choice1) {
+            switch (mainChoice) {
 
                 // Membuat order
                 case 1:
@@ -188,22 +189,23 @@ public class Main {
                         System.out.println("Total : Rp " + orders[latestOrders][4] + "\n");
                         System.out.print("Choice : ");
 
-                        choice2 = sc.nextInt();
+                        orderChoice = sc.nextInt();
+                        sc.nextLine();
 
-                        if (choice2 < items.length && items[choice2 - 1][0] != null) {
+                        if (orderChoice < items.length && items[orderChoice - 1][0] != null) {
 
                             // id
                             order_details[latestOrder_details][0] = Integer.toString(latestOrders);
 
                             // nama
-                            order_details[latestOrder_details][1] = items[choice2 - 1][0];
+                            order_details[latestOrder_details][1] = items[orderChoice - 1][0];
 
                             // jumlah
-                            System.out.print("Beli Berapa PCS " + items[choice2 - 1][0] + " ? : ");
+                            System.out.print("Beli Berapa PCS " + items[orderChoice - 1][0] + " ? : ");
                             order_details[latestOrder_details][2] = Integer.toString(sc.nextInt());
 
                             // harga
-                            order_details[latestOrder_details][3] = items[choice2 - 1][1];
+                            order_details[latestOrder_details][3] = items[orderChoice - 1][1];
 
                             // subtotal
                             order_details[latestOrder_details][4] = Integer.toString(Integer
@@ -219,12 +221,12 @@ public class Main {
                                             - Integer.parseInt(order_details[latestOrder_details][5]));
 
                             // pengurangan stok
-                            items[choice2 - 1][2] = Integer.toString(Integer.parseInt(items[choice2 - 1][2])
+                            items[orderChoice - 1][2] = Integer.toString(Integer.parseInt(items[orderChoice - 1][2])
                                     - Integer.parseInt(order_details[latestOrder_details][2]));
 
                             continue;
 
-                        } else if (choice2 == items.length) {
+                        } else if (orderChoice == items.length) {
                             System.out.println("Pilih item yang ingin di cancel!");
                             System.out.println("List pembelian :");
 
@@ -263,7 +265,7 @@ public class Main {
                                 }
                             }
 
-                        } else if (choice2 == items.length + 1) {
+                        } else if (orderChoice == items.length + 1) {
 
                             do {
                                 memberValid = false;
@@ -351,7 +353,7 @@ public class Main {
                             ordering = false;
                             break;
 
-                        } else if (choice2 == items.length + 2) {
+                        } else if (orderChoice == items.length + 2) {
 
                             // menghapus seluruh order item dan order
                             for (int i = 0; i < order_details.length; i++) {
@@ -399,16 +401,16 @@ public class Main {
 
                         System.out.print("Pilihan : ");
 
-                        choice3 = sc.nextInt();
+                        stockChoice = sc.nextInt();
 
                         System.out.println();
 
-                        if (items[choice3 - 1][0] != null) {
-                            System.out.print("Tambah stok " + items[choice3 - 1][0] + " : ");
+                        if (items[stockChoice - 1][0] != null) {
+                            System.out.print("Tambah stok " + items[stockChoice - 1][0] + " : ");
                             jumlahMasuk = sc.nextInt();
-                            items[choice3 - 1][2] = Integer
-                                    .toString(Integer.parseInt(items[choice3 - 1][2]) + jumlahMasuk);
-                        } else if (choice3 == items.length) {
+                            items[stockChoice - 1][2] = Integer
+                                    .toString(Integer.parseInt(items[stockChoice - 1][2]) + jumlahMasuk);
+                        } else if (stockChoice == items.length) {
                             System.out.println("Thank you!");
                             stocking = false;
                             break;
@@ -424,6 +426,77 @@ public class Main {
                     break;
 
                 case 3:
+                    // ! history feature
+                    System.out.println("Sales History");
+                    System.out.println("[1] All time");
+                    System.out.println("[2] Sort by cashier");
+                    System.out.println("[3] Sort by date");
+                    System.out.print("Your choice : ");
+                    historyChoice = sc.nextInt();
+                    sc.nextLine();
+
+                    switch (historyChoice) {
+                        case 1:
+                            System.out.println("History by all time :");
+                            System.out.println();
+                            for (int i = 0; i < orders.length; i++) {
+                                if (orders[i][0] != null) {
+
+                                    System.out.println("Order ke-" + i);
+                                    System.out.println("--------------------");
+                                    System.out.println("Cashier : " + orders[i][1]);
+                                    System.out.println("Pelanggan : " + orders[i][0]);
+                                    System.out.println("--------------------");
+
+                                    for (int j = 0; j < order_details.length; j++) {
+                                        if (order_details[j][0] != null && Integer.parseInt(order_details[j][0]) == i) {
+                                            System.out
+                                                    .println(j + "> " + order_details[j][1] + " -- "
+                                                            + order_details[0][2]);
+                                        }
+                                    }
+
+                                    System.out.println("=========================");
+                                    System.out.println();
+                                }
+                            }
+                            break;
+
+                        case 2:
+                            System.out.print("Masukkan username kasir : ");
+                            inputUsernameHistory = sc.nextLine();
+
+                            System.out.println("History by cashier :");
+                            System.out.println();
+                            for (int i = 0; i < orders.length; i++) {
+                                if (orders[i][0] != null && orders[i][1].equals(inputUsernameHistory)) {
+
+                                    System.out.println("Order ke-" + i);
+                                    System.out.println("--------------------");
+                                    System.out.println("Cashier : " + orders[i][1]);
+                                    System.out.println("Pelanggan : " + orders[i][0]);
+                                    System.out.println("--------------------");
+
+                                    for (int j = 0; j < order_details.length; j++) {
+                                        if (order_details[j][0] != null && Integer.parseInt(order_details[j][0]) == i) {
+                                            System.out
+                                                    .println(j + "> " + order_details[j][1] + " -- "
+                                                            + order_details[0][2]);
+                                        }
+                                    }
+
+                                    System.out.println("=========================");
+                                    System.out.println();
+                                }
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+
+                    break;
+
+                case 4:
                     System.out.println("Thank you for using this program!");
                     System.out.println("Goodbye ^-^");
                     session = false;
