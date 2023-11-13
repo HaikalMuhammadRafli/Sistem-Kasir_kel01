@@ -67,7 +67,10 @@ public class Main {
         while (session == true) {
             // login
             while (access == false) {
-                System.out.println("SILAHKAN LOGIN");
+                System.out.println("\u001B[33m╔══════════════════════════════╗");
+                System.out.println("║        \u001B[32mSILAHKAN LOGIN        \u001B[33m║");
+                System.out.println("╚══════════════════════════════╝\u001B[0m");
+
                 System.out.print("Input username : ");
                 inputUsername = sc.nextLine();
                 System.out.print("Input password : ");
@@ -84,8 +87,8 @@ public class Main {
                 }
 
                 if (access != true) {
-                    System.out.println("Username dan password salah!");
-                    System.out.println("Silahkan coba lagi!\n");
+                    System.out.println("\u001B[31mUsername dan password salah!");
+                    System.out.println("Silahkan coba lagi!\n\u001B[0m");
                 }
 
             }
@@ -98,16 +101,16 @@ public class Main {
             }
 
             // menu
-            System.out.println();
-            System.out.println("Cafe The Orange!");
-            System.out.println("Choose 1 to make an order");
-            System.out.println("Choose 2 to add stok");
-            System.out.println("Choose 3 to see sales history");
-            System.out.println("Choose 4 to exit the program");
-            System.out.print("Input your answer : ");
+            System.out.println("╔════════════════════════════════════════════════╗");
+            System.out.println("║       Selamat Datang di Cafe The Orange!       ║");
+            System.out.println("╚════════════════════════════════════════════════╝");
+            System.out.println("  1. Buat Pesanan");
+            System.out.println("  2. Tambah Stok");
+            System.out.println("  3. Lihat Riwayat Penjualan");
+            System.out.println("  4. Keluar dari Program");
+            System.out.print("Masukkan pilihan Anda: ");
             mainChoice = sc.nextInt();
             sc.nextLine();
-            System.out.println();
 
             switch (mainChoice) {
 
@@ -143,7 +146,9 @@ public class Main {
                             }
                         }
 
-                        System.out.println("Cafe The Orange Menu!");
+                        System.out.println("╔═════════════════════════════════════════════════╗");
+                        System.out.println("║              Cafe The Orange Menu!              ║");
+                        System.out.println("╚═════════════════════════════════════════════════╝");
 
                         // looping menu
                         for (int i = 0; i < items.length; i++) {
@@ -286,7 +291,9 @@ public class Main {
                             } while (memberValid != true);
 
                             System.out.println();
-                            System.out.println("Payment methods : ");
+                            System.out.println("╔══════════════════════════════════════╗");
+                            System.out.println("║           Payment methods            ║");
+                            System.out.println("╚══════════════════════════════════════╝");
                             System.out.println("[1] Cash");
                             System.out.println("[2] Debit Card");
                             System.out.println("[3] Credit Card");
@@ -427,7 +434,9 @@ public class Main {
 
                 case 3:
                     // ! history feature
-                    System.out.println("Sales History");
+                    System.out.println("\n╔══════════════════════════════════════╗");
+                    System.out.println("║            Sales History             ║");
+                    System.out.println("╚══════════════════════════════════════╝");
                     System.out.println("[1] All time");
                     System.out.println("[2] Sort by cashier");
                     System.out.println("[3] Sort by date");
@@ -441,7 +450,7 @@ public class Main {
                             System.out.println();
                             for (int i = 0; i < orders.length; i++) {
                                 if (orders[i][0] != null) {
-
+                                    System.out.println("=========================");
                                     System.out.println("Order ke-" + i);
                                     System.out.println("--------------------");
                                     System.out.println("Cashier : " + orders[i][1]);
