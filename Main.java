@@ -67,9 +67,9 @@ public class Main {
         while (session == true) {
             // login
             while (access == false) {
-                System.out.println("\u001B[33m╔══════════════════════════════╗");
-                System.out.println("║        \u001B[32mSILAHKAN LOGIN        \u001B[33m║");
-                System.out.println("╚══════════════════════════════╝\u001B[0m");
+                System.out.println("╔══════════════════════════════╗");
+                System.out.println("║        SILAHKAN LOGIN        ║");
+                System.out.println("╚══════════════════════════════╝");
 
                 System.out.print("Input username : ");
                 inputUsername = sc.nextLine();
@@ -104,10 +104,13 @@ public class Main {
             System.out.println("╔════════════════════════════════════════════════╗");
             System.out.println("║       Selamat Datang di Cafe The Orange!       ║");
             System.out.println("╚════════════════════════════════════════════════╝");
-            System.out.println("  1. Buat Pesanan");
-            System.out.println("  2. Tambah Stok");
-            System.out.println("  3. Lihat Riwayat Penjualan");
-            System.out.println("  4. Keluar dari Program");
+            System.out.println("[1] Buat Pesanan");
+            System.out.println("[null] Manajemen Item Menu");
+            System.out.println("[2] Manajemen Stok");
+            System.out.println("[null] Manajemen Diskon");
+            System.out.println("[3] Lihat Riwayat Penjualan");
+            System.out.println("[null] Lihat Laporan Pendapatan");
+            System.out.println("[4] Keluar dari Program");
             System.out.print("Masukkan pilihan Anda: ");
             mainChoice = sc.nextInt();
             sc.nextLine();
@@ -124,10 +127,6 @@ public class Main {
                             break;
                         }
                     }
-
-                    System.out.print("Nama Pembeli : ");
-                    orders[latestOrders][0] = sc.nextLine();
-                    System.out.println();
 
                     // nama kasir
                     orders[latestOrders][1] = users[user_id][0];
@@ -149,6 +148,15 @@ public class Main {
                         System.out.println("╔═════════════════════════════════════════════════╗");
                         System.out.println("║              Cafe The Orange Menu!              ║");
                         System.out.println("╚═════════════════════════════════════════════════╝");
+                        if (orders[latestOrders][0] == null) {
+                            System.out.print("Nama Pembeli : ");
+                            orders[latestOrders][0] = sc.nextLine();
+                        } else {
+                            System.out.print("Nama Pembeli : " + orders[latestOrders][0]);
+                        }
+                        System.out.println();
+                        System.out.println("----------------------------");
+                        System.out.println("Daftar menu :");
 
                         // looping menu
                         for (int i = 0; i < items.length; i++) {
@@ -168,7 +176,7 @@ public class Main {
                             if (order_details[i][0] != null
                                     && order_details[i][0].equals(Integer.toString(latestOrders))) {
                                 System.out.println(i + "> " + order_details[i][1] + " (" + order_details[i][2] +
-                                        ")");
+                                        ")    Rp" + order_details[i][4]);
                             }
                         }
                         System.out.println();
@@ -208,6 +216,7 @@ public class Main {
                             // jumlah
                             System.out.print("Beli Berapa PCS " + items[orderChoice - 1][0] + " ? : ");
                             order_details[latestOrder_details][2] = Integer.toString(sc.nextInt());
+                            sc.nextLine();
 
                             // harga
                             order_details[latestOrder_details][3] = items[orderChoice - 1][1];
@@ -240,7 +249,7 @@ public class Main {
                                 if (order_details[i][0] != null
                                         && order_details[i][0].equals(Integer.toString(latestOrders))) {
                                     System.out.println(i + "> " + order_details[i][1] + " (" + order_details[i][2] +
-                                            ")");
+                                            ")    Rp" + order_details[i][4]);
                                 }
                             }
 
@@ -395,11 +404,14 @@ public class Main {
                     stocking = true;
 
                     while (stocking == true) {
-                        System.out.println("Cafe The Orange Stok!");
+                        System.out.println();
+                        System.out.println("╔══════════════════════════════════════════════╗");
+                        System.out.println("║              Cafe the orange stok            ║");
+                        System.out.println("╚══════════════════════════════════════════════╝");
                         for (int i = 0; i < items.length; i++) {
                             if (items[i][0] != null) {
                                 System.out.println(
-                                        "Pilih " + (i + 1) + " untuk tambah stok " + items[i][0] + " (" + items[i][2]
+                                        "[" + (i + 1) + "] " + " tambah stok " + items[i][0] + " (" + items[i][2]
                                                 + ")");
                             }
                         }
@@ -434,7 +446,8 @@ public class Main {
 
                 case 3:
                     // ! history feature
-                    System.out.println("\n╔══════════════════════════════════════╗");
+                    System.out.println();
+                    System.out.println("╔══════════════════════════════════════╗");
                     System.out.println("║            Sales History             ║");
                     System.out.println("╚══════════════════════════════════════╝");
                     System.out.println("[1] All time");
@@ -452,10 +465,10 @@ public class Main {
                                 if (orders[i][0] != null) {
                                     System.out.println("=========================");
                                     System.out.println("Order ke-" + i);
-                                    System.out.println("--------------------");
+                                    System.out.println("-------------------------");
                                     System.out.println("Cashier : " + orders[i][1]);
                                     System.out.println("Pelanggan : " + orders[i][0]);
-                                    System.out.println("--------------------");
+                                    System.out.println("-------------------------");
 
                                     for (int j = 0; j < order_details.length; j++) {
                                         if (order_details[j][0] != null && Integer.parseInt(order_details[j][0]) == i) {
@@ -464,6 +477,13 @@ public class Main {
                                                             + order_details[0][2]);
                                         }
                                     }
+
+                                    System.out.println("-------------------------");
+                                    System.out.println("Subtotal : " + orders[i][2]);
+                                    System.out.println("Total Diskon : " + orders[i][3]);
+                                    System.out.println("Total : " + orders[i][4]);
+                                    System.out.println("Pembayaran : " + orders[i][5]);
+                                    System.out.println("Kembalian : " + orders[i][6]);
 
                                     System.out.println("=========================");
                                     System.out.println();
