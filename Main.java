@@ -548,10 +548,10 @@ public class Main {
                             double totalIncome = -100000;
                             for (int i = 0; i < orders.length; i++) {
                                 if (orders[i][0] != null) {
-                                    totalIncome += Double.parseDouble(orders[i][5]);
+                                    totalIncome += Double.parseDouble(orders[i][5]) - Double.parseDouble(orders[i][6]);
                                 }
                             }
-                            System.out.println("Total Pendapatan Rp: " + totalIncome);
+                            System.out.println("Total Pendapatan: " + totalIncome);
                             System.out.println("=========================");
                             System.out.println();
                             break;
