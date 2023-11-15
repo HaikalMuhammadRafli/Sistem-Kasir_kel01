@@ -109,8 +109,8 @@ public class Main {
             System.out.println("[2] Manajemen Stok");
             System.out.println("[null] Manajemen Diskon");
             System.out.println("[3] Lihat Riwayat Penjualan");
-            System.out.println("[null] Lihat Laporan Pendapatan");
-            System.out.println("[4] Keluar dari Program");
+            System.out.println("[4] Lihat Laporan Pendapatan");
+            System.out.println("[5] Keluar dari Program");
             System.out.print("Masukkan pilihan Anda: ");
             mainChoice = sc.nextInt();
             sc.nextLine();
@@ -524,8 +524,45 @@ public class Main {
                     }
 
                     break;
-
                 case 4:
+                    System.out.println();
+                    System.out.println("╔══════════════════════════════════════╗");
+                    System.out.println("║         Laporan Pendapatan           ║");
+                    System.out.println("╚══════════════════════════════════════╝");
+                    System.out.println("[1] Laporan pendapatan per tanggal");
+                    System.out.println("[2] Laporan pendapatan all time");
+                    System.out.print("Your choice : ");
+                    int reportChoice = sc.nextInt();
+                    sc.nextLine();
+
+                    switch (reportChoice) {
+                        case 1:
+                            System.out.print("Masukkan tanggal: ");
+                            String date = sc.nextLine();
+                            System.out.println("Laporan pendapatan per tanggal: " + date);
+                            System.out.println();
+                            break;
+                        case 2:
+                            System.out.println("Laporan pendapatan all time: ");
+                            System.out.println();
+                            double totalIncome = -100000;
+                            for (int i = 0; i < orders.length; i++) {
+                                if (orders[i][0] != null) {
+                                    totalIncome += Double.parseDouble(orders[i][5]);
+                                }
+                            }
+                            System.out.println("Total Pendapatan Rp: " + totalIncome);
+                            System.out.println("=========================");
+                            System.out.println();
+                            break;
+
+                        default:
+                            System.out.println("Invalid choice!");
+                            System.out.println("Please try again!");
+                            break;
+                    }
+                    break;
+                case 5:
                     System.out.println("Thank you for using this program!");
                     System.out.println("Goodbye ^-^");
                     session = false;
