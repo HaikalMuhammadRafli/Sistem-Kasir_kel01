@@ -59,6 +59,15 @@ public class Main {
         order_details[0][5] = "50000"; // total diskon per item
         order_details[0][6] = "100000"; // total per item
 
+        // array and variables for membership
+        String noMembership[][] = new String[100][2];
+        noMembership[0][0] = "234172"; // id
+        noMembership[0][1] = "Irsyad"; // nama
+        noMembership[1][0] = "234173"; // id
+        noMembership[1][1] = "Esa"; // nama
+        noMembership[2][0] = "234174"; // id
+        noMembership[2][1] = "Haikal"; // nama
+
         boolean session = true, access = false, ordering, stocking, memberValid;
         String inputUsername, inputPassword, inputUsernameHistory;
         int mainChoice, orderChoice, stockChoice, removeItemChoice, paymentChoice, historyChoice;
@@ -286,10 +295,30 @@ public class Main {
                                 System.out.println();
                                 System.out.print("Apakah punya kartu member? (y/t) :");
                                 isMember = sc.next().charAt(0);
-
                                 if (isMember == 'y' || isMember == 'Y') {
-                                    orders[latestOrders][8] = "member";
-                                    memberValid = true;
+                                    System.out.print("Masukkan nomer member : ");
+                                    String memberNumber = sc.next();
+                                    boolean memberExists = false;
+                                    String memberName = "";
+
+                                    // Check if the member number exists in the noMembership array
+                                    for (int i = 0; i < noMembership.length; i++) {
+                                        if (noMembership[i][0] != null && noMembership[i][0].equals(memberNumber)) {
+                                            memberExists = true;
+                                            memberName = noMembership[i][1];
+                                            break;
+                                        }
+                                    }
+                                    // print member names
+                                    if (memberExists) {
+                                        System.out.println("Member name: " + memberName);
+                                        orders[latestOrders][6] = memberNumber;
+                                        orders[latestOrders][8] = "member";
+                                        memberValid = true;
+                                    } else {
+                                        System.out.println("Member number not found!");
+                                        break;
+                                    }
                                 } else if (isMember == 't' || isMember == 'T') {
                                     orders[latestOrders][8] = "not member";
                                     memberValid = true;
@@ -333,27 +362,33 @@ public class Main {
 
                                     System.out.println("Cash payment : ");
                                     System.out.println("Total Awal : " + orders[latestOrders][4]);
-                                    if (orders[latestOrders][8].equals("member")) {
-                                        orders[latestOrders][4] = Integer
-                                                .toString(Integer.parseInt(orders[latestOrders][4])
-                                                        - (Integer.parseInt(orders[latestOrders][4]) * memberDiskon
-                                                                / 100));
-                                        System.out.println("Member discount " + memberDiskon + "% : "
-                                                + orders[latestOrders][4]);
+                                    if (orders[latestOrders][8] != null && orders[latestOrders][8].equals("member")) {
+                                        if (orders[latestOrders][4] != null) {
+                                            orders[latestOrders][4] = Integer
+                                                    .toString(Integer.parseInt(orders[latestOrders][4])
+                                                            - (Integer.parseInt(orders[latestOrders][4]) * memberDiskon
+                                                                    / 100));
+                                            System.out.println("Member discount " + memberDiskon + "% : "
+                                                    + orders[latestOrders][4]);
+                                        }
                                     }
                                     System.out.println("---------------------------");
                                     System.out.println("Total : " + orders[latestOrders][4]);
                                     System.out.print("Bayar : ");
                                     orders[latestOrders][5] = Integer.toString(sc.nextInt());
 
-                                    if (Integer.parseInt(orders[latestOrders][5]) >= Integer
-                                            .parseInt(orders[latestOrders][4])) {
-                                        orders[latestOrders][6] = Integer
-                                                .toString(Integer.parseInt(orders[latestOrders][5])
-                                                        - Integer.parseInt(orders[latestOrders][4]));
-                                        System.out.println("Kembalian : " + orders[latestOrders][6]);
+                                    if (orders[latestOrders][5] != null
+                                            && Integer.parseInt(orders[latestOrders][5]) >= Integer
+                                                    .parseInt(orders[latestOrders][4])) {
+                                        if (orders[latestOrders][6] != null) {
+                                            orders[latestOrders][6] = Integer
+                                                    .toString(Integer.parseInt(orders[latestOrders][5])
+                                                            - Integer.parseInt(orders[latestOrders][4]));
+                                            System.out.println("Kembalian : " + orders[latestOrders][6]);
+                                        }
 
                                         break;
+
                                     } else {
                                         System.out.println("Uang tidak cukup!");
                                         System.out.println("Proses Pembayaran gagal!");
