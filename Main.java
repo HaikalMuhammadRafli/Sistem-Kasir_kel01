@@ -443,15 +443,21 @@ public class Main {
                         System.out.println("╔══════════════════════════════════════════════╗");
                         System.out.println("║              Cafe the orange stok            ║");
                         System.out.println("╚══════════════════════════════════════════════╝");
+                        int count = 1;
+                        // perulangan untuk menampilkan stok
                         for (int i = 0; i < items.length; i++) {
                             if (items[i][0] != null) {
                                 System.out.println(
-                                        "[" + (i + 1) + "] " + " tambah stok " + items[i][0] + " (" + items[i][2]
+                                        "[" + (count++) + "] " + " tambah stok " + items[i][0] + " (" + items[i][2]
+                                                + ")");
+                                System.out.println(
+                                        "[" + (count++) + "] " + " kurangi stok " + items[i][0] + " (" + items[i][2]
                                                 + ")");
                             }
                         }
 
-                        System.out.println("[" + items.length + "] to exit\n");
+                        System.out.println("[" + 20 + "] to exit\n");
+                        System.out.println("[" + (count + 1) + "] untuk mencari stok menu\n");
 
                         System.out.print("Pilihan : ");
 
@@ -459,25 +465,57 @@ public class Main {
 
                         System.out.println();
 
-                        if (items[stockChoice - 1][0] != null) {
-                            System.out.print("Tambah stok " + items[stockChoice - 1][0] + " : ");
+                        // logika untuk menambah dan mengurangi stok
+                        if (stockChoice % 2 != 0 && items[(stockChoice - 1) / 2][0] != null) {
+                            System.out.print("Tambah stok " + items[(stockChoice - 1) / 2][0] + " : ");
                             jumlahMasuk = sc.nextInt();
-                            items[stockChoice - 1][2] = Integer
-                                    .toString(Integer.parseInt(items[stockChoice - 1][2]) + jumlahMasuk);
-                        } else if (stockChoice == items.length) {
+                            items[(stockChoice - 1) / 2][2] = Integer
+                                    .toString(Integer.parseInt(items[(stockChoice - 1) / 2][2]) + jumlahMasuk);
+                        } else if (stockChoice % 2 == 0 && items[(stockChoice - 2) / 2][0] != null) {
+                            System.out.print("Kurangi stok " + items[(stockChoice - 2) / 2][0] + " : ");
+                            jumlahMasuk = sc.nextInt();
+                            items[(stockChoice - 2) / 2][2] = Integer
+                                    .toString(Integer.parseInt(items[(stockChoice - 2) / 2][2]) - jumlahMasuk);
+                        } else if (stockChoice == 20) {
                             System.out.println("Thank you!");
                             stocking = false;
                             break;
-                        } else {
-                            System.out.println("Item tersebut tidak tersedia!");
-                            System.out.println("Silahkan coba lagi");
+
+                            // untuk mencari menu item
+                        } else if (stockChoice == count + 1) {
+                            System.out.print("Masukkan nama menu yang akan dicari: ");
+                            String menuItem = sc.next();
+                            boolean found = false;
+                            for (int i = 0; i < items.length; i++) {
+                                if (items[i][0] != null && items[i][0].toLowerCase().contains(menuItem.toLowerCase())) {
+                                    System.out.println("Stok " + items[i][0] + " adalah " + items[i][2]);
+                                    System.out.println("[" + (count++) + "] " + " tambah stok " + items[i][0] + " ("
+                                            + items[i][2] + ")");
+                                    System.out.println("[" + (count++) + "] " + " kurangi stok " + items[i][0] + " ("
+                                            + items[i][2] + ")");
+                                    found = true;
+                                    System.out.print("Pilihan : ");
+                                    stockChoice = sc.nextInt();
+                                    if (stockChoice == count - 2) {
+                                        System.out.print("Tambah stok " + items[i][0] + " : ");
+                                        jumlahMasuk = sc.nextInt();
+                                        items[i][2] = Integer
+                                                .toString(Integer.parseInt(items[i][2]) + jumlahMasuk);
+                                    } else if (stockChoice == count - 1) {
+                                        System.out.print("Kurangi stok " + items[i][0] + " : ");
+                                        jumlahMasuk = sc.nextInt();
+                                        items[i][2] = Integer
+                                                .toString(Integer.parseInt(items[i][2]) - jumlahMasuk);
+                                    }
+                                }
+                            }
+                            if (!found) {
+                                System.out.println("The menu item " + menuItem + " was not found.");
+                            }
                             continue;
                         }
-
-                        continue;
+                        break;
                     }
-
-                    break;
 
                 case 3:
                     // ! history feature
