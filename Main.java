@@ -486,6 +486,7 @@ public class Main {
                             System.out.print("Masukkan nama menu yang akan dicari: ");
                             String menuItem = sc.next();
                             boolean found = false;
+                            // perulangan menampilkan menu yang dicari
                             for (int i = 0; i < items.length; i++) {
                                 if (items[i][0] != null && items[i][0].toLowerCase().contains(menuItem.toLowerCase())) {
                                     System.out.println("Stok " + items[i][0] + " adalah " + items[i][2]);
@@ -496,6 +497,7 @@ public class Main {
                                     found = true;
                                     System.out.print("Pilihan : ");
                                     stockChoice = sc.nextInt();
+                                    // logika untuk menambah dan mengurangi stok yang telah dicari
                                     if (stockChoice == count - 2) {
                                         System.out.print("Tambah stok " + items[i][0] + " : ");
                                         jumlahMasuk = sc.nextInt();
