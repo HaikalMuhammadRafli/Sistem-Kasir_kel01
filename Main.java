@@ -380,13 +380,12 @@ public class Main {
                                     if (orders[latestOrders][5] != null
                                             && Integer.parseInt(orders[latestOrders][5]) >= Integer
                                                     .parseInt(orders[latestOrders][4])) {
-                                        if (orders[latestOrders][6] != null) {
-                                            orders[latestOrders][6] = Integer
-                                                    .toString(Integer.parseInt(orders[latestOrders][5])
-                                                            - Integer.parseInt(orders[latestOrders][4]));
-                                            System.out.println("Kembalian : " + orders[latestOrders][6]);
-                                        }
-
+                                        orders[latestOrders][6] = Integer
+                                                .toString(Integer.parseInt(orders[latestOrders][5])
+                                                        - Integer.parseInt(orders[latestOrders][4]));
+                                        System.out.println("Kembalian : " + orders[latestOrders][6]);
+                                        System.out.println("Proses pembayaran berhasil!");
+                                        System.out.println("Terima kasih!");
                                         break;
 
                                     } else {
@@ -512,12 +511,13 @@ public class Main {
                                 }
                             }
                             if (!found) {
-                                System.out.println("The menu item " + menuItem + " was not found.");
+                                System.out.println("Menu yang Anda cari " + menuItem + " tidak ada.");
                             }
                             continue;
                         }
                         break;
                     }
+                    continue;
 
                 case 3:
                     // ! history feature
@@ -536,7 +536,7 @@ public class Main {
                         case 1:
                             System.out.println("History by all time :");
                             System.out.println();
-                            for (int i = 0; i < orders.length; i++) {
+                            for (int i = 1; i < orders.length; i++) {
                                 if (orders[i][0] != null) {
                                     System.out.println("=========================");
                                     System.out.println("Order ke-" + i);
@@ -620,12 +620,13 @@ public class Main {
                         case 2:
                             System.out.println("Laporan pendapatan all time: ");
                             System.out.println();
-                            double totalIncome = -100000;
-                            for (int i = 0; i < orders.length; i++) {
-                                if (orders[i][0] != null) {
+                            double totalIncome = 0;
+                            for (int i = 1; i < orders.length; i++) {
+                                if (orders[i][0] != null && orders[i][5] != null && orders[i][6] != null) {
                                     totalIncome += Double.parseDouble(orders[i][5]) - Double.parseDouble(orders[i][6]);
                                 }
                             }
+
                             System.out.println("Total Pendapatan: " + totalIncome);
                             System.out.println("=========================");
                             System.out.println();
