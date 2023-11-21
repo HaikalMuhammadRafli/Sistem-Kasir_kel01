@@ -14,7 +14,7 @@ public class Main {
         int jumlahMasuk;
         String items[][] = new String[20][4];
         items[0][0] = "Ayam Bakar"; // nama item
-        items[0][1] = "15000"; // harga
+        items[0][1] = "15000"; // hargaa
         items[0][2] = "40"; // stok
         items[0][3] = "10"; // diskon %
 
