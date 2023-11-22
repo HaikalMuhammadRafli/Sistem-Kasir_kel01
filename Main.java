@@ -5,14 +5,39 @@ import java.util.Scanner;
  */
 public class Main {
 
-    public static void main(String[] args) {
+    // Declarations
+    static Scanner sc = new Scanner(System.in);
 
-        Scanner sc = new Scanner(System.in);
+    // array and variables for items
+    static int latestItems = 0;
+    static int jumlahMasuk;
+    static String items[][];
 
-        // array and variables for items
-        int latestItems = 0;
-        int jumlahMasuk;
-        String items[][] = new String[20][4];
+    // array and variables for users
+    static int latestUsers = 0;
+    static int user_id = 0;
+    static String users[][];
+
+    // array and variables for orders
+    static int latestOrders = 0;
+    static int memberDiskon = 10; // %
+    static String orders[][];
+
+    // array and variables for order details
+    static int latestOrder_details = 0;
+    static String order_details[][];
+
+    // array and variables for membership
+    static String noMembership[][];
+
+    // other variables
+    static boolean session = true, access = false, ordering, stocking, memberValid;
+    static String inputUsername, inputPassword, inputUsernameHistory;
+    static int mainChoice, orderChoice, stockChoice, removeItemChoice, paymentChoice, historyChoice;
+    static char isMember;
+
+    static void init() {
+        items = new String[20][4];
         items[0][0] = "Ayam Bakar"; // nama item
         items[0][1] = "15000"; // harga
         items[0][2] = "40"; // stok
@@ -23,10 +48,7 @@ public class Main {
         items[1][2] = "50"; // stok
         items[1][3] = "10"; // diskon %
 
-        // array and variables for users
-        int latestUsers = 0;
-        int user_id = 0;
-        String users[][] = new String[20][3];
+        users = new String[20][3];
         users[0][0] = "haikal";
         users[0][1] = "123";
         users[1][0] = "irsyad";
@@ -34,10 +56,7 @@ public class Main {
         users[2][0] = "esa";
         users[2][1] = "789";
 
-        // array and variables for orders
-        int latestOrders = 0;
-        int memberDiskon = 10; // %
-        String orders[][] = new String[20][9];
+        orders = new String[20][9];
         orders[0][0] = "Adi"; // nama pemesan
         orders[0][1] = "Irsyad"; // nama kasir
         orders[0][2] = "150000"; // subtotal
@@ -48,9 +67,7 @@ public class Main {
         orders[0][7] = "Completed"; // status pembayaran
         orders[0][8] = "member"; // status membership
 
-        // array and variables for order details
-        int latestOrder_details = 0;
-        String order_details[][] = new String[100][7];
+        order_details = new String[100][7];
         order_details[0][0] = "0"; // id
         order_details[0][1] = "Ayam Bakar"; // nama item
         order_details[0][2] = "10"; // jumlah beli
@@ -59,19 +76,18 @@ public class Main {
         order_details[0][5] = "50000"; // total diskon per item
         order_details[0][6] = "100000"; // total per item
 
-        // array and variables for membership
-        String noMembership[][] = new String[100][2];
+        noMembership = new String[100][2];
         noMembership[0][0] = "234172"; // id
         noMembership[0][1] = "Irsyad"; // nama
         noMembership[1][0] = "234173"; // id
         noMembership[1][1] = "Esa"; // nama
         noMembership[2][0] = "234174"; // id
         noMembership[2][1] = "Haikal"; // nama
+    }
 
-        boolean session = true, access = false, ordering, stocking, memberValid;
-        String inputUsername, inputPassword, inputUsernameHistory;
-        int mainChoice, orderChoice, stockChoice, removeItemChoice, paymentChoice, historyChoice;
-        char isMember;
+    public static void main(String[] args) {
+
+        init();
 
         while (session == true) {
             // login
