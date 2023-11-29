@@ -31,22 +31,24 @@ public class Main {
     static String noMembership[][];
 
     // other variables
-    static boolean session = true, access = false, ordering, stocking, memberValid, paying;
+    static boolean session = true, access = false, ordering, stocking, memberValid, paying, managingItem;
     static String inputUsername, inputPassword, inputUsernameHistory;
-    static int mainChoice, orderChoice, stockChoice, removeItemChoice, paymentChoice, historyChoice;
+    static int mainChoice, orderChoice, stockChoice, removeItemChoice, paymentChoice, historyChoice, manageItemChoice;
     static char isMember;
 
     static void init() {
-        items = new String[20][4];
+        items = new String[20][5];
         items[0][0] = "Ayam Bakar"; // nama item
         items[0][1] = "15000"; // harga
         items[0][2] = "40"; // stok
         items[0][3] = "10"; // diskon %
+        items[0][4] = "Makanan"; // tipe
 
         items[1][0] = "Es teh"; // nama item
         items[1][1] = "3000"; // harga
         items[1][2] = "50"; // stok
         items[1][3] = "10"; // diskon %
+        items[1][4] = "Minuman"; // tipe
 
         users = new String[20][3];
         users[0][0] = "haikal";
@@ -291,6 +293,16 @@ public class Main {
                     order_details[removeItemChoice][i] = null;
                 }
             }
+
+            // mengurutkan barisan array setelah penghapusan
+            for (int i = 0; i < order_details.length - 1; i++) {
+                if (order_details[i][0] == null && order_details[i + 1][0] != null) {
+                    for (int j = 0; j < order_details[i].length; j++) {
+                        order_details[i][j] = order_details[i + 1][j];
+                        order_details[i + 1][j] = null;
+                    }
+                }
+            }
         }
     }
 
@@ -429,6 +441,221 @@ public class Main {
         }
 
         System.out.println("Ordering has been cancelled!");
+    }
+
+    // * Manage Item Menu Feature
+    static void ManageItems() {
+        managingItem = true;
+        while (managingItem == true) {
+            System.out.println("╔════════════════════════════════╗");
+            System.out.println("║        MANAGE ITEM MENU        ║");
+            System.out.println("╚════════════════════════════════╝");
+            System.out.println("[1] View all");
+            System.out.println("[2] Create new Item Menu");
+            System.out.println("[3] Edit Item Menu");
+            System.out.println("[4] Delete Item Menu");
+            System.out.println("[5] Back");
+
+            System.out.print("Masukkan pilihan anda : ");
+            manageItemChoice = sc.nextInt();
+            sc.nextLine();
+
+            switch (manageItemChoice) {
+                case 1:
+                    ViewItemList();
+                    break;
+
+                case 2:
+                    CreateItem();
+                    break;
+
+                case 3:
+                    EditItem();
+                    break;
+
+                case 4:
+                    DeleteItem();
+                    break;
+
+                case 5:
+                    managingItem = false;
+                    break;
+
+                default:
+                    System.out.println("Invalid choice!");
+                    break;
+            }
+        }
+    }
+
+    static void ViewItemList() {
+        System.out.println(
+                "╔══════════════════════════════════════════════════════════════════════════════════════════╗");
+        System.out.println(
+                "║                                      Item Menu List                                      ║");
+        System.out.println(
+                "╠══════════════════════════════════════════════════════════════════════════════════════════╣");
+        System.out.println(
+                "║ No  |       Name       |       Tipe       |    Price     |    Stock   |    Discount (%)  ║");
+        System.out.println(
+                "╠══════════════════════════════════════════════════════════════════════════════════════════╣");
+        for (int i = 0; i < items.length; i++) {
+            if (items[i][0] != null) {
+                System.out.println(String.format(
+                        "║ %3d ║ %16s ║ %16s ║ %12s ║ %10s ║ %16s ║",
+                        i + 1,
+                        items[i][0],
+                        items[i][4],
+                        items[i][1],
+                        items[i][2],
+                        items[i][3]));
+            }
+        }
+        System.out.println(
+                "╚══════════════════════════════════════════════════════════════════════════════════════════╝");
+    }
+
+    static void CreateItem() {
+        boolean active = true;
+
+        while (active) {
+            // getting latest items index
+            GetLatestItems();
+
+            System.out.println("╔══════════════════════════════════════════════╗");
+            System.out.println("║               Add New Item Menu              ║");
+            System.out.println("╚══════════════════════════════════════════════╝");
+            System.out.println("[1] Add new food");
+            System.out.println("[2] Add new drink");
+            System.out.println("[3] Back");
+            System.out.print("Masukkan pilihan anda : ");
+            int createItemChoice = sc.nextInt();
+            sc.nextLine();
+
+            switch (createItemChoice) {
+                case 1:
+                    // tipe menu
+                    items[latestItems][4] = "Makanan";
+
+                    System.out.println("╔══════════════════════════════════════════════╗");
+                    System.out.println("║                 Add New Food                 ║");
+                    System.out.println("╚══════════════════════════════════════════════╝");
+                    System.out.print("Insert food name : ");
+                    items[latestItems][0] = sc.nextLine();
+
+                    System.out.print("Insert food price : ");
+                    items[latestItems][1] = Integer.toString(sc.nextInt());
+
+                    System.out.print("Insert food stock : ");
+                    items[latestItems][2] = Integer.toString(sc.nextInt());
+
+                    System.out.print("Insert food discount : ");
+                    items[latestItems][3] = Integer.toString(sc.nextInt());
+
+                    System.out.println("New food has been successfully added!");
+                    break;
+
+                case 2:
+                    // tipe menu
+                    items[latestItems][4] = "Minuman";
+
+                    System.out.println("╔══════════════════════════════════════════════╗");
+                    System.out.println("║                 Add New Drink                ║");
+                    System.out.println("╚══════════════════════════════════════════════╝");
+                    System.out.print("Insert drink name : ");
+                    items[latestItems][0] = sc.nextLine();
+
+                    System.out.print("Insert drink price : ");
+                    items[latestItems][1] = Integer.toString(sc.nextInt());
+
+                    System.out.print("Insert drink stock : ");
+                    items[latestItems][2] = Integer.toString(sc.nextInt());
+
+                    System.out.print("Insert drink discount : ");
+                    items[latestItems][3] = Integer.toString(sc.nextInt());
+
+                    System.out.println("New drink has been successfully added!");
+                    break;
+
+                case 3:
+                    active = false;
+                    break;
+
+                default:
+                    System.out.println("Invalid Choice!");
+                    break;
+            }
+        }
+    }
+
+    static void EditItem() {
+
+        String temp;
+
+        ViewItemList();
+
+        System.out.print("Input the number to edit the item : ");
+        int editItemChoice = sc.nextInt() - 1;
+        sc.nextLine();
+
+        if (editItemChoice < items.length && items[editItemChoice][0] != null) {
+            System.out.println("Input (-) to not edit the data!");
+            System.out.print("Input new name (" + items[editItemChoice][0] + ") : ");
+            temp = sc.nextLine();
+            if (!temp.equals("-")) {
+                items[editItemChoice][0] = temp;
+            }
+
+            while (true) {
+                System.out.print("Input new type (" + items[editItemChoice][4] + ") : ");
+                temp = sc.nextLine();
+                if (temp.equals("Makanan") || temp.equals("Minuman")) {
+                    items[editItemChoice][4] = temp;
+                    break;
+                } else if (temp.equals("-")) {
+                    break;
+                } else {
+                    System.out.println("Invalid type!");
+                    continue;
+                }
+            }
+
+            System.out.print("Input new price (" + items[editItemChoice][1] + ") : ");
+            temp = Integer.toString(sc.nextInt());
+            if (!temp.equals("-")) {
+                items[editItemChoice][1] = temp;
+            }
+
+            System.out.println("Item has been successfully edited!");
+        }
+    }
+
+    static void DeleteItem() {
+
+        ViewItemList();
+
+        System.out.print("Input the number to delete the item : ");
+        int deleteItemChoice = sc.nextInt() - 1;
+        sc.nextLine();
+
+        if (deleteItemChoice < items.length && items[deleteItemChoice][0] != null) {
+            for (int i = 0; i < items[deleteItemChoice].length; i++) {
+                items[deleteItemChoice][i] = null;
+            }
+
+            for (int i = 0; i < items.length - 1; i++) {
+                if (items[i][0] == null & items[i + 1][0] != null) {
+                    for (int j = 0; j < items[i].length; j++) {
+                        items[i][j] = items[i + 1][j];
+                        items[i + 1][j] = null;
+                    }
+                }
+            }
+
+            System.out.println("Item successfully deleted!");
+        } else {
+            System.out.println("Invalid choice!");
+        }
     }
 
     // * Manage Stock Feature
@@ -641,13 +868,13 @@ public class Main {
             System.out.println("║       Selamat Datang di Cafe The Orange!       ║");
             System.out.println("╚════════════════════════════════════════════════╝");
             System.out.println("[1] Buat Pesanan");
-            System.out.println("[null] Manajemen Item Menu");
-            System.out.println("[2] Manajemen Stok");
+            System.out.println("[2] Manajemen Item Menu");
+            System.out.println("[3] Manajemen Stok");
             System.out.println("[null] Manajemen Diskon");
-            System.out.println("[3] Lihat Riwayat Penjualan");
-            System.out.println("[4] Lihat Laporan Pendapatan");
+            System.out.println("[4] Lihat Riwayat Penjualan");
+            System.out.println("[5] Lihat Laporan Pendapatan");
             System.out.println("[null] Manajemen User");
-            System.out.println("[5] Keluar dari Program");
+            System.out.println("[6] Keluar dari Program");
             System.out.print("Masukkan pilihan Anda: ");
             mainChoice = sc.nextInt();
             sc.nextLine();
@@ -660,17 +887,21 @@ public class Main {
                     continue;
 
                 case 2:
-                    ManageStock();
+                    ManageItems();
                     break;
 
                 case 3:
-                    ViewSalesHistory();
+                    ManageStock();
                     break;
 
                 case 4:
+                    ViewSalesHistory();
+                    break;
+
+                case 5:
                     ViewProfitReport();
                     break;
-                case 5:
+                case 6:
                     ExitProgram();
                     break;
 
