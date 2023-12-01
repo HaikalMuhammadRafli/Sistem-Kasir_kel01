@@ -58,7 +58,7 @@ public class Main {
         users[2][0] = "esa";
         users[2][1] = "789";
 
-        orders = new String[20][9];
+        orders = new String[20][11];
         orders[0][0] = "Adi"; // nama pemesan
         orders[0][1] = "Irsyad"; // nama kasir
         orders[0][2] = "150000"; // subtotal
@@ -68,6 +68,8 @@ public class Main {
         orders[0][6] = "0"; // jumlah kembalian
         orders[0][7] = "Completed"; // status pembayaran
         orders[0][8] = "member"; // status membership
+        orders[0][9] = "10"; // diskon membership
+        orders[0][10] = "10000"; // total diskon membership
 
         order_details = new String[100][7];
         order_details[0][0] = "0"; // id
@@ -188,6 +190,13 @@ public class Main {
 
             // total diskon
             orders[latestOrders][3] = "0";
+            for (int i = 0; i < order_details.length; i++) {
+                if (order_details[i][0] != null
+                        && order_details[i][0].equals(Integer.toString(latestOrders))) {
+                    orders[latestOrders][3] = Integer.toString(Integer.parseInt(orders[latestOrders][3])
+                            + Integer.parseInt(order_details[i][5]));
+                }
+            }
 
             // total
             orders[latestOrders][4] = "0"; // to reset the value after each item added
@@ -224,6 +233,7 @@ public class Main {
         }
     }
 
+    // ! Fix it
     static void CreateOrderDetail() {
         // id
         order_details[latestOrder_details][0] = Integer.toString(latestOrders);
@@ -245,7 +255,9 @@ public class Main {
                 * Integer.parseInt(order_details[latestOrder_details][2]));
 
         // total diskon
-        order_details[latestOrder_details][5] = "0";
+        order_details[latestOrder_details][5] = Integer.toString(
+                Integer.parseInt(order_details[latestOrder_details][4]) * Integer.parseInt(items[orderChoice - 1][3])
+                        / 100);
 
         // total
         order_details[latestOrder_details][6] = Integer
@@ -306,9 +318,10 @@ public class Main {
         }
     }
 
-    static void FinishOrder() {
+    static void CheckMembership() {
+        memberValid = false;
+
         while (memberValid != true) {
-            memberValid = false;
             System.out.println();
             System.out.print("Apakah punya kartu member? (y/t) :");
             isMember = sc.next().charAt(0);
@@ -344,9 +357,13 @@ public class Main {
                 System.out.println("Please try again!");
             }
         }
+    }
 
-        paying = true;
-        while (paying == true) {
+    static void FinishOrder() {
+
+        CheckMembership();
+
+        while (true) {
             System.out.println();
             System.out.println("╔══════════════════════════════════════╗");
             System.out.println("║           Payment methods            ║");
@@ -358,7 +375,6 @@ public class Main {
             paymentChoice = sc.nextInt();
             sc.nextLine();
 
-            // !! other payment methods
             switch (paymentChoice) {
                 case 1:
                     System.out.println("Cafe The Orange");
@@ -380,18 +396,21 @@ public class Main {
                     }
 
                     System.out.println("Cash payment : ");
-                    System.out.println("Total Awal : " + orders[latestOrders][4]);
+                    System.out.println("Total Awal : " + orders[latestOrders][2]);
+                    System.out.println("Total Diskon : " + orders[latestOrders][3]);
+                    // ! Fix this
                     if (orders[latestOrders][8] != null && orders[latestOrders][8].equals("member")) {
                         if (orders[latestOrders][4] != null) {
-                            orders[latestOrders][4] = Integer
-                                    .toString(Integer.parseInt(orders[latestOrders][4])
-                                            - (Integer.parseInt(orders[latestOrders][4]) * memberDiskon
-                                                    / 100));
+                            orders[latestOrders][10] = Integer
+                                    .toString(Integer.parseInt(orders[latestOrders][4]) * memberDiskon / 100);
                             System.out.println("Member discount " + memberDiskon + "% : "
-                                    + orders[latestOrders][4]);
+                                    + orders[latestOrders][10]);
                         }
                     }
                     System.out.println("---------------------------");
+                    orders[latestOrders][4] = Integer.toString(
+                            Integer.parseInt(orders[latestOrders][2]) - Integer.parseInt(orders[latestOrders][3])
+                                    - Integer.parseInt(orders[latestOrders][10]));
                     System.out.println("Total : " + orders[latestOrders][4]);
                     System.out.print("Bayar : ");
                     orders[latestOrders][5] = Integer.toString(sc.nextInt());
@@ -405,7 +424,6 @@ public class Main {
                                             - Integer.parseInt(orders[latestOrders][4]));
                             System.out.println("Kembalian : " + orders[latestOrders][6]);
                         }
-
                         break;
 
                     } else {
@@ -420,7 +438,7 @@ public class Main {
                     continue;
             }
 
-            ordering = false;
+            break;
         }
     }
 
