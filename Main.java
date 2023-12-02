@@ -342,7 +342,6 @@ public class Main {
                 // print member names
                 if (memberExists) {
                     System.out.println("Member name: " + memberName);
-                    orders[latestOrders][6] = memberNumber;
                     orders[latestOrders][8] = "member";
                     memberValid = true;
                 } else {
@@ -406,6 +405,8 @@ public class Main {
                             System.out.println("Member discount " + memberDiskon + "% : "
                                     + orders[latestOrders][10]);
                         }
+                    } else {
+                        orders[latestOrders][10] = "0";
                     }
                     System.out.println("---------------------------");
                     orders[latestOrders][4] = Integer.toString(
@@ -418,12 +419,12 @@ public class Main {
                     if (orders[latestOrders][5] != null
                             && Integer.parseInt(orders[latestOrders][5]) >= Integer
                                     .parseInt(orders[latestOrders][4])) {
-                        if (orders[latestOrders][6] != null) {
-                            orders[latestOrders][6] = Integer
-                                    .toString(Integer.parseInt(orders[latestOrders][5])
-                                            - Integer.parseInt(orders[latestOrders][4]));
-                            System.out.println("Kembalian : " + orders[latestOrders][6]);
-                        }
+
+                        // kembalian
+                        orders[latestOrders][6] = Integer
+                                .toString(Integer.parseInt(orders[latestOrders][5])
+                                        - Integer.parseInt(orders[latestOrders][4]));
+                        System.out.println("Kembalian : " + orders[latestOrders][6]);
                         break;
 
                     } else {
