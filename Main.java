@@ -36,7 +36,7 @@ public class Main {
     static int mainChoice, orderChoice, stockChoice, removeItemChoice, paymentChoice, historyChoice, manageItemChoice;
     static char isMember;
 
-    static void init() {
+    static void Init() {
         items = new String[20][5];
         items[0][0] = "Ayam Bakar"; // nama item
         items[0][1] = "15000"; // harga
@@ -880,10 +880,10 @@ public class Main {
 
     public static void main(String[] args) {
 
-        init();
+        Init();
 
         while (session) {
-            
+
             Login();
 
             // menu
@@ -891,13 +891,13 @@ public class Main {
             System.out.println("║       Selamat Datang di Cafe The Orange!       ║");
             System.out.println("╚════════════════════════════════════════════════╝");
             System.out.println("[1] Buat Pesanan");
-            System.out.println("[null] Manajemen Item Menu");
-            System.out.println("[2] Manajemen Stok");
+            System.out.println("[2] Manajemen Item Menu");
+            System.out.println("[3] Manajemen Stok");
             System.out.println("[null] Manajemen Diskon");
-            System.out.println("[3] Lihat Riwayat Penjualan");
-            System.out.println("[4] Lihat Laporan Pendapatan");
+            System.out.println("[4] Lihat Riwayat Penjualan");
+            System.out.println("[5] Lihat Laporan Pendapatan");
             System.out.println("[null] Manajemen User");
-            System.out.println("[5] Keluar dari Program");
+            System.out.println("[6] Keluar dari Program");
             System.out.print("Masukkan pilihan Anda: ");
             mainChoice = sc.nextInt();
             sc.nextLine();
