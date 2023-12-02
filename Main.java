@@ -603,86 +603,85 @@ public class Main {
         sc.close();
     }
     
-            // login
-            static void login() {
-                System.out.println("╔══════════════════════════════╗");
-                System.out.println("║        SILAHKAN LOGIN        ║");
-                System.out.println("╚══════════════════════════════╝");
+    // login
+    static void Login() {
+        while(!access) {
+            System.out.println("╔══════════════════════════════╗");
+            System.out.println("║        SILAHKAN LOGIN        ║");
+            System.out.println("╚══════════════════════════════╝");
 
-                System.out.print("Input username : ");
-                inputUsername = sc.nextLine();
-                System.out.print("Input password : ");
-                inputPassword = sc.nextLine();
+            System.out.print("Input username : ");
+            inputUsername = sc.nextLine();
+            System.out.print("Input password : ");
+            inputPassword = sc.nextLine();
 
-                for (int i = 0; i < users.length; i++) {
-                    if (inputUsername.equals(users[i][0]) && inputPassword.equals(users[i][1])) {
-                        user_id = i;
-                        System.out.println();
-                        System.out.println("Login berhasil!");
-                        access = true;
-                        break;
-                    }
+            for (int i = 0; i < users.length; i++) {
+                if (inputUsername.equals(users[i][0]) && inputPassword.equals(users[i][1])) {
+                    user_id = i;
+                    System.out.println();
+                    System.out.println("Login berhasil!");
+                    access = true;
+                    break;
                 }
+            }
 
-                if (access != true) {
-                    System.out.println("Username dan password salah!");
-                    System.out.println("Silahkan coba lagi!\n");
-                }
-
-            }    
+            if (!access) {
+                System.out.println("Username dan password salah!");
+                System.out.println("Silahkan coba lagi!\n");
+            }
+        }
+    }    
 
     public static void main(String[] args) {
 
         init();
 
             while (session) {
-                if (!access) {
-                    login();
-                    continue;
+                Login();
+
+                // menu
+                System.out.println("╔════════════════════════════════════════════════╗");
+                System.out.println("║       Selamat Datang di Cafe The Orange!       ║");
+                System.out.println("╚════════════════════════════════════════════════╝");
+                System.out.println("[1] Buat Pesanan");
+                System.out.println("[null] Manajemen Item Menu");
+                System.out.println("[2] Manajemen Stok");
+                System.out.println("[null] Manajemen Diskon");
+                System.out.println("[3] Lihat Riwayat Penjualan");
+                System.out.println("[4] Lihat Laporan Pendapatan");
+                System.out.println("[null] Manajemen User");
+                System.out.println("[5] Keluar dari Program");
+                System.out.print("Masukkan pilihan Anda: ");
+                mainChoice = sc.nextInt();
+                sc.nextLine();
+
+                switch (mainChoice) {
+
+                    // Membuat order
+                    case 1:
+                        CreateOrder();
+                        continue;
+
+                    case 2:
+                        ManageStock();
+                        break;
+
+                    case 3:
+                        ViewSalesHistory();
+                        break;
+
+                    case 4:
+                        ViewProfitReport();
+                        break;
+                    case 5:
+                        ExitProgram();
+                        break;
+
+                    default:
+                        System.out.println("Your choice does not exist!");
+                        System.out.println("Please try again!");
+                        break;
                 }
-            // menu
-            System.out.println("╔════════════════════════════════════════════════╗");
-            System.out.println("║       Selamat Datang di Cafe The Orange!       ║");
-            System.out.println("╚════════════════════════════════════════════════╝");
-            System.out.println("[1] Buat Pesanan");
-            System.out.println("[null] Manajemen Item Menu");
-            System.out.println("[2] Manajemen Stok");
-            System.out.println("[null] Manajemen Diskon");
-            System.out.println("[3] Lihat Riwayat Penjualan");
-            System.out.println("[4] Lihat Laporan Pendapatan");
-            System.out.println("[null] Manajemen User");
-            System.out.println("[5] Keluar dari Program");
-            System.out.print("Masukkan pilihan Anda: ");
-            mainChoice = sc.nextInt();
-            sc.nextLine();
-
-            switch (mainChoice) {
-
-                // Membuat order
-                case 1:
-                    CreateOrder();
-                    continue;
-
-                case 2:
-                    ManageStock();
-                    break;
-
-                case 3:
-                    ViewSalesHistory();
-                    break;
-
-                case 4:
-                    ViewProfitReport();
-                    break;
-                case 5:
-                    ExitProgram();
-                    break;
-
-                default:
-                    System.out.println("Your choice does not exist!");
-                    System.out.println("Please try again!");
-                    break;
-            }
         }
     }
 }
