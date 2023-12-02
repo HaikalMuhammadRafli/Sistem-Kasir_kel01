@@ -848,10 +848,10 @@ public class Main {
         session = false;
         sc.close();
     }
-    
+
     // login
     static void Login() {
-        while(!access) {
+        while (!access) {
             System.out.println("╔══════════════════════════════╗");
             System.out.println("║        SILAHKAN LOGIN        ║");
             System.out.println("╚══════════════════════════════╝");
@@ -876,38 +876,37 @@ public class Main {
                 System.out.println("Silahkan coba lagi!\n");
             }
         }
-    }    
-
+    }
 
     public static void main(String[] args) {
 
         init();
 
-            while (session) {
-                Login();
+        while (session) {
+            
+            Login();
 
-                // menu
-                System.out.println("╔════════════════════════════════════════════════╗");
-                System.out.println("║       Selamat Datang di Cafe The Orange!       ║");
-                System.out.println("╚════════════════════════════════════════════════╝");
-                System.out.println("[1] Buat Pesanan");
-                System.out.println("[null] Manajemen Item Menu");
-                System.out.println("[2] Manajemen Stok");
-                System.out.println("[null] Manajemen Diskon");
-                System.out.println("[3] Lihat Riwayat Penjualan");
-                System.out.println("[4] Lihat Laporan Pendapatan");
-                System.out.println("[null] Manajemen User");
-                System.out.println("[5] Keluar dari Program");
-                System.out.print("Masukkan pilihan Anda: ");
-                mainChoice = sc.nextInt();
-                sc.nextLine();
+            // menu
+            System.out.println("╔════════════════════════════════════════════════╗");
+            System.out.println("║       Selamat Datang di Cafe The Orange!       ║");
+            System.out.println("╚════════════════════════════════════════════════╝");
+            System.out.println("[1] Buat Pesanan");
+            System.out.println("[null] Manajemen Item Menu");
+            System.out.println("[2] Manajemen Stok");
+            System.out.println("[null] Manajemen Diskon");
+            System.out.println("[3] Lihat Riwayat Penjualan");
+            System.out.println("[4] Lihat Laporan Pendapatan");
+            System.out.println("[null] Manajemen User");
+            System.out.println("[5] Keluar dari Program");
+            System.out.print("Masukkan pilihan Anda: ");
+            mainChoice = sc.nextInt();
+            sc.nextLine();
 
-                switch (mainChoice) {
+            switch (mainChoice) {
 
-                 // Membuat order
-                 case 1:
-                     CreateOrder();
-                     continue;
+                case 1:
+                    CreateOrder();
+                    continue;
 
                 case 2:
                     ManageItems();
@@ -928,11 +927,11 @@ public class Main {
                     ExitProgram();
                     break;
 
-                    default:
-                        System.out.println("Your choice does not exist!");
-                        System.out.println("Please try again!");
-                        break;
-                }
+                default:
+                    System.out.println("Your choice does not exist!");
+                    System.out.println("Please try again!");
+                    break;
+            }
         }
     }
 }
