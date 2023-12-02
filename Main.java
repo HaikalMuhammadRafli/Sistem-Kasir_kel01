@@ -602,14 +602,9 @@ public class Main {
         session = false;
         sc.close();
     }
-
-    public static void main(String[] args) {
-
-        init();
-
-        while (session == true) {
+    
             // login
-            while (access == false) {
+            static void login() {
                 System.out.println("╔══════════════════════════════╗");
                 System.out.println("║        SILAHKAN LOGIN        ║");
                 System.out.println("╚══════════════════════════════╝");
@@ -634,8 +629,17 @@ public class Main {
                     System.out.println("Silahkan coba lagi!\n");
                 }
 
-            }
+            }    
 
+    public static void main(String[] args) {
+
+        init();
+
+            while (session) {
+                if (!access) {
+                    login();
+                    continue;
+                }
             // menu
             System.out.println("╔════════════════════════════════════════════════╗");
             System.out.println("║       Selamat Datang di Cafe The Orange!       ║");
