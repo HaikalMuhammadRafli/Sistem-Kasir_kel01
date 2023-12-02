@@ -20,7 +20,8 @@ public class Main {
 
     // array and variables for orders
     static int latestOrders = 0;
-    static int memberDiskon = 10; // %
+    static int memberDiskon = 0; // %
+    static int newDiscount = memberDiskon;
     static String orders[][];
 
     // array and variables for order details
@@ -58,7 +59,7 @@ public class Main {
         users[2][0] = "esa";
         users[2][1] = "789";
 
-        orders = new String[20][11];
+        orders = new String[20][9];
         orders[0][0] = "Adi"; // nama pemesan
         orders[0][1] = "Irsyad"; // nama kasir
         orders[0][2] = "150000"; // subtotal
@@ -68,8 +69,6 @@ public class Main {
         orders[0][6] = "0"; // jumlah kembalian
         orders[0][7] = "Completed"; // status pembayaran
         orders[0][8] = "member"; // status membership
-        orders[0][9] = "10"; // diskon membership
-        orders[0][10] = "10000"; // total diskon membership
 
         order_details = new String[100][7];
         order_details[0][0] = "0"; // id
@@ -384,34 +383,57 @@ public class Main {
                     System.out.println("---------------------------");
                     System.out.println("Daftar pesanan : ");
 
-                    // looping daftar pesanan
+                    int totalDiskonItem = 0;
+
+                    // Looping daftar pesanan untuk menghitung diskon item
                     for (int i = 0; i < order_details.length; i++) {
-                        if (order_details[i][0] != null
-                                && order_details[i][0].equals(Integer.toString(latestOrders))) {
-                            System.out.println(
-                                    i + "> " + order_details[i][1] + " (" + order_details[i][2] +
-                                            ")");
+                        if (order_details[i][0] != null && order_details[i][0].equals(Integer.toString(latestOrders))) {
+                            String namaItem = order_details[i][1];
+                            int jumlahBeli = Integer.parseInt(order_details[i][2]);
+                            int hargaItem = Integer.parseInt(order_details[i][3]);
+                            int subtotalItem = hargaItem * jumlahBeli;
+
+                            int diskonItem = 0;
+
+                            // Cari diskon item dari array items
+                            for (int j = 0; j < items.length; j++) {
+                                if (items[j][0].equals(namaItem)) {
+                                    diskonItem = Integer.parseInt(items[j][3]);
+                                    break;
+                                }
+                            }
+
+                            int diskonHarga = subtotalItem * diskonItem / 100;
+                            totalDiskonItem += diskonHarga;
+
+                            System.out.println(i + "> " + namaItem + " (Jumlah: " + jumlahBeli + ", Diskon: "
+                                    + diskonItem + "%, Hemat: " + diskonHarga + ")");
                         }
                     }
 
-                    System.out.println("Cash payment : ");
-                    System.out.println("Total Awal : " + orders[latestOrders][2]);
-                    System.out.println("Total Diskon : " + orders[latestOrders][3]);
-                    // ! Fix this
-                    if (orders[latestOrders][8] != null && orders[latestOrders][8].equals("member")) {
-                        if (orders[latestOrders][4] != null) {
-                            orders[latestOrders][10] = Integer
-                                    .toString(Integer.parseInt(orders[latestOrders][4]) * memberDiskon / 100);
-                            System.out.println("Member discount " + memberDiskon + "% : "
-                                    + orders[latestOrders][10]);
-                        }
+                    System.out.println("Total Diskon Item: " + totalDiskonItem);
+
+                    // Hitung total awal dari orders
+                    int totalAwal = Integer.parseInt(orders[latestOrders][4]);
+
+                    // Kurangi total awal dengan total diskon item
+                    int totalSetelahDiskonItem = totalAwal;
+
+                    // Cek dan terapkan diskon member
+                    int discountAmount = 0;
+                    if (orders[latestOrders][8].equals("member") && memberDiskon > 0) {
+                        discountAmount = totalSetelahDiskonItem * memberDiskon / 100;
+                        System.out.println("Diskon member " + memberDiskon + "% : " + discountAmount);
                     } else {
-                        orders[latestOrders][10] = "0";
+                        System.out.println("Tidak ada member diskon. :)");
                     }
+
+                    // Hitung total akhir
+                    int newTotal = totalSetelahDiskonItem - discountAmount;
+                    orders[latestOrders][4] = Integer.toString(newTotal);
+
                     System.out.println("---------------------------");
-                    orders[latestOrders][4] = Integer.toString(
-                            Integer.parseInt(orders[latestOrders][2]) - Integer.parseInt(orders[latestOrders][3])
-                                    - Integer.parseInt(orders[latestOrders][10]));
+                    System.out.println("Total sebelum diskon: " + (totalAwal + totalDiskonItem));
                     System.out.println("Total : " + orders[latestOrders][4]);
                     System.out.print("Bayar : ");
                     orders[latestOrders][5] = Integer.toString(sc.nextInt());
@@ -419,8 +441,6 @@ public class Main {
                     if (orders[latestOrders][5] != null
                             && Integer.parseInt(orders[latestOrders][5]) >= Integer
                                     .parseInt(orders[latestOrders][4])) {
-
-                        // kembalian
                         orders[latestOrders][6] = Integer
                                 .toString(Integer.parseInt(orders[latestOrders][5])
                                         - Integer.parseInt(orders[latestOrders][4]));
@@ -721,6 +741,112 @@ public class Main {
         }
     }
 
+    // * Manage Discount Feature
+    static void manageDiscount() {
+        boolean continueManaging = true;
+        boolean exit = false;
+
+        while (continueManaging) {
+            System.out.println();
+            System.out.println("╔══════════════════════════════════════╗");
+            System.out.println("║             Manage Discount          ║");
+            System.out.println("╚══════════════════════════════════════╝");
+
+            System.out.println("1. Diskon item");
+            System.out.println("2. Diskon Member" + " (" + memberDiskon + "%)");
+            System.out.println("3. Kembali");
+            System.out.print("Choice: ");
+            int choice = sc.nextInt();
+            sc.nextLine();
+
+            switch (choice) {
+                case 1: // Diskon item
+                    System.out.println("1. Edit Diskon");
+                    System.out.println("2. Hapus Diskon");
+                    System.out.println("3. Kembali");
+                    System.out.print("Pilihan: ");
+                    int itemDiscountChoice = sc.nextInt();
+                    sc.nextLine();
+
+                    switch (itemDiscountChoice) {
+                        case 1: // Edit Diskon
+                            displayItems();
+                            System.out.print("Pilih item: ");
+                            int editItemChoice = sc.nextInt();
+                            if (isValidChoice(editItemChoice)) {
+                                System.out.print(
+                                        "Masukkan diskon baru " + items[editItemChoice - 1][0] + ": ");
+                                int newDiscount = sc.nextInt();
+                                items[editItemChoice - 1][3] = Integer.toString(newDiscount);
+                                System.out.println("Diskon " + items[editItemChoice - 1][0] + " diubah menjadi "
+                                        + items[editItemChoice - 1][3] + "%");
+                            }
+                            break;
+                        case 2: // Hapus Diskon
+                            displayItems();
+                            System.out.print("Pilih item untuk dihapus diskonnya: ");
+                            int removeItemChoice = sc.nextInt();
+                            if (isValidChoice(removeItemChoice)) {
+                                items[removeItemChoice - 1][3] = "0";
+                                System.out.println("Diskon dihapus dari " + items[removeItemChoice - 1][0]);
+                            }
+                            break;
+                        case 3: // Kembali
+
+                            break;
+                        default:
+                            System.out.println("Pilihan tidak valid. Silahkan coba lagi.");
+                    }
+                    break;
+
+                case 2: // Diskon Member
+                    System.out.println("1. Edit Diskon");
+                    System.out.println("2. Hapus Diskon");
+                    System.out.print("Pilihan: ");
+                    int memberDiscountChoice = sc.nextInt();
+                    sc.nextLine();
+
+                    switch (memberDiscountChoice) {
+                        case 1: // Edit Diskon
+                            // Implement logic for editing member discount
+                            System.out.println("Edit diskon member ");
+                            System.out.print("Masukkan diskon baru: ");
+                            int newDiscount = sc.nextInt();
+                            memberDiskon = newDiscount;
+                            break;
+                        case 2: // Hapus Diskon
+                            // Implement logic for removing member discount
+                            System.out
+                                    .println("Member discount removal functionality not implemented in this example.");
+                            break;
+                        default:
+                            System.out.println("Invalid choice. Please try again.");
+                    }
+                    break;
+
+                case 3: // Back/Exit
+                    continueManaging = false;
+                    break;
+
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+            }
+        }
+    }
+
+    // * Metode tambahan untuk menampilkan items dan memeriksa pilihan valid
+    static void displayItems() {
+        for (int i = 0; i < items.length; i++) {
+            if (items[i][0] != null) {
+                System.out.println("[" + (i + 1) + "] " + items[i][0] + " (Diskon: " + items[i][3] + "%)");
+            }
+        }
+    }
+
+    static boolean isValidChoice(int choice) {
+        return choice > 0 && choice <= items.length && items[choice - 1][0] != null;
+    }
+
     // * History Feature
     static void ViewSalesHistory() {
         System.out.println();
@@ -883,7 +1009,7 @@ public class Main {
         init();
 
         while (session) {
-            
+
             Login();
 
             // menu
@@ -893,11 +1019,11 @@ public class Main {
             System.out.println("[1] Buat Pesanan");
             System.out.println("[null] Manajemen Item Menu");
             System.out.println("[2] Manajemen Stok");
-            System.out.println("[null] Manajemen Diskon");
-            System.out.println("[3] Lihat Riwayat Penjualan");
-            System.out.println("[4] Lihat Laporan Pendapatan");
+            System.out.println("[3] Manajemen Diskon");
+            System.out.println("[4] Lihat Riwayat Penjualan");
+            System.out.println("[5] Lihat Laporan Pendapatan");
             System.out.println("[null] Manajemen User");
-            System.out.println("[5] Keluar dari Program");
+            System.out.println("[6] Keluar dari Program");
             System.out.print("Masukkan pilihan Anda: ");
             mainChoice = sc.nextInt();
             sc.nextLine();
@@ -908,12 +1034,16 @@ public class Main {
                     CreateOrder();
                     continue;
 
-                case 2:
+                case 0:
                     ManageItems();
                     break;
 
-                case 3:
+                case 2:
                     ManageStock();
+                    break;
+
+                case 3:
+                    manageDiscount();
                     break;
 
                 case 4:
