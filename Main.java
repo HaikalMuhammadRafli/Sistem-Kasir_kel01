@@ -1017,13 +1017,13 @@ public class Main {
             System.out.println("║       Selamat Datang di Cafe The Orange!       ║");
             System.out.println("╚════════════════════════════════════════════════╝");
             System.out.println("[1] Buat Pesanan");
-            System.out.println("[null] Manajemen Item Menu");
-            System.out.println("[2] Manajemen Stok");
-            System.out.println("[3] Manajemen Diskon");
-            System.out.println("[4] Lihat Riwayat Penjualan");
-            System.out.println("[5] Lihat Laporan Pendapatan");
+            System.out.println("[2] Manajemen Item Menu");
+            System.out.println("[3] Manajemen Stok");
+            System.out.println("[4] Manajemen Diskon");
+            System.out.println("[5] Lihat Riwayat Penjualan");
+            System.out.println("[6] Lihat Laporan Pendapatan");
             System.out.println("[null] Manajemen User");
-            System.out.println("[6] Keluar dari Program");
+            System.out.println("[7] Keluar dari Program");
             System.out.print("Masukkan pilihan Anda: ");
             mainChoice = sc.nextInt();
             sc.nextLine();
@@ -1034,26 +1034,26 @@ public class Main {
                     CreateOrder();
                     continue;
 
-                case 0:
+                case 2:
                     ManageItems();
                     break;
 
-                case 2:
+                case 3:
                     ManageStock();
                     break;
 
-                case 3:
+                case 4:
                     manageDiscount();
                     break;
 
-                case 4:
+                case 5:
                     ViewSalesHistory();
                     break;
 
-                case 5:
+                case 6:
                     ViewProfitReport();
                     break;
-                case 6:
+                case 7:
                     ExitProgram();
                     break;
 
