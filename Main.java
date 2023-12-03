@@ -53,10 +53,13 @@ public class Main {
         users = new String[20][3];
         users[0][0] = "haikal";
         users[0][1] = "123";
+        users[0][2] = "admin";
         users[1][0] = "irsyad";
         users[1][1] = "456";
+        users[1][2] = "admin";
         users[2][0] = "esa";
         users[2][1] = "789";
+        users[2][2] = "admin";
 
         orders = new String[20][11];
         orders[0][0] = "Adi"; // nama pemesan
@@ -841,6 +844,166 @@ public class Main {
         }
     }
 
+    // * Manage Users
+    static void ManageUsers() {
+        boolean managingUser = true;
+        while (managingUser == true) {
+            System.out.println("╔════════════════════════════════╗");
+            System.out.println("║        MANAGE USER MENU        ║");
+            System.out.println("╚════════════════════════════════╝");
+            System.out.println("[1] View all");
+            System.out.println("[2] Create new User");
+            System.out.println("[3] Edit User");
+            System.out.println("[4] Delete User");
+            System.out.println("[5] Back");
+
+            System.out.print("Masukkan pilihan anda : ");
+            int manageUserChoice = sc.nextInt();
+            sc.nextLine();
+
+            switch (manageUserChoice) {
+                case 1:
+                    ViewUserList();
+                    break;
+
+                case 2:
+                    CreateUser();
+                    break;
+
+                case 3:
+                    EditUser();
+                    break;
+
+                case 4:
+                    DeleteUser();
+                    break;
+
+                case 5:
+                    managingUser = false;
+                    break;
+
+                default:
+                    System.out.println("Invalid choice!");
+                    break;
+            }
+        }
+    }
+
+    static void ViewUserList() {
+        System.out.println(
+                "╔══════════════════════════════════════════════════════════════════╗");
+        System.out.println(
+                "║                            User List                             ║");
+        System.out.println(
+                "╠══════════════════════════════════════════════════════════════════╣");
+        System.out.println(
+                "║ No  |       Username       |       Password       |     Role     ║");
+        System.out.println(
+                "╠══════════════════════════════════════════════════════════════════╣");
+        for (int i = 0; i < users.length; i++) {
+            if (users[i][0] != null) {
+                System.out.println(String.format(
+                        "║ %3d ║ %20s ║ %20s ║ %12s ║",
+                        i + 1,
+                        users[i][0],
+                        users[i][1],
+                        users[i][2]));
+            }
+        }
+        System.out.println(
+                "╚══════════════════════════════════════════════════════════════════╝");
+    }
+
+    static void CreateUser() {
+
+        GetLatestUsers();
+
+        System.out.println("╔══════════════════════════════════════════════╗");
+        System.out.println("║                 Add New User                 ║");
+        System.out.println("╚══════════════════════════════════════════════╝");
+        System.out.print("Insert Username : ");
+        users[latestUsers][0] = sc.nextLine();
+
+        System.out.print("Insert Password : ");
+        users[latestUsers][1] = sc.nextLine();
+
+        System.out.print("Insert Role : ");
+        String inputRole = sc.nextLine();
+
+        while (true) {
+            if (inputRole.equals("kasir") || inputRole.equals("manajer") || inputRole.equals("admin")) {
+                users[latestUsers][2] = inputRole;
+                break;
+            } else {
+                System.out.println("Invalid role!");
+            }
+        }
+
+        System.out.println("New user has been successfully added!");
+    }
+
+    static void EditUser() {
+
+        String temp;
+
+        ViewUserList();
+
+        System.out.print("Input the number to edit the user : ");
+        int editUserChoice = sc.nextInt() - 1;
+        sc.nextLine();
+
+        if (editUserChoice < users.length && users[editUserChoice][0] != null) {
+            System.out.println("Input (-) to not edit the data!");
+            System.out.print("Input new username (" + users[editUserChoice][0] + ") : ");
+            temp = sc.nextLine();
+            if (!temp.equals("-")) {
+                users[editUserChoice][0] = temp;
+            }
+
+            System.out.print("Input new password (" + users[editUserChoice][1] + ") : ");
+            temp = sc.nextLine();
+            if (!temp.equals("-")) {
+                users[editUserChoice][1] = temp;
+            }
+
+            System.out.print("Input new role (" + users[editUserChoice][0] + ") : ");
+            temp = sc.nextLine();
+            if (!temp.equals("-") && (temp.equals("kasir") || temp.equals("manajer") || temp.equals("admin"))) {
+                users[editUserChoice][2] = temp;
+            }
+
+            System.out.println("Item has been successfully edited!");
+        }
+    }
+
+    static void DeleteUser() {
+
+        ViewUserList();
+
+        System.out.print("Input the number to delete the user : ");
+        int deleteUserChoice = sc.nextInt() - 1;
+        sc.nextLine();
+
+        if (deleteUserChoice < users.length && users[deleteUserChoice][0] != null) {
+            for (int i = 0; i < users[deleteUserChoice].length; i++) {
+                users[deleteUserChoice][i] = null;
+            }
+
+            for (int i = 0; i < users.length - 1; i++) {
+                if (users[i][0] == null & users[i + 1][0] != null) {
+                    for (int j = 0; j < users[i].length; j++) {
+                        users[i][j] = users[i + 1][j];
+                        users[i + 1][j] = null;
+                    }
+                }
+            }
+
+            System.out.println("User successfully deleted!");
+        } else {
+            System.out.println("Invalid choice!");
+        }
+    }
+
     // * Exit Program
     static void ExitProgram() {
         System.out.println("Thank you for using this program!");
@@ -849,7 +1012,7 @@ public class Main {
         sc.close();
     }
 
-    // login
+    // * login
     static void Login() {
         while (!access) {
             System.out.println("╔══════════════════════════════╗");
@@ -896,8 +1059,8 @@ public class Main {
             System.out.println("[null] Manajemen Diskon");
             System.out.println("[4] Lihat Riwayat Penjualan");
             System.out.println("[5] Lihat Laporan Pendapatan");
-            System.out.println("[null] Manajemen User");
-            System.out.println("[6] Keluar dari Program");
+            System.out.println("[6] Manajemen User");
+            System.out.println("[7] Keluar dari Program");
             System.out.print("Masukkan pilihan Anda: ");
             mainChoice = sc.nextInt();
             sc.nextLine();
@@ -923,7 +1086,12 @@ public class Main {
                 case 5:
                     ViewProfitReport();
                     break;
+
                 case 6:
+                    ManageUsers();
+                    break;
+
+                case 7:
                     ExitProgram();
                     break;
 
