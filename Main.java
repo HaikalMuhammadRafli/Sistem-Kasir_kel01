@@ -20,8 +20,7 @@ public class Main {
 
     // array and variables for orders
     static int latestOrders = 0;
-    static int memberDiskon = 0; // %
-    static int newDiscount = memberDiskon;
+    static int memberDiskon = 10; // %
     static String orders[][];
 
     // array and variables for order details
@@ -36,8 +35,9 @@ public class Main {
     static String inputUsername, inputPassword, inputUsernameHistory;
     static int mainChoice, orderChoice, stockChoice, removeItemChoice, paymentChoice, historyChoice, manageItemChoice;
     static char isMember;
+    static String memberName = " ";
 
-    static void init() {
+    static void Init() {
         items = new String[20][5];
         items[0][0] = "Ayam Bakar"; // nama item
         items[0][1] = "15000"; // harga
@@ -54,12 +54,15 @@ public class Main {
         users = new String[20][3];
         users[0][0] = "haikal";
         users[0][1] = "123";
+        users[0][2] = "admin";
         users[1][0] = "irsyad";
         users[1][1] = "456";
+        users[1][2] = "admin";
         users[2][0] = "esa";
         users[2][1] = "789";
+        users[2][2] = "admin";
 
-        orders = new String[20][9];
+        orders = new String[20][13];
         orders[0][0] = "Adi"; // nama pemesan
         orders[0][1] = "Irsyad"; // nama kasir
         orders[0][2] = "150000"; // subtotal
@@ -69,8 +72,12 @@ public class Main {
         orders[0][6] = "0"; // jumlah kembalian
         orders[0][7] = "Completed"; // status pembayaran
         orders[0][8] = "member"; // status membership
+        orders[0][9] = "10"; // diskon membership
+        orders[0][10] = "10000"; // total diskon membership
+        orders[0][11] = "Cash"; // metode pembayaran
+        orders[0][12] = "234172000"; // nomer rekening
 
-        order_details = new String[100][7];
+        order_details = new String[100][8];
         order_details[0][0] = "0"; // id
         order_details[0][1] = "Ayam Bakar"; // nama item
         order_details[0][2] = "10"; // jumlah beli
@@ -78,6 +85,7 @@ public class Main {
         order_details[0][4] = "150000"; // subtotal per item
         order_details[0][5] = "50000"; // total diskon per item
         order_details[0][6] = "100000"; // total per item
+        order_details[0][7] = "10"; // diskon item
 
         noMembership = new String[100][2];
         noMembership[0][0] = "234172"; // id
@@ -125,9 +133,217 @@ public class Main {
     }
 
     // * Order Feature
+    static void ViewMenuList() {
+        System.out.println(
+                "╔══════════════════════════════════════════════════════════════════════════════════════════╗");
+        System.out.println(
+                "║                                        Menu List                                         ║");
+        System.out.println(
+                "╠══════════════════════════════════════════════════════════════════════════════════════════╣");
+        System.out.println(
+                "║ No  |       Name       |       Tipe       |    Price     |    Stock   |    Discount (%)  ║");
+        System.out.println(
+                "╠══════════════════════════════════════════════════════════════════════════════════════════╣");
+        for (int i = 0; i < items.length; i++) {
+            if (items[i][0] != null) {
+                System.out.println(String.format(
+                        "║ %3d ║ %16s ║ %16s ║ %12s ║ %10s ║ %16s ║",
+                        i + 1,
+                        items[i][0],
+                        items[i][4],
+                        items[i][1],
+                        items[i][2],
+                        items[i][3]));
+            }
+        }
+
+        System.out.println(
+                "╠══════════════════════════════════════════════════════════════════════════════════════════╣");
+        System.out.println(
+                "║ No  |                                   Other Choices                                    ║");
+        System.out.println(
+                "╠══════════════════════════════════════════════════════════════════════════════════════════╣");
+        System.out.println(String.format("║ %3d ║ %82s ║", items.length, "Cancel an item"));
+        System.out.println(String.format("║ %3d ║ %82s ║", items.length + 1, "Finish order"));
+        System.out.println(String.format("║ %3d ║ %82s ║", items.length + 2, "Cancel and exit"));
+        System.out.println(
+                "╚══════════════════════════════════════════════════════════════════════════════════════════╝");
+    }
+
+    static void ViewOrderDetailList() {
+        System.out.println(
+                "╔═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗");
+        System.out.println(
+                "║                                                        Order Detail List                                                      ║");
+        System.out.println(
+                "╠═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╣");
+        System.out.println(
+                "║ No  |       Name       |       Price      |  Qty  |     Subtotal     |    Discount (%)  |  Discount Total  |       Total      ║");
+        System.out.println(
+                "╠═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╣");
+        for (int i = 0; i < order_details.length; i++) {
+            if (order_details[i][0] != null && order_details[i][0].equals(Integer.toString(latestOrders))) {
+                System.out.println(String.format(
+                        "║ %3d ║ %16s ║ %16s ║ %5s ║ %16s ║ %16s ║ %16s ║ %16s ║",
+                        i,
+                        order_details[i][1],
+                        order_details[i][3],
+                        order_details[i][2],
+                        order_details[i][4],
+                        order_details[i][7],
+                        order_details[i][5],
+                        order_details[i][6]));
+            }
+        }
+
+        System.out.println(
+                "╠═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╣");
+        System.out.println(
+                "║                                                                      |     Subtotal     |  Discount Total  |       Total      ║");
+        System.out.println(
+                "║                                                                       ════════════════════════════════════════════════════════╣");
+        if (orders[latestOrders][2] != null) {
+            System.out.println(String.format(
+                    "║ %68s ║ %16s ║ %16s ║ %16s ║",
+                    " ",
+                    orders[latestOrders][2],
+                    orders[latestOrders][3],
+                    orders[latestOrders][4]));
+        }
+        System.out.println(
+                "╚═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝");
+    }
+
+    static boolean PaymentReceipt() {
+        System.out.println(
+                "╔═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗");
+        System.out.printf(
+                "║        Cafe The Orange Receipt                                                               Order - %04d                     ║\n",
+                latestOrders);
+        System.out.println(
+                "╠═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╣");
+        System.out.printf(
+                "║        Pelanggan      : %-16s                                                     Kasir : %-16s         ║\n",
+                orders[latestOrders][0], orders[latestOrders][1]);
+        System.out.println(
+                "║                                                                                                                               ║");
+        System.out.printf(
+                "║        Payment Method : %-16s                                                     Date  : %-16s         ║\n",
+                orders[latestOrders][11], "null");
+        System.out.println(
+                "╠═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╣");
+        System.out.println(
+                "║        Order Detail List                                                                                                      ║");
+        System.out.println(
+                "╠═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╣");
+        System.out.println(
+                "║ No  |       Name       |       Price      |  Qty  |     Subtotal     |    Discount (%)  |  Discount Total  |       Total      ║");
+        System.out.println(
+                "╠═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╣");
+
+        for (int i = 0; i < order_details.length; i++) {
+            if (order_details[i][0] != null && order_details[i][0].equals(Integer.toString(latestOrders))) {
+                System.out.println(String.format(
+                        "║ %3d ║ %16s ║ %16s ║ %5s ║ %16s ║ %16s ║ %16s ║ %16s ║",
+                        i,
+                        order_details[i][1],
+                        order_details[i][3],
+                        order_details[i][2],
+                        order_details[i][4],
+                        order_details[i][7],
+                        order_details[i][5],
+                        order_details[i][6]));
+            }
+        }
+
+        System.out.println(
+                "╠═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╣");
+        System.out.println(
+                "║                                                                      |     Subtotal     |  Discount Total  |       Total      ║");
+        System.out.println(
+                "║                                                                       ════════════════════════════════════════════════════════╣");
+        if (orders[latestOrders][2] != null) {
+            System.out.println(String.format(
+                    "║ %68s ║ %16s ║ %16s ║ %16s ║",
+                    " ",
+                    orders[latestOrders][2],
+                    orders[latestOrders][3],
+                    orders[latestOrders][4]));
+        }
+
+        System.out.println(
+                "║                                                                       ════════════════════════════════════════════════════════╣");
+        System.out.println(
+                "║                                                                      |          Member Discount %          |       Total      ║");
+        System.out.println(
+                "║                                                                       ════════════════════════════════════════════════════════╣");
+
+        if (orders[latestOrders][8] != null && orders[latestOrders][8].equals("member")) {
+            if (orders[latestOrders][4] != null) {
+                orders[latestOrders][10] = Integer
+                        .toString(Integer.parseInt(orders[latestOrders][4]) * memberDiskon / 100);
+                System.out.println(String.format(
+                        "║ %68s ║ %35s ║ %16s ║",
+                        " ",
+                        orders[latestOrders][9],
+                        orders[latestOrders][10]));
+            }
+        } else {
+            orders[latestOrders][10] = "0";
+        }
+
+        orders[latestOrders][4] = Integer.toString(
+                Integer.parseInt(orders[latestOrders][2]) - Integer.parseInt(orders[latestOrders][3])
+                        - Integer.parseInt(orders[latestOrders][10]));
+
+        System.out.println(
+                "╠═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╣");
+        System.out.printf(
+                "║ Total :                                                                                                      %16s ║\n",
+                orders[latestOrders][4]);
+        System.out.println(
+                "╠═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╣");
+
+        if (orders[latestOrders][11].equals("cash")) {
+            System.out.print(
+                    "║ Bayar :                                                                                                             ");
+            orders[latestOrders][5] = Integer.toString(sc.nextInt());
+        } else {
+            orders[latestOrders][5] = orders[latestOrders][4];
+            System.out.printf(
+                    "║ Bayar :                                                                                                      %16s ║\n",
+                    orders[latestOrders][5]);
+        }
+
+        if (orders[latestOrders][5] != null
+                && Integer.parseInt(orders[latestOrders][5]) >= Integer
+                        .parseInt(orders[latestOrders][4])) {
+
+            // kembalian
+            orders[latestOrders][6] = Integer
+                    .toString(Integer.parseInt(orders[latestOrders][5])
+                            - Integer.parseInt(orders[latestOrders][4]));
+            System.out.println(
+                    "╠═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╣");
+            System.out.printf(
+                    "║ Kembalian :                                                                                                  %16s ║\n",
+                    orders[latestOrders][6]);
+            System.out.println(
+                    "╚═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝");
+
+            return true;
+
+        } else {
+            orders[latestOrders][5] = "0";
+            return false;
+        }
+    }
+
     static void CreateOrder() {
         // mencari baris yang kosong di orders
-        GetLatestOrders();
+        if (!orders[latestOrders][5].equals("0")) {
+            GetLatestOrders();
+        }
 
         // nama kasir
         orders[latestOrders][1] = users[user_id][0];
@@ -150,32 +366,6 @@ public class Main {
             } else {
                 System.out.print("Nama Pembeli : " + orders[latestOrders][0]);
             }
-            System.out.println();
-            System.out.println("----------------------------");
-            System.out.println("Daftar menu :");
-
-            // looping menu
-            for (int i = 0; i < items.length; i++) {
-                if (items[i][0] != null) {
-                    System.out.println("[" + (i + 1) + "] Order " + items[i][0] + " (" + items[i][2]
-                            + ")    --  Rp " + items[i][1]);
-                }
-            }
-
-            System.out.println("[" + items.length + "] to cancel an item");
-            System.out.println("[" + (items.length + 1) + "] to finish order");
-            System.out.println("[" + (items.length + 2) + "] to exit\n");
-            System.out.println("List pembelian :");
-
-            // looping daftar pesanan
-            for (int i = 0; i < order_details.length; i++) {
-                if (order_details[i][0] != null
-                        && order_details[i][0].equals(Integer.toString(latestOrders))) {
-                    System.out.println(i + "> " + order_details[i][1] + " (" + order_details[i][2] +
-                            ")    Rp" + order_details[i][4]);
-                }
-            }
-            System.out.println();
 
             // subtotal
             orders[latestOrders][2] = "0";
@@ -202,8 +392,17 @@ public class Main {
             orders[latestOrders][4] = Integer.toString(Integer.parseInt(orders[latestOrders][2])
                     - Integer.parseInt(orders[latestOrders][3]));
 
-            System.out.println("Total : Rp " + orders[latestOrders][4] + "\n");
-            System.out.print("Choice : ");
+            System.out.println();
+
+            ViewOrderDetailList();
+
+            System.out.println();
+
+            ViewMenuList();
+
+            System.out.println();
+
+            System.out.print("> Choice : ");
 
             orderChoice = sc.nextInt();
             sc.nextLine();
@@ -232,7 +431,6 @@ public class Main {
         }
     }
 
-    // ! Fix it
     static void CreateOrderDetail() {
         // id
         order_details[latestOrder_details][0] = Integer.toString(latestOrders);
@@ -241,7 +439,7 @@ public class Main {
         order_details[latestOrder_details][1] = items[orderChoice - 1][0];
 
         // jumlah
-        System.out.print("Beli Berapa PCS " + items[orderChoice - 1][0] + " ? : ");
+        System.out.print("> Beli Berapa PCS " + items[orderChoice - 1][0] + " ? : ");
         order_details[latestOrder_details][2] = Integer.toString(sc.nextInt());
         sc.nextLine();
 
@@ -252,6 +450,9 @@ public class Main {
         order_details[latestOrder_details][4] = Integer.toString(Integer
                 .parseInt(order_details[latestOrder_details][3])
                 * Integer.parseInt(order_details[latestOrder_details][2]));
+
+        // discount %
+        order_details[latestOrder_details][7] = items[orderChoice - 1][3];
 
         // total diskon
         order_details[latestOrder_details][5] = Integer.toString(
@@ -270,18 +471,10 @@ public class Main {
 
     static void CancelOrderDetail() {
         System.out.println("Pilih item yang ingin di cancel!");
-        System.out.println("List pembelian :");
 
-        // looping daftar pesanan
-        for (int i = 0; i < order_details.length; i++) {
-            if (order_details[i][0] != null
-                    && order_details[i][0].equals(Integer.toString(latestOrders))) {
-                System.out.println(i + "> " + order_details[i][1] + " (" + order_details[i][2] +
-                        ")    Rp" + order_details[i][4]);
-            }
-        }
+        ViewOrderDetailList();
 
-        System.out.print("Choice : ");
+        System.out.print("> Choice : ");
         removeItemChoice = sc.nextInt();
 
         if (removeItemChoice < order_details.length && order_details[removeItemChoice][0]
@@ -320,15 +513,15 @@ public class Main {
     static void CheckMembership() {
         memberValid = false;
 
-        while (memberValid != true) {
+        while (!memberValid) {
             System.out.println();
             System.out.print("Apakah punya kartu member? (y/t) :");
             isMember = sc.next().charAt(0);
+
             if (isMember == 'y' || isMember == 'Y') {
                 System.out.print("Masukkan nomer member : ");
                 String memberNumber = sc.next();
                 boolean memberExists = false;
-                String memberName = "";
 
                 // Check if the member number exists in the noMembership array
                 for (int i = 0; i < noMembership.length; i++) {
@@ -338,22 +531,49 @@ public class Main {
                         break;
                     }
                 }
-                // print member names
+
                 if (memberExists) {
-                    System.out.println("Member name: " + memberName);
+                    // Set orders[latestOrders][8] to "member" if member number is found
                     orders[latestOrders][8] = "member";
-                    memberValid = true;
+                    orders[latestOrders][9] = Integer.toString(memberDiskon);
                 } else {
                     System.out.println("Member number not found!");
                     break;
                 }
             } else if (isMember == 't' || isMember == 'T') {
                 orders[latestOrders][8] = "not member";
-                memberValid = true;
             } else {
                 System.out.println("Input invalid!");
                 System.out.println("Please try again!");
+                continue;
             }
+
+            // Assign default values if orders[latestOrders][8] is still null
+            if (orders[latestOrders][8] == null) {
+                orders[latestOrders][8] = "not member";
+                orders[latestOrders][9] = "0";
+            }
+
+            // Print membership status
+            System.out.println(
+                    "╔════════════════════════════════════════════════════════════════════════════════════════════════╗");
+            System.out.println(
+                    "║                                      Membership Status                                         ║");
+            System.out.println(
+                    "╠════════════════════════════════════════════════════════════════════════════════════════════════╣");
+            String membershipStatus = orders[latestOrders][8].equals("member") ? "Active Member" : "Non-Member";
+            System.out.printf(
+                    "║        Member Name    : %-16s                  Status         : %-16s    ║\n",
+                    memberName,
+                    "Active Member");
+            System.out.printf(
+                    "║        Member Discount : %-16s                                                      ║\n",
+                    orders[latestOrders][9] + "%");
+            System.out.println(
+                    "╚════════════════════════════════════════════════════════════════════════════════════════════════╝");
+
+            memberValid = true;
+
         }
     }
 
@@ -367,84 +587,17 @@ public class Main {
             System.out.println("║           Payment methods            ║");
             System.out.println("╚══════════════════════════════════════╝");
             System.out.println("[1] Cash");
-            System.out.println("[2] Debit Card");
-            System.out.println("[3] Credit Card");
+            System.out.println("[2] Bank Card");
+            System.out.println("[3] Back");
             System.out.print("Choose your payment method : ");
             paymentChoice = sc.nextInt();
             sc.nextLine();
 
             switch (paymentChoice) {
                 case 1:
-                    System.out.println("Cafe The Orange");
-                    System.out.println("---------------------------");
-                    System.out.println("Order ke-" + latestOrders);
-                    System.out.println("Pelanggan : " + orders[latestOrders][0]);
-                    System.out.println("Kasir : " + orders[latestOrders][1]);
-                    System.out.println("---------------------------");
-                    System.out.println("Daftar pesanan : ");
-
-                    int totalDiskonItem = 0;
-
-                    // Looping daftar pesanan untuk menghitung diskon item
-                    for (int i = 0; i < order_details.length; i++) {
-                        if (order_details[i][0] != null && order_details[i][0].equals(Integer.toString(latestOrders))) {
-                            String namaItem = order_details[i][1];
-                            int jumlahBeli = Integer.parseInt(order_details[i][2]);
-                            int hargaItem = Integer.parseInt(order_details[i][3]);
-                            int subtotalItem = hargaItem * jumlahBeli;
-
-                            int diskonItem = 0;
-
-                            // Cari diskon item dari array items
-                            for (int j = 0; j < items.length; j++) {
-                                if (items[j][0].equals(namaItem)) {
-                                    diskonItem = Integer.parseInt(items[j][3]);
-                                    break;
-                                }
-                            }
-
-                            int diskonHarga = subtotalItem * diskonItem / 100;
-                            totalDiskonItem += diskonHarga;
-
-                            System.out.println(i + "> " + namaItem + " (Jumlah: " + jumlahBeli + ", Diskon: "
-                                    + diskonItem + "%, Hemat: " + diskonHarga + ")");
-                        }
-                    }
-
-                    System.out.println("Total Diskon Item: " + totalDiskonItem);
-
-                    // Hitung total awal dari orders
-                    int totalAwal = Integer.parseInt(orders[latestOrders][4]);
-
-                    // Kurangi total awal dengan total diskon item
-                    int totalSetelahDiskonItem = totalAwal;
-
-                    // Cek dan terapkan diskon member
-                    int discountAmount = 0;
-                    if (orders[latestOrders][8].equals("member") && memberDiskon > 0) {
-                        discountAmount = totalSetelahDiskonItem * memberDiskon / 100;
-                        System.out.println("Diskon member " + memberDiskon + "% : " + discountAmount);
-                    } else {
-                        System.out.println("Tidak ada member diskon. :)");
-                    }
-
-                    // Hitung total akhir
-                    int newTotal = totalSetelahDiskonItem - discountAmount;
-                    orders[latestOrders][4] = Integer.toString(newTotal);
-
-                    System.out.println("---------------------------");
-                    System.out.println("Total sebelum diskon: " + (totalAwal + totalDiskonItem));
-                    System.out.println("Total : " + orders[latestOrders][4]);
-                    System.out.print("Bayar : ");
-                    orders[latestOrders][5] = Integer.toString(sc.nextInt());
-
-                    if (orders[latestOrders][5] != null
-                            && Integer.parseInt(orders[latestOrders][5]) >= Integer
-                                    .parseInt(orders[latestOrders][4])) {
-                        orders[latestOrders][6] = Integer
-                                .toString(Integer.parseInt(orders[latestOrders][5])
-                                        - Integer.parseInt(orders[latestOrders][4]));
-                        System.out.println("Kembalian : " + orders[latestOrders][6]);
+                    orders[latestOrders][11] = "Cash";
+                    if (PaymentReceipt()) {
+                        System.out.println("Transaction Successful!");
                         break;
 
                     } else {
@@ -453,6 +606,23 @@ public class Main {
                         System.out.println();
                         continue;
                     }
+
+                case 2:
+                    orders[latestOrders][11] = "Card";
+                    if (PaymentReceipt()) {
+                        System.out.println("Transaction Successful!");
+                        break;
+
+                    } else {
+                        System.out.println("Uang tidak cukup!");
+                        System.out.println("Proses Pembayaran gagal!");
+                        System.out.println();
+                        continue;
+                    }
+
+                case 3:
+                    CreateOrder();
+                    break;
 
                 default:
                     System.out.println("Invalid method!");
@@ -744,7 +914,6 @@ public class Main {
     // * Manage Discount Feature
     static void manageDiscount() {
         boolean continueManaging = true;
-        boolean exit = false;
 
         while (continueManaging) {
             System.out.println();
@@ -762,40 +931,19 @@ public class Main {
             switch (choice) {
                 case 1: // Diskon item
                     System.out.println("1. Edit Diskon");
-                    System.out.println("2. Hapus Diskon");
-                    System.out.println("3. Kembali");
-                    System.out.print("Pilihan: ");
-                    int itemDiscountChoice = sc.nextInt();
-                    sc.nextLine();
 
-                    switch (itemDiscountChoice) {
-                        case 1: // Edit Diskon
-                            displayItems();
-                            System.out.print("Pilih item: ");
-                            int editItemChoice = sc.nextInt();
-                            if (isValidChoice(editItemChoice)) {
-                                System.out.print(
-                                        "Masukkan diskon baru " + items[editItemChoice - 1][0] + ": ");
-                                int newDiscount = sc.nextInt();
-                                items[editItemChoice - 1][3] = Integer.toString(newDiscount);
-                                System.out.println("Diskon " + items[editItemChoice - 1][0] + " diubah menjadi "
-                                        + items[editItemChoice - 1][3] + "%");
-                            }
-                            break;
-                        case 2: // Hapus Diskon
-                            displayItems();
-                            System.out.print("Pilih item untuk dihapus diskonnya: ");
-                            int removeItemChoice = sc.nextInt();
-                            if (isValidChoice(removeItemChoice)) {
-                                items[removeItemChoice - 1][3] = "0";
-                                System.out.println("Diskon dihapus dari " + items[removeItemChoice - 1][0]);
-                            }
-                            break;
-                        case 3: // Kembali
-
-                            break;
-                        default:
-                            System.out.println("Pilihan tidak valid. Silahkan coba lagi.");
+                    if (choice == 1) { // Edit Diskon
+                        ViewItemList();
+                        System.out.print("Pilih item: ");
+                        int editItemChoice = sc.nextInt();
+                        if (isValidChoice(editItemChoice)) {
+                            System.out.print(
+                                    "Masukkan diskon baru " + items[editItemChoice - 1][0] + ": ");
+                            int newDiscount = sc.nextInt();
+                            items[editItemChoice - 1][3] = Integer.toString(newDiscount);
+                            System.out.println("Diskon " + items[editItemChoice - 1][0] + " diubah menjadi "
+                                    + items[editItemChoice - 1][3] + "%");
+                        }
                     }
                     break;
 
@@ -817,7 +965,8 @@ public class Main {
                         case 2: // Hapus Diskon
                             // Implement logic for removing member discount
                             System.out
-                                    .println("Member discount removal functionality not implemented in this example.");
+                                    .println(
+                                            "Member discount removal functionality not implemented in this example.");
                             break;
                         default:
                             System.out.println("Invalid choice. Please try again.");
@@ -830,15 +979,6 @@ public class Main {
 
                 default:
                     System.out.println("Invalid choice. Please try again.");
-            }
-        }
-    }
-
-    // * Metode tambahan untuk menampilkan items dan memeriksa pilihan valid
-    static void displayItems() {
-        for (int i = 0; i < items.length; i++) {
-            if (items[i][0] != null) {
-                System.out.println("[" + (i + 1) + "] " + items[i][0] + " (Diskon: " + items[i][3] + "%)");
             }
         }
     }
@@ -967,6 +1107,166 @@ public class Main {
         }
     }
 
+    // * Manage Users
+    static void ManageUsers() {
+        boolean managingUser = true;
+        while (managingUser == true) {
+            System.out.println("╔════════════════════════════════╗");
+            System.out.println("║        MANAGE USER MENU        ║");
+            System.out.println("╚════════════════════════════════╝");
+            System.out.println("[1] View all");
+            System.out.println("[2] Create new User");
+            System.out.println("[3] Edit User");
+            System.out.println("[4] Delete User");
+            System.out.println("[5] Back");
+
+            System.out.print("Masukkan pilihan anda : ");
+            int manageUserChoice = sc.nextInt();
+            sc.nextLine();
+
+            switch (manageUserChoice) {
+                case 1:
+                    ViewUserList();
+                    break;
+
+                case 2:
+                    CreateUser();
+                    break;
+
+                case 3:
+                    EditUser();
+                    break;
+
+                case 4:
+                    DeleteUser();
+                    break;
+
+                case 5:
+                    managingUser = false;
+                    break;
+
+                default:
+                    System.out.println("Invalid choice!");
+                    break;
+            }
+        }
+    }
+
+    static void ViewUserList() {
+        System.out.println(
+                "╔══════════════════════════════════════════════════════════════════╗");
+        System.out.println(
+                "║                            User List                             ║");
+        System.out.println(
+                "╠══════════════════════════════════════════════════════════════════╣");
+        System.out.println(
+                "║ No  |       Username       |       Password       |     Role     ║");
+        System.out.println(
+                "╠══════════════════════════════════════════════════════════════════╣");
+        for (int i = 0; i < users.length; i++) {
+            if (users[i][0] != null) {
+                System.out.println(String.format(
+                        "║ %3d ║ %20s ║ %20s ║ %12s ║",
+                        i + 1,
+                        users[i][0],
+                        users[i][1],
+                        users[i][2]));
+            }
+        }
+        System.out.println(
+                "╚══════════════════════════════════════════════════════════════════╝");
+    }
+
+    static void CreateUser() {
+
+        GetLatestUsers();
+
+        System.out.println("╔══════════════════════════════════════════════╗");
+        System.out.println("║                 Add New User                 ║");
+        System.out.println("╚══════════════════════════════════════════════╝");
+        System.out.print("Insert Username : ");
+        users[latestUsers][0] = sc.nextLine();
+
+        System.out.print("Insert Password : ");
+        users[latestUsers][1] = sc.nextLine();
+
+        System.out.print("Insert Role : ");
+        String inputRole = sc.nextLine();
+
+        while (true) {
+            if (inputRole.equals("kasir") || inputRole.equals("manajer") || inputRole.equals("admin")) {
+                users[latestUsers][2] = inputRole;
+                break;
+            } else {
+                System.out.println("Invalid role!");
+            }
+        }
+
+        System.out.println("New user has been successfully added!");
+    }
+
+    static void EditUser() {
+
+        String temp;
+
+        ViewUserList();
+
+        System.out.print("Input the number to edit the user : ");
+        int editUserChoice = sc.nextInt() - 1;
+        sc.nextLine();
+
+        if (editUserChoice < users.length && users[editUserChoice][0] != null) {
+            System.out.println("Input (-) to not edit the data!");
+            System.out.print("Input new username (" + users[editUserChoice][0] + ") : ");
+            temp = sc.nextLine();
+            if (!temp.equals("-")) {
+                users[editUserChoice][0] = temp;
+            }
+
+            System.out.print("Input new password (" + users[editUserChoice][1] + ") : ");
+            temp = sc.nextLine();
+            if (!temp.equals("-")) {
+                users[editUserChoice][1] = temp;
+            }
+
+            System.out.print("Input new role (" + users[editUserChoice][0] + ") : ");
+            temp = sc.nextLine();
+            if (!temp.equals("-") && (temp.equals("kasir") || temp.equals("manajer") || temp.equals("admin"))) {
+                users[editUserChoice][2] = temp;
+            }
+
+            System.out.println("Item has been successfully edited!");
+        }
+    }
+
+    static void DeleteUser() {
+
+        ViewUserList();
+
+        System.out.print("Input the number to delete the user : ");
+        int deleteUserChoice = sc.nextInt() - 1;
+        sc.nextLine();
+
+        if (deleteUserChoice < users.length && users[deleteUserChoice][0] != null) {
+            for (int i = 0; i < users[deleteUserChoice].length; i++) {
+                users[deleteUserChoice][i] = null;
+            }
+
+            for (int i = 0; i < users.length - 1; i++) {
+                if (users[i][0] == null & users[i + 1][0] != null) {
+                    for (int j = 0; j < users[i].length; j++) {
+                        users[i][j] = users[i + 1][j];
+                        users[i + 1][j] = null;
+                    }
+                }
+            }
+
+            System.out.println("User successfully deleted!");
+        } else {
+            System.out.println("Invalid choice!");
+        }
+    }
+
     // * Exit Program
     static void ExitProgram() {
         System.out.println("Thank you for using this program!");
@@ -975,7 +1275,7 @@ public class Main {
         sc.close();
     }
 
-    // login
+    // * login
     static void Login() {
         while (!access) {
             System.out.println("╔══════════════════════════════╗");
@@ -1004,9 +1304,14 @@ public class Main {
         }
     }
 
+    static void Logout() {
+        access = false;
+        System.out.println("Logout successful!");
+    }
+
     public static void main(String[] args) {
 
-        init();
+        Init();
 
         while (session) {
 
@@ -1022,8 +1327,8 @@ public class Main {
             System.out.println("[4] Manajemen Diskon");
             System.out.println("[5] Lihat Riwayat Penjualan");
             System.out.println("[6] Lihat Laporan Pendapatan");
-            System.out.println("[null] Manajemen User");
-            System.out.println("[7] Keluar dari Program");
+            System.out.println("[7] Manajemen User");
+            System.out.println("[8] Logout");
             System.out.print("Masukkan pilihan Anda: ");
             mainChoice = sc.nextInt();
             sc.nextLine();
@@ -1053,8 +1358,13 @@ public class Main {
                 case 6:
                     ViewProfitReport();
                     break;
+
                 case 7:
-                    ExitProgram();
+                    ManageUsers();
+                    break;
+
+                case 8:
+                    Logout();
                     break;
 
                 default:
