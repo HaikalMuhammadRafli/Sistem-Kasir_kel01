@@ -1,3 +1,6 @@
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Scanner;
 
 /**
@@ -7,6 +10,9 @@ public class Main {
 
     // Declarations
     static Scanner sc = new Scanner(System.in);
+    static Calendar calendar = Calendar.getInstance();
+    static SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+    static Date date = new Date();
 
     // array and variables for items
     static int latestItems = 0;
@@ -38,18 +44,20 @@ public class Main {
     static String memberName = " ";
 
     static void Init() {
-        items = new String[20][5];
+        items = new String[20][6];
         items[0][0] = "Ayam Bakar"; // nama item
         items[0][1] = "15000"; // harga
         items[0][2] = "40"; // stok
         items[0][3] = "10"; // diskon %
         items[0][4] = "Makanan"; // tipe
+        items[0][5] = "12000"; // harga beli
 
         items[1][0] = "Es teh"; // nama item
         items[1][1] = "3000"; // harga
         items[1][2] = "50"; // stok
         items[1][3] = "10"; // diskon %
         items[1][4] = "Minuman"; // tipe
+        items[1][5] = "1000"; // harga beli
 
         users = new String[20][3];
         users[0][0] = "haikal";
@@ -62,7 +70,7 @@ public class Main {
         users[2][1] = "789";
         users[2][2] = "admin";
 
-        orders = new String[20][13];
+        orders = new String[20][15];
         orders[0][0] = "Adi"; // nama pemesan
         orders[0][1] = "Irsyad"; // nama kasir
         orders[0][2] = "150000"; // subtotal
@@ -74,8 +82,10 @@ public class Main {
         orders[0][8] = "member"; // status membership
         orders[0][9] = "10"; // diskon membership
         orders[0][10] = "10000"; // total diskon membership
-        orders[0][11] = "Cash"; // metode pembayaran
+        orders[0][11] = "cash"; // metode pembayaran
         orders[0][12] = "234172000"; // nomer rekening
+        orders[0][13] = "BCA"; // bank
+        orders[0][14] = "12-12-2023"; // created_at
 
         order_details = new String[100][8];
         order_details[0][0] = "0"; // id
@@ -214,7 +224,65 @@ public class Main {
                 "╚═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝");
     }
 
-    static boolean PaymentReceipt() {
+    static int SetBankDetails() {
+        while (true) {
+            if (orders[latestOrders][11].equals("card")) {
+                System.out.println("╔═════════════════════════════════╗");
+                System.out.println("║        BANK CARD PAYMENT        ║");
+                System.out.println("╚═════════════════════════════════╝");
+
+                System.out.println("[1] BCA");
+                System.out.println("[2] MANDIRI");
+                System.out.println("[3] BRI");
+                System.out.println("[4] Back");
+                System.out.print("> Choice : ");
+                int bankChoice = sc.nextInt();
+                sc.nextLine();
+
+                switch (bankChoice) {
+                    case 1:
+                        orders[latestOrders][13] = "BCA";
+                        break;
+
+                    case 2:
+                        orders[latestOrders][13] = "MANDIRI";
+                        break;
+
+                    case 3:
+                        orders[latestOrders][13] = "BRI";
+                        break;
+
+                    case 4:
+                        return 400;
+
+                    default:
+                        System.out.println("Invalid Choice!");
+                        continue;
+                }
+
+                System.out.print("> Input account number : ");
+                orders[latestOrders][12] = sc.nextLine();
+                break;
+            }
+        }
+
+        return 200;
+    }
+
+    static int PaymentReceipt() {
+
+        if (orders[latestOrders][11].equals("card")) {
+            switch (SetBankDetails()) {
+                case 200:
+                    System.out.println("Bank verified!");
+                    System.out.println();
+                    break;
+
+                case 400:
+                    return 400;
+            }
+        }
+
         System.out.println(
                 "╔═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗");
         System.out.printf(
@@ -227,9 +295,17 @@ public class Main {
                 orders[latestOrders][0], orders[latestOrders][1]);
         System.out.println(
                 "║                                                                                                                               ║");
-        System.out.printf(
-                "║        Payment Method : %-16s                                                     Date  : %-16s         ║\n",
-                orders[latestOrders][11], "null");
+        if (orders[latestOrders][11].equals("card")) {
+            System.out.printf(
+                    "║        Payment Method : %-26s                                           Date  : %-16s         ║\n",
+                    orders[latestOrders][13] + " " + orders[latestOrders][11] + " (" + orders[latestOrders][12] + ")",
+                    orders[latestOrders][14]);
+        } else {
+            System.out.printf(
+                    "║        Payment Method : %-26s                                           Date  : %-16s         ║\n",
+                    orders[latestOrders][11],
+                    orders[latestOrders][14]);
+        }
         System.out.println(
                 "╠═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╣");
         System.out.println(
@@ -331,11 +407,11 @@ public class Main {
             System.out.println(
                     "╚═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝");
 
-            return true;
+            return 200;
 
         } else {
             orders[latestOrders][5] = "0";
-            return false;
+            return 401;
         }
     }
 
@@ -350,6 +426,9 @@ public class Main {
 
         // status pembayaran
         orders[latestOrders][7] = "incomplete";
+
+        // tanggal order
+        orders[latestOrders][14] = dateFormat.format(date);
 
         ordering = true;
         while (ordering == true) {
@@ -595,29 +674,35 @@ public class Main {
 
             switch (paymentChoice) {
                 case 1:
-                    orders[latestOrders][11] = "Cash";
-                    if (PaymentReceipt()) {
-                        System.out.println("Transaction Successful!");
+                    orders[latestOrders][11] = "cash";
+                    if (PaymentReceipt() == 200) {
+                        System.out.println("Transaction Successful! \n");
                         break;
 
-                    } else {
+                    } else if (PaymentReceipt() == 401) {
                         System.out.println("Uang tidak cukup!");
-                        System.out.println("Proses Pembayaran gagal!");
+                        System.out.println("Proses Pembayaran gagal! \n");
                         System.out.println();
                         continue;
+
+                    } else if (PaymentReceipt() == 400) {
+                        System.out.println("Transaction cancelled! \n");
                     }
 
                 case 2:
-                    orders[latestOrders][11] = "Card";
-                    if (PaymentReceipt()) {
-                        System.out.println("Transaction Successful!");
+                    orders[latestOrders][11] = "card";
+                    if (PaymentReceipt() == 200) {
+                        System.out.println("Transaction Successful! \n");
                         break;
 
-                    } else {
+                    } else if (PaymentReceipt() == 401) {
                         System.out.println("Uang tidak cukup!");
-                        System.out.println("Proses Pembayaran gagal!");
+                        System.out.println("Proses Pembayaran gagal! \n");
                         System.out.println();
                         continue;
+
+                    } else if (PaymentReceipt() == 400) {
+                        System.out.println("Transaction cancelled! \n");
                     }
 
                 case 3:
@@ -699,6 +784,34 @@ public class Main {
 
     static void ViewItemList() {
         System.out.println(
+                "╔══════════════════════════════════════════════════════════════════════════════════════════════════════════════╗");
+        System.out.println(
+                "║                                                Item Menu List                                                ║");
+        System.out.println(
+                "╠══════════════════════════════════════════════════════════════════════════════════════════════════════════════╣");
+        System.out.println(
+                "║ No  |       Name       |       Tipe       |    Price     |    Stock   |    Discount (%)   |   Buying Price   ║");
+        System.out.println(
+                "╠══════════════════════════════════════════════════════════════════════════════════════════════════════════════╣");
+        for (int i = 0; i < items.length; i++) {
+            if (items[i][0] != null) {
+                System.out.println(String.format(
+                        "║ %3d ║ %16s ║ %16s ║ %12s ║ %10s ║ %16s ║ %17s ║",
+                        i + 1,
+                        items[i][0],
+                        items[i][4],
+                        items[i][1],
+                        items[i][2],
+                        items[i][3],
+                        items[i][5]));
+            }
+        }
+        System.out.println(
+                "╚══════════════════════════════════════════════════════════════════════════════════════════════════════════════╝");
+    }
+
+    static void ViewSimpleItemList() {
+        System.out.println(
                 "╔══════════════════════════════════════════════════════════════════════════════════════════╗");
         System.out.println(
                 "║                                      Item Menu List                                      ║");
@@ -761,6 +874,9 @@ public class Main {
                     System.out.print("Insert food discount : ");
                     items[latestItems][3] = Integer.toString(sc.nextInt());
 
+                    System.out.print("Insert food buying price : ");
+                    items[latestItems][5] = Integer.toString(sc.nextInt());
+
                     System.out.println("New food has been successfully added!");
                     break;
 
@@ -782,6 +898,9 @@ public class Main {
 
                     System.out.print("Insert drink discount : ");
                     items[latestItems][3] = Integer.toString(sc.nextInt());
+
+                    System.out.print("Insert drink buying price : ");
+                    items[latestItems][5] = Integer.toString(sc.nextInt());
 
                     System.out.println("New drink has been successfully added!");
                     break;
@@ -833,6 +952,12 @@ public class Main {
             temp = Integer.toString(sc.nextInt());
             if (!temp.equals("-")) {
                 items[editItemChoice][1] = temp;
+            }
+
+            System.out.print("Input new buying price (" + items[editItemChoice][1] + ") : ");
+            temp = Integer.toString(sc.nextInt());
+            if (!temp.equals("-")) {
+                items[editItemChoice][5] = temp;
             }
 
             System.out.println("Item has been successfully edited!");
@@ -933,16 +1058,17 @@ public class Main {
                     System.out.println("1. Edit Diskon");
 
                     if (choice == 1) { // Edit Diskon
-                        ViewItemList();
+                        ViewSimpleItemList();
                         System.out.print("Pilih item: ");
-                        int editItemChoice = sc.nextInt();
-                        if (isValidChoice(editItemChoice)) {
+                        int editDiscountChoice = sc.nextInt();
+                        if (editDiscountChoice > 0 && editDiscountChoice <= items.length
+                                && items[editDiscountChoice - 1][0] != null) {
                             System.out.print(
-                                    "Masukkan diskon baru " + items[editItemChoice - 1][0] + ": ");
+                                    "Masukkan diskon baru " + items[editDiscountChoice - 1][0] + ": ");
                             int newDiscount = sc.nextInt();
-                            items[editItemChoice - 1][3] = Integer.toString(newDiscount);
-                            System.out.println("Diskon " + items[editItemChoice - 1][0] + " diubah menjadi "
-                                    + items[editItemChoice - 1][3] + "%");
+                            items[editDiscountChoice - 1][3] = Integer.toString(newDiscount);
+                            System.out.println("Diskon " + items[editDiscountChoice - 1][0] + " diubah menjadi "
+                                    + items[editDiscountChoice - 1][3] + "%");
                         }
                     }
                     break;
@@ -981,10 +1107,6 @@ public class Main {
                     System.out.println("Invalid choice. Please try again.");
             }
         }
-    }
-
-    static boolean isValidChoice(int choice) {
-        return choice > 0 && choice <= items.length && items[choice - 1][0] != null;
     }
 
     // * History Feature
