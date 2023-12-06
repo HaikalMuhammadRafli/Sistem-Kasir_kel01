@@ -35,6 +35,7 @@ public class Main {
     static String inputUsername, inputPassword, inputUsernameHistory;
     static int mainChoice, orderChoice, stockChoice, removeItemChoice, paymentChoice, historyChoice, manageItemChoice;
     static char isMember;
+    static String memberName = " ";
 
     static void Init() {
         items = new String[20][5];
@@ -512,15 +513,15 @@ public class Main {
     static void CheckMembership() {
         memberValid = false;
 
-        while (memberValid != true) {
+        while (!memberValid) {
             System.out.println();
             System.out.print("Apakah punya kartu member? (y/t) :");
             isMember = sc.next().charAt(0);
+
             if (isMember == 'y' || isMember == 'Y') {
                 System.out.print("Masukkan nomer member : ");
                 String memberNumber = sc.next();
                 boolean memberExists = false;
-                String memberName = "";
 
                 // Check if the member number exists in the noMembership array
                 for (int i = 0; i < noMembership.length; i++) {
@@ -530,23 +531,49 @@ public class Main {
                         break;
                     }
                 }
-                // print member names
+
                 if (memberExists) {
-                    System.out.println("Member name: " + memberName);
+                    // Set orders[latestOrders][8] to "member" if member number is found
                     orders[latestOrders][8] = "member";
                     orders[latestOrders][9] = Integer.toString(memberDiskon);
-                    memberValid = true;
                 } else {
                     System.out.println("Member number not found!");
                     break;
                 }
             } else if (isMember == 't' || isMember == 'T') {
                 orders[latestOrders][8] = "not member";
-                memberValid = true;
             } else {
                 System.out.println("Input invalid!");
                 System.out.println("Please try again!");
+                continue;
             }
+
+            // Assign default values if orders[latestOrders][8] is still null
+            if (orders[latestOrders][8] == null) {
+                orders[latestOrders][8] = "not member";
+                orders[latestOrders][9] = "0";
+            }
+
+            // Print membership status
+            System.out.println(
+                    "╔════════════════════════════════════════════════════════════════════════════════════════════════╗");
+            System.out.println(
+                    "║                                      Membership Status                                         ║");
+            System.out.println(
+                    "╠════════════════════════════════════════════════════════════════════════════════════════════════╣");
+            String membershipStatus = orders[latestOrders][8].equals("member") ? "Active Member" : "Non-Member";
+            System.out.printf(
+                    "║        Member Name    : %-16s                  Status         : %-16s    ║\n",
+                    memberName,
+                    "Active Member");
+            System.out.printf(
+                    "║        Member Discount : %-16s                                                      ║\n",
+                    orders[latestOrders][9] + "%");
+            System.out.println(
+                    "╚════════════════════════════════════════════════════════════════════════════════════════════════╝");
+
+            memberValid = true;
+
         }
     }
 
@@ -882,6 +909,82 @@ public class Main {
 
             continue;
         }
+    }
+
+    // * Manage Discount Feature
+    static void manageDiscount() {
+        boolean continueManaging = true;
+
+        while (continueManaging) {
+            System.out.println();
+            System.out.println("╔══════════════════════════════════════╗");
+            System.out.println("║             Manage Discount          ║");
+            System.out.println("╚══════════════════════════════════════╝");
+
+            System.out.println("1. Diskon item");
+            System.out.println("2. Diskon Member" + " (" + memberDiskon + "%)");
+            System.out.println("3. Kembali");
+            System.out.print("Choice: ");
+            int choice = sc.nextInt();
+            sc.nextLine();
+
+            switch (choice) {
+                case 1: // Diskon item
+                    System.out.println("1. Edit Diskon");
+
+                    if (choice == 1) { // Edit Diskon
+                        ViewItemList();
+                        System.out.print("Pilih item: ");
+                        int editItemChoice = sc.nextInt();
+                        if (isValidChoice(editItemChoice)) {
+                            System.out.print(
+                                    "Masukkan diskon baru " + items[editItemChoice - 1][0] + ": ");
+                            int newDiscount = sc.nextInt();
+                            items[editItemChoice - 1][3] = Integer.toString(newDiscount);
+                            System.out.println("Diskon " + items[editItemChoice - 1][0] + " diubah menjadi "
+                                    + items[editItemChoice - 1][3] + "%");
+                        }
+                    }
+                    break;
+
+                case 2: // Diskon Member
+                    System.out.println("1. Edit Diskon");
+                    System.out.println("2. Hapus Diskon");
+                    System.out.print("Pilihan: ");
+                    int memberDiscountChoice = sc.nextInt();
+                    sc.nextLine();
+
+                    switch (memberDiscountChoice) {
+                        case 1: // Edit Diskon
+                            // Implement logic for editing member discount
+                            System.out.println("Edit diskon member ");
+                            System.out.print("Masukkan diskon baru: ");
+                            int newDiscount = sc.nextInt();
+                            memberDiskon = newDiscount;
+                            break;
+                        case 2: // Hapus Diskon
+                            // Implement logic for removing member discount
+                            System.out
+                                    .println(
+                                            "Member discount removal functionality not implemented in this example.");
+                            break;
+                        default:
+                            System.out.println("Invalid choice. Please try again.");
+                    }
+                    break;
+
+                case 3: // Back/Exit
+                    continueManaging = false;
+                    break;
+
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+            }
+        }
+    }
+
+    static boolean isValidChoice(int choice) {
+        return choice > 0 && choice <= items.length && items[choice - 1][0] != null;
     }
 
     // * History Feature
@@ -1221,11 +1324,11 @@ public class Main {
             System.out.println("[1] Buat Pesanan");
             System.out.println("[2] Manajemen Item Menu");
             System.out.println("[3] Manajemen Stok");
-            System.out.println("[null] Manajemen Diskon");
-            System.out.println("[4] Lihat Riwayat Penjualan");
-            System.out.println("[5] Lihat Laporan Pendapatan");
-            System.out.println("[6] Manajemen User");
-            System.out.println("[7] Logout");
+            System.out.println("[4] Manajemen Diskon");
+            System.out.println("[5] Lihat Riwayat Penjualan");
+            System.out.println("[6] Lihat Laporan Pendapatan");
+            System.out.println("[7] Manajemen User");
+            System.out.println("[8] Logout");
             System.out.print("Masukkan pilihan Anda: ");
             mainChoice = sc.nextInt();
             sc.nextLine();
@@ -1245,18 +1348,23 @@ public class Main {
                     break;
 
                 case 4:
-                    ViewSalesHistory();
+                    manageDiscount();
                     break;
 
                 case 5:
-                    ViewProfitReport();
+                    ViewSalesHistory();
                     break;
 
                 case 6:
-                    ManageUsers();
+
+                    ViewProfitReport();
                     break;
 
                 case 7:
+                    ManageUsers();
+                    break;
+
+                case 8:
                     Logout();
                     break;
 
