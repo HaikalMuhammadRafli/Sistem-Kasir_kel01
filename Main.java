@@ -1,7 +1,11 @@
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.Month;
+import java.time.format.DateTimeFormatter;
+import java.time.format.TextStyle;
+import java.util.HashSet;
+import java.util.Locale;
 import java.util.Scanner;
+import java.util.Set;
 
 /**
  * main
@@ -10,9 +14,7 @@ public class Main {
 
     // Declarations
     static Scanner sc = new Scanner(System.in);
-    static Calendar calendar = Calendar.getInstance();
-    static SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-    static Date date = new Date();
+    static DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
     // array and variables for items
     static int latestItems = 0;
@@ -366,6 +368,10 @@ public class Main {
             }
         } else {
             orders[latestOrders][10] = "0";
+            System.out.println(String.format(
+                    "║ %68s ║ %35s ║ %16s ║",
+                    " ",
+                    "0", "0"));
         }
 
         orders[latestOrders][4] = Integer.toString(
@@ -428,7 +434,7 @@ public class Main {
         orders[latestOrders][7] = "incomplete";
 
         // tanggal order
-        orders[latestOrders][14] = dateFormat.format(date);
+        orders[latestOrders][14] = LocalDate.now().format(dateFormat);
 
         ordering = true;
         while (ordering == true) {
@@ -1110,82 +1116,388 @@ public class Main {
     }
 
     // * History Feature
-    static void ViewSalesHistory() {
-        System.out.println();
-        System.out.println("╔══════════════════════════════════════╗");
-        System.out.println("║            Sales History             ║");
-        System.out.println("╚══════════════════════════════════════╝");
-        System.out.println("[1] All time");
-        System.out.println("[2] Sort by cashier");
-        System.out.println("[3] Sort by date");
-        System.out.print("Your choice : ");
-        historyChoice = sc.nextInt();
-        sc.nextLine();
+    static void ViewSalesHistoryDetails(int OrderIndex) {
+        System.out.println(
+                "╔═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗");
+        System.out.printf(
+                "║        Cafe The Orange Receipt                                                               Order - %04d                     ║\n",
+                OrderIndex + 1);
+        System.out.println(
+                "╠═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╣");
+        System.out.printf(
+                "║        Pelanggan      : %-16s                                                     Kasir : %-16s         ║\n",
+                orders[OrderIndex][0], orders[OrderIndex][1]);
+        System.out.println(
+                "║                                                                                                                               ║");
+        if (orders[OrderIndex][11].equals("card")) {
+            System.out.printf(
+                    "║        Payment Method : %-26s                                           Date  : %-16s         ║\n",
+                    orders[OrderIndex][13] + " " + orders[OrderIndex][11] + " (" + orders[OrderIndex][12] + ")",
+                    orders[OrderIndex][14]);
+        } else {
+            System.out.printf(
+                    "║        Payment Method : %-26s                                           Date  : %-16s         ║\n",
+                    orders[OrderIndex][11],
+                    orders[OrderIndex][14]);
+        }
+        System.out.println(
+                "╠═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╣");
+        System.out.println(
+                "║        Order Detail List                                                                                                      ║");
+        System.out.println(
+                "╠═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╣");
+        System.out.println(
+                "║ No  |       Name       |       Price      |  Qty  |     Subtotal     |    Discount (%)  |  Discount Total  |       Total      ║");
+        System.out.println(
+                "╠═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╣");
 
-        switch (historyChoice) {
-            case 1:
-                System.out.println("History by all time :");
-                System.out.println();
-                for (int i = 0; i < orders.length; i++) {
-                    if (orders[i][0] != null) {
-                        System.out.println("=========================");
-                        System.out.println("Order ke-" + i);
-                        System.out.println("-------------------------");
-                        System.out.println("Cashier : " + orders[i][1]);
-                        System.out.println("Pelanggan : " + orders[i][0]);
-                        System.out.println("-------------------------");
+        for (int i = 0; i < order_details.length; i++) {
+            if (order_details[i][0] != null && order_details[i][0].equals(Integer.toString(OrderIndex))) {
+                System.out.println(String.format(
+                        "║ %3d ║ %16s ║ %16s ║ %5s ║ %16s ║ %16s ║ %16s ║ %16s ║",
+                        i,
+                        order_details[i][1],
+                        order_details[i][3],
+                        order_details[i][2],
+                        order_details[i][4],
+                        order_details[i][7],
+                        order_details[i][5],
+                        order_details[i][6]));
+            }
+        }
 
-                        for (int j = 0; j < order_details.length; j++) {
-                            if (order_details[j][0] != null && Integer.parseInt(order_details[j][0]) == i) {
-                                System.out
-                                        .println(j + "> " + order_details[j][1] + " -- "
-                                                + order_details[0][2]);
-                            }
-                        }
+        System.out.println(
+                "╠═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╣");
+        System.out.println(
+                "║                                                                      |     Subtotal     |  Discount Total  |       Total      ║");
+        System.out.println(
+                "║                                                                       ════════════════════════════════════════════════════════╣");
+        if (orders[OrderIndex][2] != null) {
+            System.out.println(String.format(
+                    "║ %68s ║ %16s ║ %16s ║ %16s ║",
+                    " ",
+                    orders[OrderIndex][2],
+                    orders[OrderIndex][3],
+                    orders[OrderIndex][4]));
+        }
 
-                        System.out.println("-------------------------");
-                        System.out.println("Subtotal : " + orders[i][2]);
-                        System.out.println("Total Diskon : " + orders[i][3]);
-                        System.out.println("Total : " + orders[i][4]);
-                        System.out.println("Pembayaran : " + orders[i][5]);
-                        System.out.println("Kembalian : " + orders[i][6]);
+        System.out.println(
+                "║                                                                       ════════════════════════════════════════════════════════╣");
+        System.out.println(
+                "║                                                                      |          Member Discount %          |       Total      ║");
+        System.out.println(
+                "║                                                                       ════════════════════════════════════════════════════════╣");
 
-                        System.out.println("=========================");
-                        System.out.println();
+        if (orders[OrderIndex][8] != null && orders[OrderIndex][8].equals("member")) {
+            if (orders[OrderIndex][4] != null) {
+                System.out.println(String.format(
+                        "║ %68s ║ %35s ║ %16s ║",
+                        " ",
+                        orders[OrderIndex][9],
+                        orders[OrderIndex][10]));
+            }
+        } else {
+
+            System.out.println(String.format(
+                    "║ %68s ║ %35s ║ %16s ║",
+                    " ",
+                    "0", "0"));
+        }
+
+        System.out.println(
+                "╠═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╣");
+        System.out.printf(
+                "║ Total :                                                                                                      %16s ║\n",
+                orders[OrderIndex][4]);
+        System.out.println(
+                "╠═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╣");
+
+        System.out.printf(
+                "║ Bayar :                                                                                                      %16s ║\n",
+                orders[OrderIndex][5]);
+
+        System.out.println(
+                "╠═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╣");
+        System.out.printf(
+                "║ Kembalian :                                                                                                  %16s ║\n",
+                orders[OrderIndex][6]);
+        System.out.println(
+                "╚═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝");
+    }
+
+    static void ViewSalesHistory(int day, int month, int year, String type) {
+
+        String monthName = Month.of(month).getDisplayName(TextStyle.FULL, Locale.ENGLISH);
+
+        while (true) {
+            System.out.println();
+            System.out.println(
+                    "╔═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗");
+
+            if (type.equals("today")) {
+                System.out.println(
+                        "║                                                                                     Sales History Today                                                                                           ║");
+            } else {
+                System.out.printf(
+                        "║                                                                               Sales History %-8s %-4s                                                                                         ║\n",
+                        monthName, year);
+            }
+
+            System.out.println(
+                    "╠═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╣");
+            System.out.println(
+                    "║ No  |   Cashier   |   Customer   |  Membership  |    Subtotal    |  Discount Total  |  Membership (%)  |  Member Discount  |      Total      |  Payment Status  |  Payment Method  |  Created At  ║");
+            System.out.println(
+                    "╠═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╣");
+
+            for (int i = 0; i < orders.length; i++) {
+                if (type.equals("today") || type.equals("day")) {
+                    if (orders[i][0] != null && (LocalDate.parse(orders[i][14], dateFormat).getDayOfMonth() == day)
+                            && (LocalDate.parse(orders[i][14], dateFormat).getMonthValue() == month)
+                            && (LocalDate.parse(orders[i][14], dateFormat).getYear() == year)) {
+                        System.out.println(String.format(
+                                "║ %3d ║ %11s ║ %12s ║ %12s ║ %14s ║ %16s ║ %16s ║ %17s ║ %15s ║ %16s ║ %16s ║ %12s ║",
+                                i + 1,
+                                orders[i][1],
+                                orders[i][0],
+                                orders[i][8],
+                                orders[i][2],
+                                orders[i][3],
+                                orders[i][9],
+                                orders[i][10],
+                                orders[i][4],
+                                orders[i][7],
+                                orders[i][11],
+                                orders[i][14]));
+                    }
+                } else {
+                    if (orders[i][0] != null && (LocalDate.parse(orders[i][14], dateFormat).getMonthValue() == month)
+                            && (LocalDate.parse(orders[i][14], dateFormat).getYear() == year)) {
+                        System.out.println(String.format(
+                                "║ %3d ║ %11s ║ %12s ║ %12s ║ %14s ║ %16s ║ %16s ║ %17s ║ %15s ║ %16s ║ %16s ║ %12s ║",
+                                i + 1,
+                                orders[i][1],
+                                orders[i][0],
+                                orders[i][8],
+                                orders[i][2],
+                                orders[i][3],
+                                orders[i][9],
+                                orders[i][10],
+                                orders[i][4],
+                                orders[i][7],
+                                orders[i][11],
+                                orders[i][14]));
                     }
                 }
+            }
+
+            System.out.println(
+                    "╚═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝");
+
+            System.out.println();
+            System.out.println("Input the number to view history details");
+            System.out.println("[" + orders.length + "] Back");
+            System.out.print("> Your choice : ");
+            int choice = sc.nextInt();
+            sc.nextLine();
+
+            if (choice < orders.length && orders[choice - 1][0] != null) {
+                ViewSalesHistoryDetails(choice - 1);
+                continue;
+
+            } else if (choice == orders.length) {
                 break;
 
-            case 2:
-                System.out.print("Masukkan username kasir : ");
-                inputUsernameHistory = sc.nextLine();
+            } else {
+                System.out.println("Invalid choice!");
+                continue;
+            }
+        }
+    }
 
-                System.out.println("History by cashier :");
-                System.out.println();
-                for (int i = 0; i < orders.length; i++) {
-                    if (orders[i][0] != null && orders[i][1].equals(inputUsernameHistory)) {
+    static void SalesHistoryByToday() {
+        ViewSalesHistory(LocalDate.now().getDayOfMonth(), LocalDate.now().getMonthValue(),
+                LocalDate.now().getYear(), "today");
+    }
 
-                        System.out.println("Order ke-" + i);
-                        System.out.println("--------------------");
-                        System.out.println("Cashier : " + orders[i][1]);
-                        System.out.println("Pelanggan : " + orders[i][0]);
-                        System.out.println("--------------------");
+    static void SalesHistoryByMonth(int year) {
+        String[] months = {
+                "January", "February", "March", "April", "May", "June",
+                "July", "August", "September", "October", "November", "December"
+        };
 
-                        for (int j = 0; j < order_details.length; j++) {
-                            if (order_details[j][0] != null && Integer.parseInt(order_details[j][0]) == i) {
-                                System.out
-                                        .println(j + "> " + order_details[j][1] + " -- "
-                                                + order_details[0][2]);
-                            }
-                        }
+        while (true) {
+            System.out.println();
+            System.out.println("╔══════════════════════════════════════╗");
+            System.out.println("║            Sales History             ║");
+            System.out.println("╚══════════════════════════════════════╝");
+            for (int i = 0; i < months.length; i++) {
+                System.out.println("[" + (i + 1) + "] " + months[i]);
+            }
 
-                        System.out.println("=========================");
-                        System.out.println();
+            System.out.print("> Your choice : ");
+            int month = sc.nextInt();
+            sc.nextLine();
+
+            if (month <= 12) {
+                ViewSalesHistory(1, month, year, "month");
+                break;
+
+            } else if (month == months.length) {
+                break;
+
+            } else {
+                System.out.println("Invalid choice!");
+                continue;
+            }
+        }
+    }
+
+    static void SalesHistoryByDay(int year) {
+        String[] months = {
+                "January", "February", "March", "April", "May", "June",
+                "July", "August", "September", "October", "November", "December"
+        };
+
+        while (true) {
+            System.out.println();
+            System.out.println("╔══════════════════════════════════════╗");
+            System.out.println("║            Sales History             ║");
+            System.out.println("╚══════════════════════════════════════╝");
+            for (int i = 0; i < months.length; i++) {
+                System.out.println("[" + (i + 1) + "] " + months[i]);
+            }
+
+            System.out.print("> Your choice : ");
+            int month = sc.nextInt();
+            sc.nextLine();
+
+            if (month <= 12) {
+
+                System.out.println("╔══════════════════════════════════════════════╗");
+                System.out.println("║               Days of the Month              ║");
+                System.out.println("╠══════════════════════════════════════════════╣");
+
+                DateTimeFormatter dayFormat = DateTimeFormatter.ofPattern("dd");
+                LocalDate startDate = LocalDate.of(year, month, 1);
+                int daysInMonth = startDate.lengthOfMonth();
+
+                for (int i = 0; i < daysInMonth; i++) {
+                    if (i == 0 || i == 7 || i == 14 || i == 21 || i == 28) {
+                        System.out.print("║  ");
+                    }
+                    LocalDate day = startDate.plusDays(i);
+                    System.out.format("║ %2d ║", Integer.parseInt(dayFormat.format(day)));
+                    if ((i + 1) % 7 == 0) {
+                        System.out.println("  ║");
                     }
                 }
+
+                System.out.println();
+                System.out.println("╚══════════════════════════════════════════════╝");
+
+                System.out.println();
+                System.out.print("> Your choice : ");
+
+                int day = sc.nextInt();
+                sc.nextLine();
+
+                ViewSalesHistory(day, month, year, "day");
                 break;
-            default:
+
+            } else if (month == months.length) {
                 break;
+
+            } else {
+                System.out.println("Invalid choice!");
+                continue;
+            }
+        }
+    }
+
+    static void SalesHistory(int selectedYear) {
+        while (true) {
+            System.out.println();
+            System.out.println("╔══════════════════════════════════════╗");
+            System.out.println("║            Sales History             ║");
+            System.out.println("╚══════════════════════════════════════╝");
+            if (selectedYear == LocalDate.now().getYear()) {
+                System.out.println("[0] Today");
+            }
+
+            System.out.println("[1] By month");
+            System.out.println("[2] By day");
+            System.out.println("[3] Back");
+            System.out.print("> Your choice : ");
+            int choice = sc.nextInt();
+
+            switch (choice) {
+                case 0:
+                    SalesHistoryByToday();
+                    break;
+
+                case 1:
+                    SalesHistoryByMonth(selectedYear);
+                    break;
+
+                case 2:
+                    SalesHistoryByDay(selectedYear);
+                    break;
+
+                case 3:
+                    PickHistoryYear();
+                    break;
+
+                default:
+                    System.out.println("Invalid choice!");
+                    continue;
+            }
+
+            break;
+        }
+    }
+
+    static void PickHistoryYear() {
+
+        while (true) {
+
+            Set<Integer> uniqueYears = new HashSet<>();
+
+            System.out.println();
+            System.out.println("╔══════════════════════════════════════╗");
+            System.out.println("║            Sales History             ║");
+            System.out.println("╚══════════════════════════════════════╝");
+
+            for (int i = 0; i < orders.length; i++) {
+                if (orders[i][0] != null) {
+                    LocalDate date = LocalDate.parse(orders[i][14], dateFormat);
+                    int year = date.getYear();
+                    uniqueYears.add(year);
+                }
+            }
+
+            int uniqueYearsArray[] = uniqueYears.stream().mapToInt(Integer::intValue).toArray();
+
+            for (int i = 0; i < uniqueYears.size(); i++) {
+                System.out.println("[" + (i + 1) + "] " + uniqueYearsArray[i]);
+            }
+
+            System.out.println("[" + (uniqueYearsArray.length + 1) + "] Back");
+
+            System.out.print("> Your choice : ");
+            int choice = sc.nextInt() - 1;
+
+            if (choice < uniqueYearsArray.length) {
+                SalesHistory(uniqueYearsArray[choice]);
+                break;
+
+            } else if (choice == uniqueYearsArray.length) {
+                break;
+
+            } else {
+                System.out.println("Invalid choice!");
+                continue;
+            }
         }
     }
 
@@ -1474,7 +1786,7 @@ public class Main {
                     break;
 
                 case 5:
-                    ViewSalesHistory();
+                    PickHistoryYear();
                     break;
 
                 case 6:
