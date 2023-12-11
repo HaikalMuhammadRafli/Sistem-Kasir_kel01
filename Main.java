@@ -1,3 +1,4 @@
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.format.DateTimeFormatter;
@@ -72,13 +73,13 @@ public class Main {
         users[2][1] = "789";
         users[2][2] = "admin";
 
-        orders = new String[20][15];
+        orders = new String[20][16];
         orders[0][0] = "Adi"; // nama pemesan
         orders[0][1] = "Irsyad"; // nama kasir
-        orders[0][2] = "150000"; // subtotal
-        orders[0][3] = "50000"; // total diskon
-        orders[0][4] = "100000"; // total
-        orders[0][5] = "100000"; // jumlah pembayaran
+        orders[0][2] = "200000"; // subtotal
+        orders[0][3] = "20000"; // total diskon
+        orders[0][4] = "180000"; // total
+        orders[0][5] = "180000"; // jumlah pembayaran
         orders[0][6] = "0"; // jumlah kembalian
         orders[0][7] = "Completed"; // status pembayaran
         orders[0][8] = "member"; // status membership
@@ -88,8 +89,9 @@ public class Main {
         orders[0][12] = "234172000"; // nomer rekening
         orders[0][13] = "BCA"; // bank
         orders[0][14] = "12-12-2023"; // created_at
+        orders[0][15] = "150000"; // harga beli stock total
 
-        order_details = new String[100][8];
+        order_details = new String[100][9];
         order_details[0][0] = "0"; // id
         order_details[0][1] = "Ayam Bakar"; // nama item
         order_details[0][2] = "10"; // jumlah beli
@@ -98,6 +100,7 @@ public class Main {
         order_details[0][5] = "50000"; // total diskon per item
         order_details[0][6] = "100000"; // total per item
         order_details[0][7] = "10"; // diskon item
+        order_details[0][8] = "150000"; // harga beli stock
 
         noMembership = new String[100][2];
         noMembership[0][0] = "234172"; // id
@@ -477,6 +480,16 @@ public class Main {
             orders[latestOrders][4] = Integer.toString(Integer.parseInt(orders[latestOrders][2])
                     - Integer.parseInt(orders[latestOrders][3]));
 
+            // harga beli
+            orders[latestOrders][15] = "0";
+            for (int i = 0; i < order_details.length; i++) {
+                if (order_details[i][0] != null
+                        && order_details[i][0].equals(Integer.toString(latestOrders))) {
+                    orders[latestOrders][15] = Integer.toString(Integer.parseInt(orders[latestOrders][15])
+                            + Integer.parseInt(order_details[i][8]));
+                }
+            }
+
             System.out.println();
 
             ViewOrderDetailList();
@@ -548,6 +561,11 @@ public class Main {
         order_details[latestOrder_details][6] = Integer
                 .toString(Integer.parseInt(order_details[latestOrder_details][4])
                         - Integer.parseInt(order_details[latestOrder_details][5]));
+
+        // harga beli
+        order_details[latestOrder_details][8] = Integer.toString(Integer
+                .parseInt(order_details[latestOrder_details][3])
+                * Integer.parseInt(items[orderChoice - 1][5]));
 
         // pengurangan stok
         items[orderChoice - 1][2] = Integer.toString(Integer.parseInt(items[orderChoice - 1][2])
@@ -1335,6 +1353,9 @@ public class Main {
                 System.out.println("[" + (i + 1) + "] " + months[i]);
             }
 
+            System.out.println("[" + (months.length + 1) + "] Back");
+
+            System.out.println();
             System.out.print("> Your choice : ");
             int month = sc.nextInt();
             sc.nextLine();
@@ -1368,33 +1389,89 @@ public class Main {
                 System.out.println("[" + (i + 1) + "] " + months[i]);
             }
 
+            System.out.println("[" + (months.length + 1) + "] Back");
+
+            System.out.println();
             System.out.print("> Your choice : ");
             int month = sc.nextInt();
             sc.nextLine();
 
             if (month <= 12) {
 
-                System.out.println("╔══════════════════════════════════════════════╗");
-                System.out.println("║               Days of the Month              ║");
-                System.out.println("╠══════════════════════════════════════════════╣");
+                System.out.println("╔══════════════════════════════════════════════════════════════════════╗");
+                System.out.printf("║                         Days of %-8s %-4d                        ║\n",
+                        Month.of(month).getDisplayName(TextStyle.FULL, Locale.ENGLISH), year);
+                System.out.println("╠══════════════════════════════════════════════════════════════════════╣");
 
                 DateTimeFormatter dayFormat = DateTimeFormatter.ofPattern("dd");
                 LocalDate startDate = LocalDate.of(year, month, 1);
-                int daysInMonth = startDate.lengthOfMonth();
+                LocalDate endDate = startDate.plusMonths(1).minusDays(1);
 
-                for (int i = 0; i < daysInMonth; i++) {
-                    if (i == 0 || i == 7 || i == 14 || i == 21 || i == 28) {
-                        System.out.print("║  ");
+                LocalDate currentDay = startDate;
+                int spaceCount = 0;
+
+                if (currentDay.getDayOfWeek() == DayOfWeek.MONDAY) {
+                    spaceCount = 1;
+                } else if (currentDay.getDayOfWeek() == DayOfWeek.TUESDAY) {
+                    spaceCount = 2;
+                } else if (currentDay.getDayOfWeek() == DayOfWeek.WEDNESDAY) {
+                    spaceCount = 3;
+                } else if (currentDay.getDayOfWeek() == DayOfWeek.THURSDAY) {
+                    spaceCount = 4;
+                } else if (currentDay.getDayOfWeek() == DayOfWeek.FRIDAY) {
+                    spaceCount = 5;
+                } else if (currentDay.getDayOfWeek() == DayOfWeek.SATURDAY) {
+                    spaceCount = 6;
+                }
+
+                if (currentDay.getDayOfWeek() != DayOfWeek.SUNDAY) {
+                    System.out.print("║");
+                }
+
+                while (!currentDay.isAfter(endDate)) {
+                    if (currentDay.getDayOfWeek() == DayOfWeek.SUNDAY) {
+                        System.out.print("║");
                     }
-                    LocalDate day = startDate.plusDays(i);
-                    System.out.format("║ %2d ║", Integer.parseInt(dayFormat.format(day)));
-                    if ((i + 1) % 7 == 0) {
-                        System.out.println("  ║");
+                    System.out.printf("  %-2s %-2d  ",
+                            currentDay.getDayOfWeek().getDisplayName(TextStyle.SHORT, Locale.getDefault()),
+                            Integer.parseInt(dayFormat.format(currentDay)));
+
+                    if (currentDay.getDayOfWeek() == DayOfWeek.SATURDAY) {
+                        while (spaceCount != 0) {
+                            System.out.print("          ");
+                            spaceCount--;
+                        }
+                        System.out.println("║");
                     }
+                    currentDay = currentDay.plusDays(1);
+                }
+
+                if (currentDay.isAfter(endDate)) {
+
+                    if (currentDay.getDayOfWeek() == DayOfWeek.SUNDAY) {
+                        spaceCount = 6;
+                    } else if (currentDay.getDayOfWeek() == DayOfWeek.MONDAY) {
+                        spaceCount = 5;
+                    } else if (currentDay.getDayOfWeek() == DayOfWeek.TUESDAY) {
+                        spaceCount = 4;
+                    } else if (currentDay.getDayOfWeek() == DayOfWeek.WEDNESDAY) {
+                        spaceCount = 3;
+                    } else if (currentDay.getDayOfWeek() == DayOfWeek.THURSDAY) {
+                        spaceCount = 2;
+                    } else if (currentDay.getDayOfWeek() == DayOfWeek.FRIDAY) {
+                        spaceCount = 1;
+                    }
+
+                    while (spaceCount != 0) {
+                        System.out.print("            ");
+                        spaceCount--;
+                    }
+
+                    System.out.print("║");
                 }
 
                 System.out.println();
-                System.out.println("╚══════════════════════════════════════════════╝");
+                System.out.println("╚══════════════════════════════════════════════════════════════════════╝");
 
                 System.out.println();
                 System.out.print("> Your choice : ");
@@ -1502,42 +1579,353 @@ public class Main {
     }
 
     // * Profit Report Feature
-    static void ViewProfitReport() {
-        System.out.println();
-        System.out.println("╔══════════════════════════════════════╗");
-        System.out.println("║         Laporan Pendapatan           ║");
-        System.out.println("╚══════════════════════════════════════╝");
-        System.out.println("[1] Laporan pendapatan per tanggal");
-        System.out.println("[2] Laporan pendapatan all time");
-        System.out.print("Your choice : ");
-        int reportChoice = sc.nextInt();
-        sc.nextLine();
+    static void ViewProfitReport(int day, int month, int year, String type) {
 
-        switch (reportChoice) {
-            case 1:
-                System.out.print("Masukkan tanggal: ");
-                String date = sc.nextLine();
-                System.out.println("Laporan pendapatan per tanggal: " + date);
-                System.out.println();
-                break;
-            case 2:
-                System.out.println("Laporan pendapatan all time: ");
-                System.out.println();
-                double totalIncome = -100000;
-                for (int i = 0; i < orders.length; i++) {
-                    if (orders[i][0] != null) {
-                        totalIncome += Double.parseDouble(orders[i][5]) - Double.parseDouble(orders[i][6]);
+        double totalPenjualan = 0, totalDiskon = 0, totalDiskonMember = 0, totalPembelian = 0, totalKeuntungan,
+                totalKerugian;
+
+        for (int i = 0; i < orders.length; i++) {
+            if (orders[i][0] != null && orders[i][7].equals("Completed")) {
+                if (type.equals("all time")) {
+                    totalPenjualan += Integer.parseInt(orders[i][2]);
+                    totalDiskon += Integer.parseInt(orders[i][3]);
+                    totalDiskonMember += Integer.parseInt(orders[i][10]);
+                    totalPembelian += Integer.parseInt(orders[i][15]);
+                } else if (type.equals("year")) {
+                    if (LocalDate.parse(orders[i][14], dateFormat).getYear() == year) {
+                        totalPenjualan += Integer.parseInt(orders[i][2]);
+                        totalDiskon += Integer.parseInt(orders[i][3]);
+                        totalDiskonMember += Integer.parseInt(orders[i][10]);
+                        totalPembelian += Integer.parseInt(orders[i][15]);
+                    }
+                } else if (type.equals("month")) {
+                    if ((LocalDate.parse(orders[i][14], dateFormat).getYear() == year)
+                            && (LocalDate.parse(orders[i][14], dateFormat).getMonthValue() == month)) {
+                        totalPenjualan += Integer.parseInt(orders[i][2]);
+                        totalDiskon += Integer.parseInt(orders[i][3]);
+                        totalDiskonMember += Integer.parseInt(orders[i][10]);
+                        totalPembelian += Integer.parseInt(orders[i][15]);
+                    }
+                } else {
+                    if ((LocalDate.parse(orders[i][14], dateFormat).getYear() == year)
+                            && (LocalDate.parse(orders[i][14], dateFormat).getMonthValue() == month)
+                            && (LocalDate.parse(orders[i][14], dateFormat).getDayOfMonth() == day)) {
+                        totalPenjualan += Integer.parseInt(orders[i][2]);
+                        totalDiskon += Integer.parseInt(orders[i][3]);
+                        totalDiskonMember += Integer.parseInt(orders[i][10]);
+                        totalPembelian += Integer.parseInt(orders[i][15]);
                     }
                 }
-                System.out.println("Total Pendapatan: " + totalIncome);
-                System.out.println("=========================");
-                System.out.println();
+            }
+        }
+
+        totalKerugian = totalDiskon + totalDiskonMember + totalPembelian;
+        totalKeuntungan = totalPenjualan - totalKerugian;
+
+        System.out.println(
+                "╔══════════════════════════════════════════════════════════════════════════════════════════╗");
+        System.out.println(
+                "║                                                                                          ║");
+
+        if (type.equals("all time")) {
+            System.out.println(
+                    "║        Profit Report                                                      All Time       ║");
+
+        } else if (type.equals("year")) {
+            System.out.printf(
+                    "║        Profit Report                                                          %4d       ║\n",
+                    year);
+
+        } else if (type.equals("month")) {
+            String monthName = Month.of(month).getDisplayName(TextStyle.FULL, Locale.ENGLISH);
+            System.out.printf(
+                    "║        Profit Report                                                 %8s %4d       ║\n",
+                    monthName, year);
+
+        } else {
+            String monthName = Month.of(month).getDisplayName(TextStyle.FULL, Locale.ENGLISH);
+            System.out.printf(
+                    "║        Profit Report                                              %2d %8s %4d       ║\n",
+                    day, monthName, year);
+
+        }
+
+        System.out.println(
+                "║                                                                                          ║");
+        System.out.println(
+                "╠══════════════════════════════════════════════════════════════════════════════════════════╣");
+        System.out.println(
+                "║        Pendapatan :                                                                      ║");
+        System.out.printf(
+                "║              Penjualan                %44s       ║\n", totalPenjualan);
+        System.out.println(
+                "║                                                                                          ║");
+
+        System.out.println(
+                "║        Beban      :                                                                      ║");
+        System.out.printf(
+                "║              Harga Pokok Pembelian    %-44s       ║\n", totalPembelian);
+        System.out.printf(
+                "║              Beban Diskon             %-44s       ║\n", totalDiskon);
+        System.out.printf(
+                "║              Beban Diskon Membership  %-44s       ║\n", totalPembelian);
+        System.out.printf(
+                "║                                       %44s       ║\n", totalKerugian);
+        System.out.println(
+                "║        ---------------------------------------------------------------------------       ║");
+        System.out.println(
+                "║                                                                                          ║");
+        System.out.printf(
+                "║        TOTAL KEUNTUNGAN               %44s       ║\n", totalKeuntungan);
+        System.out.println(
+                "╚══════════════════════════════════════════════════════════════════════════════════════════╝");
+    }
+
+    static void ProfitReportByAllTime() {
+        ViewProfitReport(0, 0, 0, "all time");
+    }
+
+    static void ProfitReportByMonth(int year) {
+        String[] months = {
+                "January", "February", "March", "April", "May", "June",
+                "July", "August", "September", "October", "November", "December"
+        };
+
+        while (true) {
+            System.out.println();
+            System.out.println("╔══════════════════════════════════════╗");
+            System.out.println("║         Laporan Pendapatan           ║");
+            System.out.println("╚══════════════════════════════════════╝");
+            for (int i = 0; i < months.length; i++) {
+                System.out.println("[" + (i + 1) + "] " + months[i]);
+            }
+
+            System.out.println("[" + (months.length + 1) + "] Back");
+
+            System.out.println();
+            System.out.print("> Your choice : ");
+            int month = sc.nextInt();
+            sc.nextLine();
+
+            if (month <= 12) {
+                ViewProfitReport(0, month, year, "month");
                 break;
 
-            default:
-                System.out.println("Invalid choice!");
-                System.out.println("Please try again!");
+            } else if (month == months.length) {
                 break;
+
+            } else {
+                System.out.println("Invalid choice!");
+                continue;
+            }
+        }
+    }
+
+    static void ProfitReportByDay(int year) {
+        String[] months = {
+                "January", "February", "March", "April", "May", "June",
+                "July", "August", "September", "October", "November", "December"
+        };
+
+        while (true) {
+            System.out.println();
+            System.out.println("╔══════════════════════════════════════╗");
+            System.out.println("║         Laporan Pendapatan           ║");
+            System.out.println("╚══════════════════════════════════════╝");
+            for (int i = 0; i < months.length; i++) {
+                System.out.println("[" + (i + 1) + "] " + months[i]);
+            }
+
+            System.out.println("[" + (months.length + 1) + "] Back");
+
+            System.out.println();
+            System.out.print("> Your choice : ");
+            int month = sc.nextInt();
+            sc.nextLine();
+
+            if (month <= 12) {
+
+                System.out.println("╔══════════════════════════════════════════════════════════════════════╗");
+                System.out.printf("║                         Days of %-8s %-4d                        ║\n",
+                        Month.of(month).getDisplayName(TextStyle.FULL, Locale.ENGLISH), year);
+                System.out.println("╠══════════════════════════════════════════════════════════════════════╣");
+
+                DateTimeFormatter dayFormat = DateTimeFormatter.ofPattern("dd");
+                LocalDate startDate = LocalDate.of(year, month, 1);
+                LocalDate endDate = startDate.plusMonths(1).minusDays(1);
+
+                LocalDate currentDay = startDate;
+                int spaceCount = 0;
+
+                if (currentDay.getDayOfWeek() == DayOfWeek.MONDAY) {
+                    spaceCount = 1;
+                } else if (currentDay.getDayOfWeek() == DayOfWeek.TUESDAY) {
+                    spaceCount = 2;
+                } else if (currentDay.getDayOfWeek() == DayOfWeek.WEDNESDAY) {
+                    spaceCount = 3;
+                } else if (currentDay.getDayOfWeek() == DayOfWeek.THURSDAY) {
+                    spaceCount = 4;
+                } else if (currentDay.getDayOfWeek() == DayOfWeek.FRIDAY) {
+                    spaceCount = 5;
+                } else if (currentDay.getDayOfWeek() == DayOfWeek.SATURDAY) {
+                    spaceCount = 6;
+                }
+
+                if (currentDay.getDayOfWeek() != DayOfWeek.SUNDAY) {
+                    System.out.print("║");
+                }
+
+                while (!currentDay.isAfter(endDate)) {
+                    if (currentDay.getDayOfWeek() == DayOfWeek.SUNDAY) {
+                        System.out.print("║");
+                    }
+                    System.out.printf("  %-2s %-2d  ",
+                            currentDay.getDayOfWeek().getDisplayName(TextStyle.SHORT, Locale.getDefault()),
+                            Integer.parseInt(dayFormat.format(currentDay)));
+
+                    if (currentDay.getDayOfWeek() == DayOfWeek.SATURDAY) {
+                        while (spaceCount != 0) {
+                            System.out.print("          ");
+                            spaceCount--;
+                        }
+                        System.out.println("║");
+                    }
+                    currentDay = currentDay.plusDays(1);
+                }
+
+                if (currentDay.isAfter(endDate)) {
+
+                    if (currentDay.getDayOfWeek() == DayOfWeek.SUNDAY) {
+                        spaceCount = 6;
+                    } else if (currentDay.getDayOfWeek() == DayOfWeek.MONDAY) {
+                        spaceCount = 5;
+                    } else if (currentDay.getDayOfWeek() == DayOfWeek.TUESDAY) {
+                        spaceCount = 4;
+                    } else if (currentDay.getDayOfWeek() == DayOfWeek.WEDNESDAY) {
+                        spaceCount = 3;
+                    } else if (currentDay.getDayOfWeek() == DayOfWeek.THURSDAY) {
+                        spaceCount = 2;
+                    } else if (currentDay.getDayOfWeek() == DayOfWeek.FRIDAY) {
+                        spaceCount = 1;
+                    }
+
+                    while (spaceCount != 0) {
+                        System.out.print("            ");
+                        spaceCount--;
+                    }
+
+                    System.out.print("║");
+                }
+
+                System.out.println();
+                System.out.println("╚══════════════════════════════════════════════════════════════════════╝");
+
+                System.out.println();
+                System.out.print("> Your choice : ");
+
+                int day = sc.nextInt();
+                sc.nextLine();
+
+                ViewProfitReport(day, month, year, "day");
+                break;
+
+            } else if (month == months.length) {
+                break;
+
+            } else {
+                System.out.println("Invalid choice!");
+                continue;
+            }
+        }
+    }
+
+    static void ProfitReport(int year) {
+
+        while (true) {
+            System.out.println();
+            System.out.println("╔══════════════════════════════════════╗");
+            System.out.println("║         Laporan Pendapatan           ║");
+            System.out.println("╚══════════════════════════════════════╝");
+
+            System.out.println("[1] This year");
+            System.out.println("[2] By month");
+            System.out.println("[3] By day");
+            System.out.println("[4] Back");
+
+            System.out.println();
+            System.out.print("> Your choice : ");
+            int choice = sc.nextInt();
+            sc.nextLine();
+
+            switch (choice) {
+                case 1:
+                    ViewProfitReport(0, 0, year, "year");
+                    break;
+
+                case 2:
+                    ProfitReportByMonth(year);
+                    break;
+
+                case 3:
+                    ProfitReportByDay(year);
+                    break;
+
+                case 4:
+                    break;
+
+                default:
+                    System.out.println("Invalid choice!");
+                    continue;
+            }
+
+            break;
+        }
+    }
+
+    static void PickReportYear() {
+        while (true) {
+            System.out.println();
+            System.out.println("╔══════════════════════════════════════╗");
+            System.out.println("║         Laporan Pendapatan           ║");
+            System.out.println("╚══════════════════════════════════════╝");
+
+            Set<Integer> uniqueYears = new HashSet<>();
+
+            for (int i = 0; i < orders.length; i++) {
+                if (orders[i][0] != null) {
+                    LocalDate date = LocalDate.parse(orders[i][14], dateFormat);
+                    int year = date.getYear();
+                    uniqueYears.add(year);
+                }
+            }
+
+            int uniqueYearsArray[] = uniqueYears.stream().mapToInt(Integer::intValue).toArray();
+
+            for (int i = 0; i < uniqueYears.size(); i++) {
+                System.out.println("[" + (i + 1) + "] " + uniqueYearsArray[i]);
+            }
+
+            System.out.println("[" + (uniqueYearsArray.length + 1) + "] All time");
+            System.out.println("[" + (uniqueYearsArray.length + 2) + "] Back");
+            System.out.print("Your choice : ");
+            int choice = sc.nextInt() - 1;
+            sc.nextLine();
+
+            if (choice < uniqueYearsArray.length) {
+                ProfitReport(uniqueYearsArray[choice]);
+                break;
+
+            } else if (choice == uniqueYearsArray.length) {
+                ProfitReportByAllTime();
+                break;
+
+            } else if (choice == uniqueYearsArray.length + 1) {
+                break;
+
+            } else {
+                System.out.println("Invalid choice!");
+                continue;
+            }
         }
     }
 
@@ -1791,7 +2179,7 @@ public class Main {
 
                 case 6:
 
-                    ViewProfitReport();
+                    PickReportYear();
                     break;
 
                 case 7:
