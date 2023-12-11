@@ -1021,44 +1021,82 @@ public class Main {
     // * Manage Stock Feature
     static void ManageStock() {
         stocking = true;
+        boolean exit = false;
 
-        while (stocking == true) {
+        while (stocking) {
             System.out.println();
             System.out.println("╔══════════════════════════════════════════════╗");
-            System.out.println("║              Cafe the orange stok            ║");
+            System.out.println("║              Cafe the Orange Stock           ║");
             System.out.println("╚══════════════════════════════════════════════╝");
-            for (int i = 0; i < items.length; i++) {
-                if (items[i][0] != null) {
-                    System.out.println(
-                            "[" + (i + 1) + "] " + " tambah stok " + items[i][0] + " (" + items[i][2]
-                                    + ")");
-                }
+
+            // Menambahkan pilihan menu
+            System.out.println("1. Tambah Stok");
+            System.out.println("2. Kurangi Stok");
+            System.out.println("3. Keluar");
+
+            System.out.print("Pilihan: ");
+            int menuChoice = sc.nextInt();
+
+            switch (menuChoice) {
+                case 1:
+                    exit = false;
+                    do {
+                        ViewItemList();
+                        System.out.println("[" + (items.length + 1) + "] kembali");
+                        // Capture user's choice for stock update
+                        System.out.print("Pilih item untuk tambah stok: ");
+                        int stockChoice = sc.nextInt();
+
+                        // Validate user choice and update stock
+                        if (stockChoice == items.length + 1) {
+                            exit = true;
+                        } else {
+                            // Validate user choice and update stock
+                            if (stockChoice > 0 && stockChoice <= items.length && items[stockChoice - 1][0] != null) {
+                                System.out.print("Tambah stok " + items[stockChoice - 1][0] + " : ");
+                                int jumlahMasuk = sc.nextInt();
+                                items[stockChoice - 1][2] = Integer
+                                        .toString(Integer.parseInt(items[stockChoice - 1][2]) + jumlahMasuk);
+                            } else {
+                                System.out.println("Pilihan tidak valid atau item tidak tersedia!");
+                            }
+                        }
+                    } while (!exit);
+                    break;
+
+                case 2:
+                    exit = false;
+                    do {
+                        ViewItemList();
+                        System.out.println("[" + (items.length + 1) + "] kembali");
+                        // Capture user's choice for stock update
+                        System.out.print("Pilih item untuk mengurangi stok: ");
+                        int stockChoice = sc.nextInt();
+
+                        // Check if user wants to exit
+                        if (stockChoice == items.length + 1) {
+                            exit = true;
+                        } else {
+                            // Validate user choice and update stock
+                            if (stockChoice > 0 && stockChoice <= items.length && items[stockChoice - 1][0] != null) {
+                                System.out.print("kurangi stok " + items[stockChoice - 1][0] + " : ");
+                                int jumlahMasuk = sc.nextInt();
+                                items[stockChoice - 1][2] = Integer
+                                        .toString(Integer.parseInt(items[stockChoice - 1][2]) - jumlahMasuk);
+                            } else {
+                                System.out.println("Pilihan tidak valid atau item tidak tersedia!");
+                            }
+                        }
+                    } while (!exit);
+                    break;
+
+                case 3:
+                    System.out.println("Keluar manajemen stok!");
+                    stocking = false;
+                    break;
+                default:
+                    System.out.println("Pilihan tidak valid. Silahkan coba lagi.");
             }
-
-            System.out.println("[" + items.length + "] to exit\n");
-
-            System.out.print("Pilihan : ");
-
-            stockChoice = sc.nextInt();
-
-            System.out.println();
-
-            if (items[stockChoice - 1][0] != null) {
-                System.out.print("Tambah stok " + items[stockChoice - 1][0] + " : ");
-                jumlahMasuk = sc.nextInt();
-                items[stockChoice - 1][2] = Integer
-                        .toString(Integer.parseInt(items[stockChoice - 1][2]) + jumlahMasuk);
-            } else if (stockChoice == items.length) {
-                System.out.println("Thank you!");
-                stocking = false;
-                break;
-            } else {
-                System.out.println("Item tersebut tidak tersedia!");
-                System.out.println("Silahkan coba lagi");
-                continue;
-            }
-
-            continue;
         }
     }
 
