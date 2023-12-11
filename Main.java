@@ -81,7 +81,7 @@ public class Main {
         orders[0][4] = "180000"; // total
         orders[0][5] = "180000"; // jumlah pembayaran
         orders[0][6] = "0"; // jumlah kembalian
-        orders[0][7] = "Completed"; // status pembayaran
+        orders[0][7] = "completed"; // status pembayaran
         orders[0][8] = "member"; // status membership
         orders[0][9] = "10"; // diskon membership
         orders[0][10] = "10000"; // total diskon membership
@@ -701,6 +701,7 @@ public class Main {
                     orders[latestOrders][11] = "cash";
                     if (PaymentReceipt() == 200) {
                         System.out.println("Transaction Successful! \n");
+                        orders[latestOrders][7] = "completed";
                         break;
 
                     } else if (PaymentReceipt() == 401) {
@@ -717,6 +718,7 @@ public class Main {
                     orders[latestOrders][11] = "card";
                     if (PaymentReceipt() == 200) {
                         System.out.println("Transaction Successful! \n");
+                        orders[latestOrders][7] = "completed";
                         break;
 
                     } else if (PaymentReceipt() == 401) {
@@ -2155,7 +2157,7 @@ public class Main {
             System.out.println("╚════════════════════════════════════════════════╝");
             System.out.println("[1] Buat Pesanan");
             System.out.println("[2] Lihat Riwayat Penjualan");
-            if (users[user_id][2].equals("manager")) {
+            if (users[user_id][2].equals("manager") || users[user_id][2].equals("admin")) {
                 System.out.println("[3] Lihat Laporan Pendapatan");
                 System.out.println("[4] Manajemen Item Menu");
                 System.out.println("[5] Manajemen Stok");
@@ -2180,25 +2182,25 @@ public class Main {
                     break;
 
                 case 3:
-                    if (CheckLevel("manager")) {
+                    if (CheckLevel("manager") || CheckLevel("admin")) {
                         PickReportYear();
                     }
                     break;
 
                 case 4:
-                    if (CheckLevel("manager")) {
+                    if (CheckLevel("manager") || CheckLevel("admin")) {
                         ManageItems();
                     }
                     break;
 
                 case 5:
-                    if (CheckLevel("manager")) {
+                    if (CheckLevel("manager") || CheckLevel("admin")) {
                         ManageStock();
                     }
                     break;
 
                 case 6:
-                    if (CheckLevel("manager")) {
+                    if (CheckLevel("manager") || CheckLevel("admin")) {
                         manageDiscount();
                     }
                     break;
