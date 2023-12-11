@@ -68,10 +68,10 @@ public class Main {
         users[0][2] = "admin";
         users[1][0] = "irsyad";
         users[1][1] = "456";
-        users[1][2] = "admin";
+        users[1][2] = "manager";
         users[2][0] = "esa";
         users[2][1] = "789";
-        users[2][2] = "admin";
+        users[2][2] = "kasir";
 
         orders = new String[20][16];
         orders[0][0] = "Adi"; // nama pemesan
@@ -2131,6 +2131,16 @@ public class Main {
         System.out.println("Logout successful!");
     }
 
+    static boolean CheckLevel(String level) {
+        if (users[user_id][2].equals(level)) {
+            return true;
+        } else {
+            System.out.println("Invalid choice!");
+            return false;
+        }
+
+    }
+
     public static void main(String[] args) {
 
         Init();
@@ -2144,13 +2154,17 @@ public class Main {
             System.out.println("║       Selamat Datang di Cafe The Orange!       ║");
             System.out.println("╚════════════════════════════════════════════════╝");
             System.out.println("[1] Buat Pesanan");
-            System.out.println("[2] Manajemen Item Menu");
-            System.out.println("[3] Manajemen Stok");
-            System.out.println("[4] Manajemen Diskon");
-            System.out.println("[5] Lihat Riwayat Penjualan");
-            System.out.println("[6] Lihat Laporan Pendapatan");
-            System.out.println("[7] Manajemen User");
-            System.out.println("[8] Logout");
+            System.out.println("[2] Lihat Riwayat Penjualan");
+            if (users[user_id][2].equals("manager")) {
+                System.out.println("[3] Lihat Laporan Pendapatan");
+                System.out.println("[4] Manajemen Item Menu");
+                System.out.println("[5] Manajemen Stok");
+                System.out.println("[6] Manajemen Diskon");
+            }
+            if (users[user_id][2].equals("admin")) {
+                System.out.println("[7] Manajemen User");
+            }
+            System.out.println("[0] Logout");
             System.out.print("Masukkan pilihan Anda: ");
             mainChoice = sc.nextInt();
             sc.nextLine();
@@ -2162,31 +2176,40 @@ public class Main {
                     continue;
 
                 case 2:
-                    ManageItems();
-                    break;
-
-                case 3:
-                    ManageStock();
-                    break;
-
-                case 4:
-                    manageDiscount();
-                    break;
-
-                case 5:
                     PickHistoryYear();
                     break;
 
-                case 6:
+                case 3:
+                    if (CheckLevel("manager")) {
+                        PickReportYear();
+                    }
+                    break;
 
-                    PickReportYear();
+                case 4:
+                    if (CheckLevel("manager")) {
+                        ManageItems();
+                    }
+                    break;
+
+                case 5:
+                    if (CheckLevel("manager")) {
+                        ManageStock();
+                    }
+                    break;
+
+                case 6:
+                    if (CheckLevel("manager")) {
+                        manageDiscount();
+                    }
                     break;
 
                 case 7:
-                    ManageUsers();
+                    if (CheckLevel("admin")) {
+                        ManageUsers();
+                    }
                     break;
 
-                case 8:
+                case 0:
                     Logout();
                     break;
 
