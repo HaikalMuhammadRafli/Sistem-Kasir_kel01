@@ -1625,7 +1625,7 @@ public class Main {
                 totalKerugian;
 
         for (int i = 0; i < orders.length; i++) {
-            if (orders[i][0] != null && orders[i][7].equals("Completed")) {
+            if (orders[i][0] != null && orders[i][7].equals("completed")) {
                 if (type.equals("all time")) {
                     totalPenjualan += Integer.parseInt(orders[i][2]);
                     totalDiskon += Integer.parseInt(orders[i][3]);
@@ -2091,13 +2091,20 @@ public class Main {
                 users[editUserChoice][1] = temp;
             }
 
-            System.out.print("Input new role (" + users[editUserChoice][0] + ") : ");
-            temp = sc.nextLine();
-            if (!temp.equals("-") && (temp.equals("kasir") || temp.equals("manajer") || temp.equals("admin"))) {
-                users[editUserChoice][2] = temp;
+            while (true) {
+                System.out.print("Input new role (" + users[editUserChoice][2] + ") : ");
+                temp = sc.nextLine();
+                if (!temp.equals("-") && (temp.equals("kasir") || temp.equals("manajer") || temp.equals("admin"))) {
+                    users[editUserChoice][2] = temp;
+                    break;
+
+                } else {
+                    System.out.println("Invalid role!");
+                    continue;
+                }
             }
 
-            System.out.println("Item has been successfully edited!");
+            System.out.println("User has been successfully edited!");
         }
     }
 
