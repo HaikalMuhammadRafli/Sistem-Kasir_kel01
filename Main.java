@@ -2052,10 +2052,10 @@ public class Main {
         System.out.print("Insert Password : ");
         users[latestUsers][1] = sc.nextLine();
 
-        System.out.print("Insert Role : ");
-        String inputRole = sc.nextLine();
-
         while (true) {
+            System.out.print("Insert Role : ");
+            String inputRole = sc.nextLine();
+
             if (inputRole.equals("kasir") || inputRole.equals("manajer") || inputRole.equals("admin")) {
                 users[latestUsers][2] = inputRole;
                 break;
@@ -2227,25 +2227,25 @@ public class Main {
                     break;
 
                 case 3:
-                    if (CheckLevel("manager") || CheckLevel("admin")) {
+                    if (CheckLevel("manajer") || CheckLevel("admin")) {
                         PickReportYear();
                     }
                     break;
 
                 case 4:
-                    if (CheckLevel("manager") || CheckLevel("admin")) {
+                    if (CheckLevel("manajer") || CheckLevel("admin")) {
                         ManageItems();
                     }
                     break;
 
                 case 5:
-                    if (CheckLevel("manager") || CheckLevel("admin")) {
+                    if (CheckLevel("manajer") || CheckLevel("admin")) {
                         ManageStock();
                     }
                     break;
 
                 case 6:
-                    if (CheckLevel("manager") || CheckLevel("admin")) {
+                    if (CheckLevel("manajer") || CheckLevel("admin")) {
                         manageDiscount();
                     }
                     break;
