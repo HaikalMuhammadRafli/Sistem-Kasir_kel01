@@ -564,7 +564,7 @@ public class Main {
 
         // harga beli
         order_details[latestOrder_details][8] = Integer.toString(Integer
-                .parseInt(order_details[latestOrder_details][3])
+                .parseInt(order_details[latestOrder_details][2])
                 * Integer.parseInt(items[orderChoice - 1][5]));
 
         // pengurangan stok
@@ -1621,7 +1621,7 @@ public class Main {
     // * Profit Report Feature
     static void ViewProfitReport(int day, int month, int year, String type) {
 
-        double totalPenjualan = 0, totalDiskon = 0, totalDiskonMember = 0, totalPembelian = 0, totalKeuntungan,
+        int totalPenjualan = 0, totalDiskon = 0, totalDiskonMember = 0, totalPembelian = 0, totalKeuntungan,
                 totalKerugian;
 
         for (int i = 0; i < orders.length; i++) {
@@ -1708,7 +1708,7 @@ public class Main {
         System.out.printf(
                 "║              Beban Diskon             %-44s       ║\n", totalDiskon);
         System.out.printf(
-                "║              Beban Diskon Membership  %-44s       ║\n", totalPembelian);
+                "║              Beban Diskon Membership  %-44s       ║\n", totalDiskonMember);
         System.out.printf(
                 "║                                       %44s       ║\n", totalKerugian);
         System.out.println(
