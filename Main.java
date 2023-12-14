@@ -105,7 +105,6 @@ public class Main {
         orders[0][14] = "12-12-2023"; // created_at
         orders[0][15] = "150000"; // harga beli stock total
 
-        orders = new String[20][16];
         orders[1][0] = "YA"; // nama pemesan
         orders[1][1] = "Irsyad"; // nama kasir
         orders[1][2] = "200000"; // subtotal
