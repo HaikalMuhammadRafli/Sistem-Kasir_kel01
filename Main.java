@@ -13,9 +13,16 @@ import java.util.Set;
  */
 public class Main {
 
-    // Declarations
+    // declarations
     static Scanner sc = new Scanner(System.in);
     static DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+
+    // color variables
+    static String RESET = "\u001B[37m";
+    static String RED = "\u001B[31m";
+    static String GREEN = "\u001B[32m";
+    static String BLUE = "\u001B[34m";
+    static String YELLOW = "\u001B[33m";
 
     // array and variables for items
     static int latestItems = 0;
@@ -39,6 +46,9 @@ public class Main {
     // array and variables for membership
     static String noMembership[][];
 
+    // array for language
+    static String language[][] = { {}, };
+
     // other variables
     static boolean session = true, access = false, ordering, stocking, memberValid, paying, managingItem;
     static String inputUsername, inputPassword, inputUsernameHistory;
@@ -47,6 +57,7 @@ public class Main {
     static String memberName = " ";
 
     static void Init() {
+        // items dummy data
         items = new String[20][6];
         items[0][0] = "Ayam Bakar"; // nama item
         items[0][1] = "15000"; // harga
@@ -55,6 +66,7 @@ public class Main {
         items[0][4] = "Makanan"; // tipe
         items[0][5] = "12000"; // harga beli
 
+        // items dummy data
         items[1][0] = "Es teh"; // nama item
         items[1][1] = "3000"; // harga
         items[1][2] = "50"; // stok
@@ -62,6 +74,7 @@ public class Main {
         items[1][4] = "Minuman"; // tipe
         items[1][5] = "1000"; // harga beli
 
+        // users dummy data
         users = new String[20][3];
         users[0][0] = "haikal";
         users[0][1] = "123";
@@ -73,6 +86,7 @@ public class Main {
         users[2][1] = "789";
         users[2][2] = "kasir";
 
+        // orders dummy data
         orders = new String[20][16];
         orders[0][0] = "Adi"; // nama pemesan
         orders[0][1] = "Irsyad"; // nama kasir
@@ -91,6 +105,25 @@ public class Main {
         orders[0][14] = "12-12-2023"; // created_at
         orders[0][15] = "150000"; // harga beli stock total
 
+        orders = new String[20][16];
+        orders[1][0] = "YA"; // nama pemesan
+        orders[1][1] = "Irsyad"; // nama kasir
+        orders[1][2] = "200000"; // subtotal
+        orders[1][3] = "20000"; // total diskon
+        orders[1][4] = "180000"; // total
+        orders[1][5] = "180000"; // jumlah pembayaran
+        orders[1][6] = "0"; // jumlah kembalian
+        orders[1][7] = "completed"; // status pembayaran
+        orders[1][8] = "member"; // status membership
+        orders[1][9] = "10"; // diskon membership
+        orders[1][10] = "10000"; // total diskon membership
+        orders[1][11] = "cash"; // metode pembayaran
+        orders[1][12] = "234172000"; // nomer rekening
+        orders[1][13] = "BCA"; // bank
+        orders[1][14] = "12-12-2022"; // created_at
+        orders[1][15] = "150000"; // harga beli stock total
+
+        // order_detail dummy data
         order_details = new String[100][9];
         order_details[0][0] = "0"; // id
         order_details[0][1] = "Ayam Bakar"; // nama item
@@ -102,6 +135,7 @@ public class Main {
         order_details[0][7] = "10"; // diskon item
         order_details[0][8] = "150000"; // harga beli stock
 
+        // membership dummy data
         noMembership = new String[100][2];
         noMembership[0][0] = "234172"; // id
         noMembership[0][1] = "Irsyad"; // nama
@@ -1046,7 +1080,6 @@ public class Main {
                         // Capture user's choice for stock update
                         System.out.print("Pilih item untuk tambah stok: ");
                         int stockChoice = sc.nextInt();
-
                         // Validate user choice and update stock
                         if (stockChoice == items.length + 1) {
                             exit = true;
@@ -2052,10 +2085,10 @@ public class Main {
         System.out.print("Insert Password : ");
         users[latestUsers][1] = sc.nextLine();
 
-        System.out.print("Insert Role : ");
-        String inputRole = sc.nextLine();
-
         while (true) {
+            System.out.print("Insert Role : ");
+            String inputRole = sc.nextLine();
+
             if (inputRole.equals("kasir") || inputRole.equals("manajer") || inputRole.equals("admin")) {
                 users[latestUsers][2] = inputRole;
                 break;
@@ -2136,12 +2169,78 @@ public class Main {
         }
     }
 
+    // * Swtich Language
+    static void SwitchLanguage() {
+        //
+    }
+
     // * Exit Program
     static void ExitProgram() {
         System.out.println("Thank you for using this program!");
         System.out.println("Goodbye ^-^");
         session = false;
         sc.close();
+    }
+
+    static void Start() {
+
+        while (true) {
+            System.out.println(
+                    "╔╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╗");
+            System.out.println(
+                    "╠╬╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╬╣");
+            System.out.println(
+                    "╠╣   ███████╗ █████╗ ███████╗██╗  ██╗██╗███████╗██████╗     ███████╗██╗   ██╗███████╗████████╗███████╗███╗   ███╗  ╠╣");
+            System.out.println(
+                    "╠╣   ██╔════╝██╔══██╗██╔════╝██║  ██║██║██╔════╝██╔══██╗    ██╔════╝╚██╗ ██╔╝██╔════╝╚══██╔══╝██╔════╝████╗ ████║  ╠╣");
+            System.out.println(
+                    "╠╣   ██║     ███████║███████╗███████║██║█████╗  ██████╔╝    ███████╗ ╚████╔╝ ███████╗   ██║   █████╗  ██╔████╔██║  ╠╣");
+            System.out.println(
+                    "╠╣   ██║     ██╔══██║╚════██║██╔══██║██║██╔══╝  ██╔══██╗    ╚════██║  ╚██╔╝  ╚════██║   ██║   ██╔══╝  ██║╚██╔╝██║  ╠╣");
+            System.out.println(
+                    "╠╣   ╚██████╗██║  ██║███████║██║  ██║██║███████╗██║  ██║    ███████║   ██║   ███████║   ██║   ███████╗██║ ╚═╝ ██║  ╠╣");
+            System.out.println(
+                    "╠╣    ╚═════╝╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝╚═╝╚══════╝╚═╝  ╚═╝    ╚══════╝   ╚═╝   ╚══════╝   ╚═╝   ╚══════╝╚═╝     ╚═╝  ╠╣");
+            System.out.println(
+                    "╠╬╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╬╣");
+            System.out.println(
+                    "╚╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╝");
+            System.out.println("[1] Login");
+            System.out.println("[2] Change language");
+            System.out.println("[2] Exit program");
+            System.out.print("> Your choice : ");
+            int choice = sc.nextInt();
+            sc.nextLine();
+
+            switch (choice) {
+                case 1:
+                    Login();
+                    break;
+
+                case 2:
+                    SwitchLanguage();
+                    continue;
+
+                case 3:
+                    ExitProgram();
+                    break;
+
+                default:
+                    System.out.println("Invalid choice!");
+                    break;
+            }
+
+            break;
+        }
+    }
+
+    private static String CenterString(int width, String s) {
+        int padSize = (width - s.length()) / 2;
+        return String.format("%" + padSize + "s%s%" + (padSize + (width - s.length()) % 2) + "s", "", s, "");
+    }
+
+    private static String PadString(int width, String s) {
+        return String.format("%-" + width + "s", s);
     }
 
     // * login
@@ -2188,13 +2287,19 @@ public class Main {
 
     }
 
+    static String CenterString() {
+        return "s";
+    }
+
     public static void main(String[] args) {
 
         Init();
 
         while (session) {
 
-            Login();
+            if (!access) {
+                Start();
+            }
 
             // menu
             System.out.println("╔════════════════════════════════════════════════╗");
@@ -2227,25 +2332,25 @@ public class Main {
                     break;
 
                 case 3:
-                    if (CheckLevel("manager") || CheckLevel("admin")) {
+                    if (CheckLevel("manajer") || CheckLevel("admin")) {
                         PickReportYear();
                     }
                     break;
 
                 case 4:
-                    if (CheckLevel("manager") || CheckLevel("admin")) {
+                    if (CheckLevel("manajer") || CheckLevel("admin")) {
                         ManageItems();
                     }
                     break;
 
                 case 5:
-                    if (CheckLevel("manager") || CheckLevel("admin")) {
+                    if (CheckLevel("manajer") || CheckLevel("admin")) {
                         ManageStock();
                     }
                     break;
 
                 case 6:
-                    if (CheckLevel("manager") || CheckLevel("admin")) {
+                    if (CheckLevel("manajer") || CheckLevel("admin")) {
                         manageDiscount();
                     }
                     break;
