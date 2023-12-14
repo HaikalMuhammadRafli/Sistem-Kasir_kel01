@@ -460,7 +460,7 @@ public class Main {
 
     static void CreateOrder() {
         // mencari baris yang kosong di orders
-        if (!orders[latestOrders][5].equals("0")) {
+        if (!(orders[latestOrders][5] == null || orders[latestOrders][5].equals("0"))) {
             GetLatestOrders();
         }
 
