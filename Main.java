@@ -17,7 +17,8 @@ public class Main {
     static Scanner sc = new Scanner(System.in);
     static DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
-    // color variables
+    // additional variables
+    static String clearScreen = "\u001b[H\u001b[2J";
     static String RESET = "\u001B[37m";
     static String RED = "\u001B[31m";
     static String GREEN = "\u001B[32m";
@@ -477,6 +478,7 @@ public class Main {
 
             // mencari baris yang kosong di detail order
             GetLatestOrderDetails();
+            System.out.println(clearScreen);
 
             System.out.println("╔═════════════════════════════════════════════════╗");
             System.out.println("║              Cafe The Orange Menu!              ║");
@@ -657,6 +659,7 @@ public class Main {
             if (isMember == 'y' || isMember == 'Y') {
                 System.out.print("Masukkan nomer member : ");
                 String memberNumber = sc.next();
+                System.out.println(clearScreen);
                 boolean memberExists = false;
 
                 // Check if the member number exists in the noMembership array
@@ -681,6 +684,12 @@ public class Main {
             } else {
                 System.out.println("Input invalid!");
                 System.out.println("Please try again!");
+                try {
+                    Thread.sleep(700);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                System.out.println(clearScreen);
                 continue;
             }
 
@@ -701,15 +710,14 @@ public class Main {
             System.out.printf(
                     "║        Member Name    : %-16s                  Status         : %-16s    ║\n",
                     memberName,
-                    "Active Member");
+                    membershipStatus);
             System.out.printf(
                     "║        Member Discount : %-16s                                                      ║\n",
-                    orders[latestOrders][9] + "%");
+                    orders[latestOrders][8].equals("member") ? orders[latestOrders][9] + "%" : "0%");
             System.out.println(
                     "╚════════════════════════════════════════════════════════════════════════════════════════════════╝");
 
             memberValid = true;
-
         }
     }
 
@@ -728,6 +736,7 @@ public class Main {
             System.out.print("Choose your payment method : ");
             paymentChoice = sc.nextInt();
             sc.nextLine();
+            System.out.println(clearScreen);
 
             switch (paymentChoice) {
                 case 1:
@@ -735,12 +744,23 @@ public class Main {
                     if (PaymentReceipt() == 200) {
                         System.out.println("Transaction Successful! \n");
                         orders[latestOrders][7] = "completed";
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        System.out.println(clearScreen);
                         break;
 
                     } else if (PaymentReceipt() == 401) {
                         System.out.println("Uang tidak cukup!");
                         System.out.println("Proses Pembayaran gagal! \n");
-                        System.out.println();
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        System.out.println(clearScreen);
                         continue;
 
                     } else if (PaymentReceipt() == 400) {
@@ -752,16 +772,33 @@ public class Main {
                     if (PaymentReceipt() == 200) {
                         System.out.println("Transaction Successful! \n");
                         orders[latestOrders][7] = "completed";
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        System.out.println(clearScreen);
                         break;
 
                     } else if (PaymentReceipt() == 401) {
                         System.out.println("Uang tidak cukup!");
                         System.out.println("Proses Pembayaran gagal! \n");
-                        System.out.println();
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        System.out.println(clearScreen);
                         continue;
 
                     } else if (PaymentReceipt() == 400) {
                         System.out.println("Transaction cancelled! \n");
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        System.out.println(clearScreen);
                     }
 
                 case 3:
@@ -794,6 +831,12 @@ public class Main {
         }
 
         System.out.println("Ordering has been cancelled!");
+        try {
+            Thread.sleep(700);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println(clearScreen);
     }
 
     // * Manage Item Menu Feature
@@ -812,6 +855,7 @@ public class Main {
             System.out.print("Masukkan pilihan anda : ");
             manageItemChoice = sc.nextInt();
             sc.nextLine();
+            System.out.println(clearScreen);
 
             switch (manageItemChoice) {
                 case 1:
@@ -937,6 +981,12 @@ public class Main {
                     items[latestItems][5] = Integer.toString(sc.nextInt());
 
                     System.out.println("New food has been successfully added!");
+                    try {
+                        Thread.sleep(700);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    System.out.println(clearScreen);
                     break;
 
                 case 2:
@@ -962,6 +1012,12 @@ public class Main {
                     items[latestItems][5] = Integer.toString(sc.nextInt());
 
                     System.out.println("New drink has been successfully added!");
+                    try {
+                        Thread.sleep(700);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    System.out.println(clearScreen);
                     break;
 
                 case 3:
@@ -984,6 +1040,7 @@ public class Main {
         System.out.print("Input the number to edit the item : ");
         int editItemChoice = sc.nextInt() - 1;
         sc.nextLine();
+        System.out.println(clearScreen);
 
         if (editItemChoice < items.length && items[editItemChoice][0] != null) {
             System.out.println("Input (-) to not edit the data!");
@@ -1020,6 +1077,12 @@ public class Main {
             }
 
             System.out.println("Item has been successfully edited!");
+            try {
+                Thread.sleep(700);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            System.out.println(clearScreen);
         }
     }
 
@@ -1030,6 +1093,7 @@ public class Main {
         System.out.print("Input the number to delete the item : ");
         int deleteItemChoice = sc.nextInt() - 1;
         sc.nextLine();
+        System.out.println(clearScreen);
 
         if (deleteItemChoice < items.length && items[deleteItemChoice][0] != null) {
             for (int i = 0; i < items[deleteItemChoice].length; i++) {
@@ -1046,6 +1110,12 @@ public class Main {
             }
 
             System.out.println("Item successfully deleted!");
+            try {
+                Thread.sleep(700);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            System.out.println(clearScreen);
         } else {
             System.out.println("Invalid choice!");
         }
@@ -1069,6 +1139,7 @@ public class Main {
 
             System.out.print("Pilihan: ");
             int menuChoice = sc.nextInt();
+            System.out.println(clearScreen);
 
             switch (menuChoice) {
                 case 1:
@@ -1091,6 +1162,12 @@ public class Main {
                                         .toString(Integer.parseInt(items[stockChoice - 1][2]) + jumlahMasuk);
                             } else {
                                 System.out.println("Pilihan tidak valid atau item tidak tersedia!");
+                                try {
+                                    Thread.sleep(700);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                                System.out.println(clearScreen);
                             }
                         }
                     } while (!exit);
@@ -1117,6 +1194,12 @@ public class Main {
                                         .toString(Integer.parseInt(items[stockChoice - 1][2]) - jumlahMasuk);
                             } else {
                                 System.out.println("Pilihan tidak valid atau item tidak tersedia!");
+                                try {
+                                    Thread.sleep(700);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                                System.out.println(clearScreen);
                             }
                         }
                     } while (!exit);
@@ -1148,6 +1231,7 @@ public class Main {
             System.out.print("Choice: ");
             int choice = sc.nextInt();
             sc.nextLine();
+            System.out.println(clearScreen);
 
             switch (choice) {
                 case 1: // Diskon item
@@ -1165,6 +1249,12 @@ public class Main {
                             items[editDiscountChoice - 1][3] = Integer.toString(newDiscount);
                             System.out.println("Diskon " + items[editDiscountChoice - 1][0] + " diubah menjadi "
                                     + items[editDiscountChoice - 1][3] + "%");
+                            try {
+                                Thread.sleep(700);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                            System.out.println(clearScreen);
                         }
                     }
                     break;
@@ -1175,6 +1265,7 @@ public class Main {
                     System.out.print("Pilihan: ");
                     int memberDiscountChoice = sc.nextInt();
                     sc.nextLine();
+                    System.out.println(clearScreen);
 
                     switch (memberDiscountChoice) {
                         case 1: // Edit Diskon
@@ -1390,6 +1481,7 @@ public class Main {
             System.out.print("> Your choice : ");
             int choice = sc.nextInt();
             sc.nextLine();
+            System.out.println(clearScreen);
 
             if (choice < orders.length && orders[choice - 1][0] != null) {
                 ViewSalesHistoryDetails(choice - 1);
@@ -1400,7 +1492,7 @@ public class Main {
 
             } else {
                 System.out.println("Invalid choice!");
-                continue;
+                break;
             }
         }
     }
@@ -1441,7 +1533,7 @@ public class Main {
 
             } else {
                 System.out.println("Invalid choice!");
-                continue;
+                break;
             }
         }
     }
@@ -1559,7 +1651,7 @@ public class Main {
 
             } else {
                 System.out.println("Invalid choice!");
-                continue;
+                break;
             }
         }
     }
@@ -1599,7 +1691,7 @@ public class Main {
 
                 default:
                     System.out.println("Invalid choice!");
-                    continue;
+                    break;
             }
 
             break;
@@ -1645,7 +1737,7 @@ public class Main {
 
             } else {
                 System.out.println("Invalid choice!");
-                continue;
+                break;
             }
         }
     }
@@ -1751,6 +1843,12 @@ public class Main {
                 "║        TOTAL KEUNTUNGAN               %44s       ║\n", totalKeuntungan);
         System.out.println(
                 "╚══════════════════════════════════════════════════════════════════════════════════════════╝");
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println();
     }
 
     static void ProfitReportByAllTime() {
@@ -1788,7 +1886,7 @@ public class Main {
 
             } else {
                 System.out.println("Invalid choice!");
-                continue;
+                break;
             }
         }
     }
@@ -1906,7 +2004,7 @@ public class Main {
 
             } else {
                 System.out.println("Invalid choice!");
-                continue;
+                break;
             }
         }
     }
@@ -1947,7 +2045,7 @@ public class Main {
 
                 default:
                     System.out.println("Invalid choice!");
-                    continue;
+                    break;
             }
 
             break;
@@ -1996,7 +2094,7 @@ public class Main {
 
             } else {
                 System.out.println("Invalid choice!");
-                continue;
+                break;
             }
         }
     }
@@ -2021,18 +2119,37 @@ public class Main {
             switch (manageUserChoice) {
                 case 1:
                     ViewUserList();
+                    System.out.println();
                     break;
 
                 case 2:
                     CreateUser();
+                    try {
+                        Thread.sleep(700);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    System.out.println(clearScreen);
                     break;
 
                 case 3:
                     EditUser();
+                    try {
+                        Thread.sleep(700);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    System.out.println(clearScreen);
                     break;
 
                 case 4:
                     DeleteUser();
+                    try {
+                        Thread.sleep(700);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    System.out.println(clearScreen);
                     break;
 
                 case 5:
@@ -2041,6 +2158,12 @@ public class Main {
 
                 default:
                     System.out.println("Invalid choice!");
+                    try {
+                        Thread.sleep(700);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    System.out.println(clearScreen);
                     break;
             }
         }
@@ -2108,6 +2231,7 @@ public class Main {
         System.out.print("Input the number to edit the user : ");
         int editUserChoice = sc.nextInt() - 1;
         sc.nextLine();
+        System.out.println(clearScreen);
 
         if (editUserChoice < users.length && users[editUserChoice][0] != null) {
             System.out.println("Input (-) to not edit the data!");
@@ -2154,7 +2278,7 @@ public class Main {
             }
 
             for (int i = 0; i < users.length - 1; i++) {
-                if (users[i][0] == null & users[i + 1][0] != null) {
+                if (users[i][0] == null && users[i + 1][0] != null) { // Use && instead of &
                     for (int j = 0; j < users[i].length; j++) {
                         users[i][j] = users[i + 1][j];
                         users[i + 1][j] = null;
@@ -2165,6 +2289,7 @@ public class Main {
             System.out.println("User successfully deleted!");
         } else {
             System.out.println("Invalid choice!");
+            return;
         }
     }
 
@@ -2206,10 +2331,11 @@ public class Main {
                     "╚╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╝");
             System.out.println("[1] Login");
             System.out.println("[2] Change language");
-            System.out.println("[2] Exit program");
+            System.out.println("[3] Exit program");
             System.out.print("> Your choice : ");
             int choice = sc.nextInt();
             sc.nextLine();
+            System.out.println(clearScreen);
 
             switch (choice) {
                 case 1:
@@ -2260,6 +2386,13 @@ public class Main {
                     System.out.println();
                     System.out.println("Login berhasil!");
                     access = true;
+
+                    try {
+                        Thread.sleep(700);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    System.out.println(clearScreen);
                     break;
                 }
             }
@@ -2267,6 +2400,14 @@ public class Main {
             if (!access) {
                 System.out.println("Username dan password salah!");
                 System.out.println("Silahkan coba lagi!\n");
+
+                try {
+                    Thread.sleep(700);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+                System.out.println(clearScreen);
             }
         }
     }
@@ -2293,6 +2434,14 @@ public class Main {
     public static void main(String[] args) {
 
         Init();
+        try {
+            sc = new Scanner(System.in);
+            Start();
+        } finally {
+            if (sc != null) {
+                sc.close();
+            }
+        }
 
         while (session) {
 
@@ -2319,6 +2468,7 @@ public class Main {
             System.out.print("Masukkan pilihan Anda: ");
             mainChoice = sc.nextInt();
             sc.nextLine();
+            System.out.println(clearScreen);
 
             switch (mainChoice) {
 
