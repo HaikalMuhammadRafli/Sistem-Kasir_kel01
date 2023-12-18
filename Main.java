@@ -307,7 +307,7 @@ public class Main {
                         return 400;
 
                     default:
-                        System.out.println("Invalid Choice!");
+                        Notification("failure", "Invalid choice!");
                         continue;
                 }
 
@@ -572,8 +572,7 @@ public class Main {
                 break;
 
             } else {
-                System.out.println("Menu tersebut tidak ada!");
-                System.out.println("Silahkan coba lagi!\n");
+                Notification("failure", "Menu Invalid!");
             }
         }
     }
@@ -692,14 +691,13 @@ public class Main {
                     orders[latestOrders][8] = "member";
                     orders[latestOrders][9] = Integer.toString(memberDiskon);
                 } else {
-                    System.out.println("Member number not found!");
+                    Notification("failure", "Member not found!");
                     break;
                 }
             } else if (isMember == 't' || isMember == 'T') {
                 orders[latestOrders][8] = "not member";
             } else {
-                System.out.println("Input invalid!");
-                System.out.println("Please try again!");
+                Notification("failure", "Invalid choice! Try again.");
                 Delay();
                 continue;
             }
@@ -754,37 +752,35 @@ public class Main {
                 case 1:
                     orders[latestOrders][11] = "cash";
                     if (PaymentReceipt() == 200) {
-                        System.out.println("Transaction Successful! \n");
+                        Notification("success", "Transaction successful!");
                         orders[latestOrders][7] = "completed";
                         Delay();
                         break;
 
                     } else if (PaymentReceipt() == 401) {
-                        System.out.println("Uang tidak cukup!");
-                        System.out.println("Proses Pembayaran gagal! \n");
+                        Notification("failure", "Uang tidak cukup!");
                         Delay();
                         continue;
 
                     } else if (PaymentReceipt() == 400) {
-                        System.out.println("Transaction cancelled! \n");
+                        Notification("failure", "Transaction cancelled! \n");
                     }
 
                 case 2:
                     orders[latestOrders][11] = "card";
                     if (PaymentReceipt() == 200) {
-                        System.out.println("Transaction Successful! \n");
+                        Notification("success", "Transaction successful! \n");
                         orders[latestOrders][7] = "completed";
                         Delay();
                         break;
 
                     } else if (PaymentReceipt() == 401) {
-                        System.out.println("Uang tidak cukup!");
-                        System.out.println("Proses Pembayaran gagal! \n");
+                        Notification("failure", "Uang tidak cukup!");
                         Delay();
                         continue;
 
                     } else if (PaymentReceipt() == 400) {
-                        System.out.println("Transaction cancelled! \n");
+                        Notification("failure", "Transaction cancelled! \n");
                         Delay();
                         break;
                     }
@@ -794,7 +790,7 @@ public class Main {
                     break;
 
                 default:
-                    System.out.println("Invalid method!");
+                    Notification("failure", "Invalid method!");
                     continue;
             }
 
@@ -862,7 +858,7 @@ public class Main {
                     break;
 
                 default:
-                    System.out.println("Invalid choice!");
+                    Notification("failure", "Invalid choice!");
                     break;
             }
         }
@@ -1013,7 +1009,7 @@ public class Main {
                     break;
 
                 default:
-                    System.out.println("Invalid Choice!");
+                    Notification("failure", "Invalid choice!");
                     break;
             }
         }
@@ -1051,7 +1047,7 @@ public class Main {
                     } else if (temp.equals("-")) {
                         break;
                     } else {
-                        System.out.println("Invalid type!");
+                        Notification("failure", "Invalid Type!");
                         continue;
                     }
                 }
@@ -1070,7 +1066,7 @@ public class Main {
                     items[editItemChoice][5] = temp;
                 }
 
-                System.out.println("Item has been successfully edited!");
+                Notification("success", "Item has been successfully edited!");
                 Delay();
                 break;
 
@@ -1081,7 +1077,7 @@ public class Main {
                 break;
 
             } else {
-                System.out.println("Invalid choice!");
+                Notification("failure", "Invalid choice!");
             }
         }
     }
@@ -1115,7 +1111,7 @@ public class Main {
                     }
                 }
 
-                System.out.println("Item successfully deleted!");
+                Notification("success", "Item has been successfully deleted!");
                 Delay();
 
             } else if (deleteItemChoice + 1 == items.length) {
@@ -1125,7 +1121,7 @@ public class Main {
                 break;
 
             } else {
-                System.out.println("Invalid choice!");
+                Notification("failure", "Invalid choice!");
             }
         }
     }
@@ -1170,7 +1166,7 @@ public class Main {
                                 items[stockChoice - 1][2] = Integer
                                         .toString(Integer.parseInt(items[stockChoice - 1][2]) + jumlahMasuk);
                             } else {
-                                System.out.println("Pilihan tidak valid atau item tidak tersedia!");
+                                Notification("failure", "Invalid choice!");
                                 Delay();
                             }
                         }
@@ -1198,7 +1194,7 @@ public class Main {
                                 items[stockChoice - 1][2] = Integer
                                         .toString(Integer.parseInt(items[stockChoice - 1][2]) - jumlahMasuk);
                             } else {
-                                System.out.println("Pilihan tidak valid atau item tidak tersedia!");
+                                Notification("failure", "Item tidak ditemukan!");
                                 Delay();
                             }
                         }
@@ -1211,7 +1207,7 @@ public class Main {
                     break;
 
                 default:
-                    System.out.println("Pilihan tidak valid. Silahkan coba lagi.");
+                    Notification("failure", "Invalid choice!");
             }
         }
     }
@@ -1271,12 +1267,11 @@ public class Main {
                             memberDiskon = newDiscount;
                             break;
                         case 2: // Hapus Diskon
-                            System.out
-                                    .println(
-                                            "Member discount removal functionality not implemented in this example.");
+                            memberDiskon = 0;
+                            Notification("success", "Diskon member direset!");
                             break;
                         default:
-                            System.out.println("Invalid choice. Please try again.");
+                            Notification("failure", "Invalid choice! Try again.");
                     }
                     break;
 
@@ -1285,7 +1280,7 @@ public class Main {
                     break;
 
                 default:
-                    System.out.println("Invalid choice. Please try again.");
+                    Notification("failure", "Invalid choice! Try again.");
             }
         }
     }
@@ -1485,7 +1480,7 @@ public class Main {
                 break;
 
             } else {
-                System.out.println("Invalid choice!");
+                Notification("failure", "Invalid choice!");
                 break;
             }
         }
@@ -1526,7 +1521,7 @@ public class Main {
                 break;
 
             } else {
-                System.out.println("Invalid choice!");
+                Notification("failure", "Invalid choice!");
                 break;
             }
         }
@@ -1644,7 +1639,7 @@ public class Main {
                 break;
 
             } else {
-                System.out.println("Invalid choice!");
+                Notification("failure", "Invalid choice!");
                 break;
             }
         }
@@ -1684,7 +1679,7 @@ public class Main {
                     break;
 
                 default:
-                    System.out.println("Invalid choice!");
+                    Notification("failure", "Invalid choice!");
                     break;
             }
 
@@ -1730,7 +1725,7 @@ public class Main {
                 break;
 
             } else {
-                System.out.println("Invalid choice!");
+                Notification("failure", "Invalid choice!");
                 break;
             }
         }
@@ -1879,7 +1874,7 @@ public class Main {
                 break;
 
             } else {
-                System.out.println("Invalid choice!");
+                Notification("failure", "Invalid choice!");
                 break;
             }
         }
@@ -1997,7 +1992,7 @@ public class Main {
                 break;
 
             } else {
-                System.out.println("Invalid choice!");
+                Notification("failure", "Invalid choice!");
                 break;
             }
         }
@@ -2038,7 +2033,7 @@ public class Main {
                     break;
 
                 default:
-                    System.out.println("Invalid choice!");
+                    Notification("failure", "Invalid choice!");
                     break;
             }
 
@@ -2087,7 +2082,7 @@ public class Main {
                 break;
 
             } else {
-                System.out.println("Invalid choice!");
+                Notification("failure", "Invalid choice!");
                 break;
             }
         }
@@ -2139,7 +2134,7 @@ public class Main {
                     break;
 
                 default:
-                    System.out.println("Invalid choice!");
+                    Notification("failure", "Invalid choice!");
                     Delay();
                     ClearScreen();
                     break;
@@ -2193,7 +2188,7 @@ public class Main {
                 users[latestUsers][2] = inputRole;
                 break;
             } else {
-                System.out.println("Invalid role!");
+                Notification("failure", "Invalid Role!");
             }
         }
 
@@ -2233,12 +2228,13 @@ public class Main {
                     break;
 
                 } else {
-                    System.out.println("Invalid role!");
+                    Notification("failure", "Invalid Role!");
+                    ;
                     continue;
                 }
             }
 
-            System.out.println("User has been successfully edited!");
+            Notification("success", "User successfully edited!");
         }
     }
 
@@ -2264,9 +2260,9 @@ public class Main {
                 }
             }
 
-            System.out.println("User successfully deleted!");
+            Notification("success", "User successfully deleted!");
         } else {
-            System.out.println("Invalid choice!");
+            Notification("failure", "Invalid Choice");
             return;
         }
     }
@@ -2329,7 +2325,7 @@ public class Main {
                     break;
 
                 default:
-                    System.out.println("Invalid choice!");
+                    Notification("failure", "Invalid choice!");
                     break;
             }
 
@@ -2362,8 +2358,7 @@ public class Main {
             for (int i = 0; i < users.length; i++) {
                 if (inputUsername.equals(users[i][0]) && inputPassword.equals(users[i][1])) {
                     user_id = i;
-                    System.out.println();
-                    System.out.println(GREEN + "Login berhasil!" + RESET);
+                    Notification("success", "Login successful!");
                     access = true;
 
                     Delay();
@@ -2372,8 +2367,7 @@ public class Main {
             }
 
             if (!access) {
-                System.out.println(RED + "Username dan password salah!");
-                System.out.println("Silahkan coba lagi!\n" + RESET);
+                Notification("failure", "Username dan password salah!");
 
                 Delay();
             }
@@ -2382,7 +2376,7 @@ public class Main {
 
     static void Logout() {
         access = false;
-        System.out.println("Logout successful!");
+        Notification("success", "Logout successful!");
     }
 
     static boolean CheckLevel(String level) {
