@@ -17,7 +17,8 @@ public class Main {
     static Scanner sc = new Scanner(System.in);
     static DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
-    // color variables
+    // additional variables
+    static String CLEARSCREEN = "\u001b[H\u001b[2J";
     static String RESET = "\u001B[37m";
     static String RED = "\u001B[31m";
     static String GREEN = "\u001B[32m";
@@ -50,9 +51,7 @@ public class Main {
     static String language[][] = { {}, };
 
     // other variables
-    static boolean session = true, access = false, ordering, stocking, memberValid, paying, managingItem;
-    static String inputUsername, inputPassword, inputUsernameHistory;
-    static int mainChoice, orderChoice, stockChoice, removeItemChoice, paymentChoice, historyChoice, manageItemChoice;
+    static boolean session = true, access = false, memberValid;
     static char isMember;
     static String memberName = " ";
 
@@ -181,7 +180,7 @@ public class Main {
     }
 
     // * Order Feature
-    static void ViewMenuList() {
+    static void ViewMenuList(String keyword) {
         System.out.println(
                 "╔══════════════════════════════════════════════════════════════════════════════════════════╗");
         System.out.println(
@@ -193,15 +192,28 @@ public class Main {
         System.out.println(
                 "╠══════════════════════════════════════════════════════════════════════════════════════════╣");
         for (int i = 0; i < items.length; i++) {
-            if (items[i][0] != null) {
-                System.out.println(String.format(
-                        "║ %3d ║ %16s ║ %16s ║ %12s ║ %10s ║ %16s ║",
-                        i + 1,
-                        items[i][0],
-                        items[i][4],
-                        items[i][1],
-                        items[i][2],
-                        items[i][3]));
+            if (keyword == null) {
+                if (items[i][0] != null) {
+                    System.out.println(String.format(
+                            "║ %3d ║ %16s ║ %16s ║ %12s ║ %10s ║ %16s ║",
+                            i + 1,
+                            items[i][0],
+                            items[i][4],
+                            items[i][1],
+                            items[i][2],
+                            items[i][3]));
+                }
+            } else {
+                if (items[i][0] != null && items[i][0].toLowerCase().contains(keyword.toLowerCase())) {
+                    System.out.println(String.format(
+                            "║ %3d ║ %16s ║ %16s ║ %12s ║ %10s ║ %16s ║",
+                            i + 1,
+                            items[i][0],
+                            items[i][4],
+                            items[i][1],
+                            items[i][2],
+                            items[i][3]));
+                }
             }
         }
 
@@ -211,9 +223,10 @@ public class Main {
                 "║ No  |                                   Other Choices                                    ║");
         System.out.println(
                 "╠══════════════════════════════════════════════════════════════════════════════════════════╣");
-        System.out.println(String.format("║ %3d ║ %82s ║", items.length, "Cancel an item"));
-        System.out.println(String.format("║ %3d ║ %82s ║", items.length + 1, "Finish order"));
-        System.out.println(String.format("║ %3d ║ %82s ║", items.length + 2, "Cancel and exit"));
+        System.out.println(String.format("║ %3d ║ %82s ║", items.length, "Search for an item"));
+        System.out.println(String.format("║ %3d ║ %82s ║", items.length + 1, "Cancel an item"));
+        System.out.println(String.format("║ %3d ║ %82s ║", items.length + 2, "Finish order"));
+        System.out.println(String.format("║ %3d ║ %82s ║", items.length + 3, "Cancel and exit"));
         System.out.println(
                 "╚══════════════════════════════════════════════════════════════════════════════════════════╝");
     }
@@ -294,7 +307,7 @@ public class Main {
                         return 400;
 
                     default:
-                        System.out.println("Invalid Choice!");
+                        Notification("failure", "Invalid choice!");
                         continue;
                 }
 
@@ -458,6 +471,9 @@ public class Main {
     }
 
     static void CreateOrder() {
+
+        String keyword = null;
+
         // mencari baris yang kosong di orders
         if (!(orders[latestOrders][5] == null || orders[latestOrders][5].equals("0"))) {
             GetLatestOrders();
@@ -472,11 +488,11 @@ public class Main {
         // tanggal order
         orders[latestOrders][14] = LocalDate.now().format(dateFormat);
 
-        ordering = true;
-        while (ordering == true) {
+        while (true) {
 
             // mencari baris yang kosong di detail order
             GetLatestOrderDetails();
+            ClearScreen();
 
             System.out.println("╔═════════════════════════════════════════════════╗");
             System.out.println("║              Cafe The Orange Menu!              ║");
@@ -529,53 +545,52 @@ public class Main {
 
             System.out.println();
 
-            ViewMenuList();
+            ViewMenuList(keyword);
 
             System.out.println();
 
             System.out.print("> Choice : ");
 
-            orderChoice = sc.nextInt();
+            int choice = sc.nextInt();
             sc.nextLine();
 
-            if (orderChoice < items.length && items[orderChoice - 1][0] != null) {
-                CreateOrderDetail();
-                continue;
+            if (choice < items.length && items[choice - 1][0] != null) {
+                CreateOrderDetail(choice);
 
-            } else if (orderChoice == items.length) {
+            } else if (choice == items.length) {
+                keyword = Search(keyword);
+
+            } else if (choice == items.length + 1) {
                 CancelOrderDetail();
 
-            } else if (orderChoice == items.length + 1) {
+            } else if (choice == items.length + 2) {
                 FinishOrder();
                 break;
 
-            } else if (orderChoice == items.length + 2) {
+            } else if (choice == items.length + 3) {
                 CancelOrder();
                 break;
 
             } else {
-                System.out.println("Menu tersebut tidak ada!");
-                System.out.println("Silahkan coba lagi!\n");
-                continue;
-
+                Notification("failure", "Menu Invalid!");
             }
         }
     }
 
-    static void CreateOrderDetail() {
+    static void CreateOrderDetail(int choice) {
         // id
         order_details[latestOrder_details][0] = Integer.toString(latestOrders);
 
         // nama
-        order_details[latestOrder_details][1] = items[orderChoice - 1][0];
+        order_details[latestOrder_details][1] = items[choice - 1][0];
 
         // jumlah
-        System.out.print("> Beli Berapa PCS " + items[orderChoice - 1][0] + " ? : ");
+        System.out.print("> Beli Berapa PCS " + items[choice - 1][0] + " ? : ");
         order_details[latestOrder_details][2] = Integer.toString(sc.nextInt());
         sc.nextLine();
 
         // harga
-        order_details[latestOrder_details][3] = items[orderChoice - 1][1];
+        order_details[latestOrder_details][3] = items[choice - 1][1];
 
         // subtotal
         order_details[latestOrder_details][4] = Integer.toString(Integer
@@ -583,11 +598,11 @@ public class Main {
                 * Integer.parseInt(order_details[latestOrder_details][2]));
 
         // discount %
-        order_details[latestOrder_details][7] = items[orderChoice - 1][3];
+        order_details[latestOrder_details][7] = items[choice - 1][3];
 
         // total diskon
         order_details[latestOrder_details][5] = Integer.toString(
-                Integer.parseInt(order_details[latestOrder_details][4]) * Integer.parseInt(items[orderChoice - 1][3])
+                Integer.parseInt(order_details[latestOrder_details][4]) * Integer.parseInt(items[choice - 1][3])
                         / 100);
 
         // total
@@ -598,10 +613,10 @@ public class Main {
         // harga beli
         order_details[latestOrder_details][8] = Integer.toString(Integer
                 .parseInt(order_details[latestOrder_details][2])
-                * Integer.parseInt(items[orderChoice - 1][5]));
+                * Integer.parseInt(items[choice - 1][5]));
 
         // pengurangan stok
-        items[orderChoice - 1][2] = Integer.toString(Integer.parseInt(items[orderChoice - 1][2])
+        items[choice - 1][2] = Integer.toString(Integer.parseInt(items[choice - 1][2])
                 - Integer.parseInt(order_details[latestOrder_details][2]));
     }
 
@@ -611,7 +626,7 @@ public class Main {
         ViewOrderDetailList();
 
         System.out.print("> Choice : ");
-        removeItemChoice = sc.nextInt();
+        int removeItemChoice = sc.nextInt();
 
         if (removeItemChoice < order_details.length && order_details[removeItemChoice][0]
                 .equals(Integer.toString(latestOrders))) {
@@ -657,6 +672,9 @@ public class Main {
             if (isMember == 'y' || isMember == 'Y') {
                 System.out.print("Masukkan nomer member : ");
                 String memberNumber = sc.next();
+
+                ClearScreen();
+
                 boolean memberExists = false;
 
                 // Check if the member number exists in the noMembership array
@@ -673,14 +691,14 @@ public class Main {
                     orders[latestOrders][8] = "member";
                     orders[latestOrders][9] = Integer.toString(memberDiskon);
                 } else {
-                    System.out.println("Member number not found!");
+                    Notification("failure", "Member not found!");
                     break;
                 }
             } else if (isMember == 't' || isMember == 'T') {
                 orders[latestOrders][8] = "not member";
             } else {
-                System.out.println("Input invalid!");
-                System.out.println("Please try again!");
+                Notification("failure", "Invalid choice! Try again.");
+                Delay();
                 continue;
             }
 
@@ -701,15 +719,14 @@ public class Main {
             System.out.printf(
                     "║        Member Name    : %-16s                  Status         : %-16s    ║\n",
                     memberName,
-                    "Active Member");
+                    membershipStatus);
             System.out.printf(
                     "║        Member Discount : %-16s                                                      ║\n",
-                    orders[latestOrders][9] + "%");
+                    orders[latestOrders][8].equals("member") ? orders[latestOrders][9] + "%" : "0%");
             System.out.println(
                     "╚════════════════════════════════════════════════════════════════════════════════════════════════╝");
 
             memberValid = true;
-
         }
     }
 
@@ -726,42 +743,46 @@ public class Main {
             System.out.println("[2] Bank Card");
             System.out.println("[3] Back");
             System.out.print("Choose your payment method : ");
-            paymentChoice = sc.nextInt();
+            int paymentChoice = sc.nextInt();
             sc.nextLine();
+
+            ClearScreen();
 
             switch (paymentChoice) {
                 case 1:
                     orders[latestOrders][11] = "cash";
                     if (PaymentReceipt() == 200) {
-                        System.out.println("Transaction Successful! \n");
+                        Notification("success", "Transaction successful!");
                         orders[latestOrders][7] = "completed";
+                        Delay();
                         break;
 
                     } else if (PaymentReceipt() == 401) {
-                        System.out.println("Uang tidak cukup!");
-                        System.out.println("Proses Pembayaran gagal! \n");
-                        System.out.println();
+                        Notification("failure", "Uang tidak cukup!");
+                        Delay();
                         continue;
 
                     } else if (PaymentReceipt() == 400) {
-                        System.out.println("Transaction cancelled! \n");
+                        Notification("failure", "Transaction cancelled! \n");
                     }
 
                 case 2:
                     orders[latestOrders][11] = "card";
                     if (PaymentReceipt() == 200) {
-                        System.out.println("Transaction Successful! \n");
+                        Notification("success", "Transaction successful! \n");
                         orders[latestOrders][7] = "completed";
+                        Delay();
                         break;
 
                     } else if (PaymentReceipt() == 401) {
-                        System.out.println("Uang tidak cukup!");
-                        System.out.println("Proses Pembayaran gagal! \n");
-                        System.out.println();
+                        Notification("failure", "Uang tidak cukup!");
+                        Delay();
                         continue;
 
                     } else if (PaymentReceipt() == 400) {
-                        System.out.println("Transaction cancelled! \n");
+                        Notification("failure", "Transaction cancelled! \n");
+                        Delay();
+                        break;
                     }
 
                 case 3:
@@ -769,7 +790,7 @@ public class Main {
                     break;
 
                 default:
-                    System.out.println("Invalid method!");
+                    Notification("failure", "Invalid method!");
                     continue;
             }
 
@@ -794,11 +815,12 @@ public class Main {
         }
 
         System.out.println("Ordering has been cancelled!");
+        Delay();
     }
 
     // * Manage Item Menu Feature
     static void ManageItems() {
-        managingItem = true;
+        boolean managingItem = true;
         while (managingItem == true) {
             System.out.println("╔════════════════════════════════╗");
             System.out.println("║        MANAGE ITEM MENU        ║");
@@ -810,12 +832,13 @@ public class Main {
             System.out.println("[5] Back");
 
             System.out.print("Masukkan pilihan anda : ");
-            manageItemChoice = sc.nextInt();
+            int manageItemChoice = sc.nextInt();
             sc.nextLine();
+            ClearScreen();
 
             switch (manageItemChoice) {
                 case 1:
-                    ViewItemList();
+                    ViewItemList(null);
                     break;
 
                 case 2:
@@ -835,38 +858,53 @@ public class Main {
                     break;
 
                 default:
-                    System.out.println("Invalid choice!");
+                    Notification("failure", "Invalid choice!");
                     break;
             }
         }
     }
 
-    static void ViewItemList() {
+    static void ViewItemList(String keyword) {
         System.out.println(
-                "╔══════════════════════════════════════════════════════════════════════════════════════════════════════════════╗");
+                "╔═══════════════════════════════════════════════════════════════════════════════════════════════════════════════╗");
         System.out.println(
-                "║                                                Item Menu List                                                ║");
+                "║                                                 Item Menu List                                                ║");
         System.out.println(
-                "╠══════════════════════════════════════════════════════════════════════════════════════════════════════════════╣");
+                "╠═══════════════════════════════════════════════════════════════════════════════════════════════════════════════╣");
         System.out.println(
-                "║ No  |       Name       |       Tipe       |    Price     |    Stock   |    Discount (%)   |   Buying Price   ║");
+                "║ No  |       Name       |       Tipe       |    Price     |    Stock   |    Discount (%)   |    Buying Price   ║");
         System.out.println(
-                "╠══════════════════════════════════════════════════════════════════════════════════════════════════════════════╣");
+                "╠═══════════════════════════════════════════════════════════════════════════════════════════════════════════════╣");
         for (int i = 0; i < items.length; i++) {
-            if (items[i][0] != null) {
-                System.out.println(String.format(
-                        "║ %3d ║ %16s ║ %16s ║ %12s ║ %10s ║ %16s ║ %17s ║",
-                        i + 1,
-                        items[i][0],
-                        items[i][4],
-                        items[i][1],
-                        items[i][2],
-                        items[i][3],
-                        items[i][5]));
+            if (keyword == null) {
+                if (items[i][0] != null) {
+                    System.out.println(String.format(
+                            "║ %3d ║ %16s ║ %16s ║ %12s ║ %10s ║ %17s ║ %17s ║",
+                            i + 1,
+                            items[i][0],
+                            items[i][4],
+                            items[i][1],
+                            items[i][2],
+                            items[i][3],
+                            items[i][5]));
+                }
+
+            } else {
+                if (items[i][0] != null && items[i][0].toLowerCase().contains(keyword.toLowerCase())) {
+                    System.out.println(String.format(
+                            "║ %3d ║ %16s ║ %16s ║ %12s ║ %10s ║ %17s ║ %17s ║",
+                            i + 1,
+                            items[i][0],
+                            items[i][4],
+                            items[i][1],
+                            items[i][2],
+                            items[i][3],
+                            items[i][5]));
+                }
             }
         }
         System.out.println(
-                "╚══════════════════════════════════════════════════════════════════════════════════════════════════════════════╝");
+                "╚═══════════════════════════════════════════════════════════════════════════════════════════════════════════════╝");
     }
 
     static void ViewSimpleItemList() {
@@ -937,6 +975,7 @@ public class Main {
                     items[latestItems][5] = Integer.toString(sc.nextInt());
 
                     System.out.println("New food has been successfully added!");
+                    Delay();
                     break;
 
                 case 2:
@@ -962,6 +1001,7 @@ public class Main {
                     items[latestItems][5] = Integer.toString(sc.nextInt());
 
                     System.out.println("New drink has been successfully added!");
+                    Delay();
                     break;
 
                 case 3:
@@ -969,7 +1009,7 @@ public class Main {
                     break;
 
                 default:
-                    System.out.println("Invalid Choice!");
+                    Notification("failure", "Invalid choice!");
                     break;
             }
         }
@@ -977,83 +1017,118 @@ public class Main {
 
     static void EditItem() {
 
-        String temp;
+        String temp, keyword = null;
 
-        ViewItemList();
+        while (true) {
+            ViewItemList(keyword);
 
-        System.out.print("Input the number to edit the item : ");
-        int editItemChoice = sc.nextInt() - 1;
-        sc.nextLine();
+            System.out.println("[" + items.length + "] Search for an item");
+            System.out.println("[" + (items.length + 1) + "] Back");
+            System.out.println("Input the number to edit the item!");
+            System.out.print("> Your choice : ");
+            int editItemChoice = sc.nextInt() - 1;
+            sc.nextLine();
+            ClearScreen();
 
-        if (editItemChoice < items.length && items[editItemChoice][0] != null) {
-            System.out.println("Input (-) to not edit the data!");
-            System.out.print("Input new name (" + items[editItemChoice][0] + ") : ");
-            temp = sc.nextLine();
-            if (!temp.equals("-")) {
-                items[editItemChoice][0] = temp;
-            }
-
-            while (true) {
-                System.out.print("Input new type (" + items[editItemChoice][4] + ") : ");
+            if (editItemChoice < items.length && items[editItemChoice][0] != null) {
+                System.out.println("Input (-) to not edit the data!");
+                System.out.print("> Input new name (" + items[editItemChoice][0] + ") : ");
                 temp = sc.nextLine();
-                if (temp.equals("Makanan") || temp.equals("Minuman")) {
-                    items[editItemChoice][4] = temp;
-                    break;
-                } else if (temp.equals("-")) {
-                    break;
-                } else {
-                    System.out.println("Invalid type!");
-                    continue;
+                if (!temp.equals("-")) {
+                    items[editItemChoice][0] = temp;
                 }
-            }
 
-            System.out.print("Input new price (" + items[editItemChoice][1] + ") : ");
-            temp = Integer.toString(sc.nextInt());
-            if (!temp.equals("-")) {
-                items[editItemChoice][1] = temp;
-            }
+                while (true) {
+                    System.out.print("> Input new type (" + items[editItemChoice][4] + ") : ");
+                    temp = sc.nextLine();
+                    if (temp.equals("Makanan") || temp.equals("Minuman")) {
+                        items[editItemChoice][4] = temp;
+                        break;
+                    } else if (temp.equals("-")) {
+                        break;
+                    } else {
+                        Notification("failure", "Invalid Type!");
+                        continue;
+                    }
+                }
 
-            System.out.print("Input new buying price (" + items[editItemChoice][1] + ") : ");
-            temp = Integer.toString(sc.nextInt());
-            if (!temp.equals("-")) {
-                items[editItemChoice][5] = temp;
-            }
+                System.out.println("Input (0) to not edit the data!");
+                System.out.print("> Input new price (" + items[editItemChoice][1] + ") : ");
+                temp = Integer.toString(sc.nextInt());
+                if (!temp.equals("0")) {
+                    items[editItemChoice][1] = temp;
+                }
 
-            System.out.println("Item has been successfully edited!");
+                System.out.println("Input (0) to not edit the data!");
+                System.out.print("> Input new buying price (" + items[editItemChoice][1] + ") : ");
+                temp = Integer.toString(sc.nextInt());
+                if (!temp.equals("0")) {
+                    items[editItemChoice][5] = temp;
+                }
+
+                Notification("success", "Item has been successfully edited!");
+                Delay();
+                break;
+
+            } else if (editItemChoice + 1 == items.length) {
+                keyword = Search(keyword);
+
+            } else if (editItemChoice + 1 == items.length + 1) {
+                break;
+
+            } else {
+                Notification("failure", "Invalid choice!");
+            }
         }
     }
 
     static void DeleteItem() {
 
-        ViewItemList();
+        String keyword = null;
 
-        System.out.print("Input the number to delete the item : ");
-        int deleteItemChoice = sc.nextInt() - 1;
-        sc.nextLine();
+        while (true) {
+            ViewItemList(keyword);
 
-        if (deleteItemChoice < items.length && items[deleteItemChoice][0] != null) {
-            for (int i = 0; i < items[deleteItemChoice].length; i++) {
-                items[deleteItemChoice][i] = null;
-            }
+            System.out.println("[" + items.length + "] Search for an item");
+            System.out.println("[" + (items.length + 1) + "] Back");
+            System.out.println("Input the number to delete the item!");
+            System.out.print("> Your choice : ");
+            int deleteItemChoice = sc.nextInt() - 1;
+            sc.nextLine();
+            ClearScreen();
 
-            for (int i = 0; i < items.length - 1; i++) {
-                if (items[i][0] == null & items[i + 1][0] != null) {
-                    for (int j = 0; j < items[i].length; j++) {
-                        items[i][j] = items[i + 1][j];
-                        items[i + 1][j] = null;
+            if (deleteItemChoice < items.length && items[deleteItemChoice][0] != null) {
+                for (int i = 0; i < items[deleteItemChoice].length; i++) {
+                    items[deleteItemChoice][i] = null;
+                }
+
+                for (int i = 0; i < items.length - 1; i++) {
+                    if (items[i][0] == null & items[i + 1][0] != null) {
+                        for (int j = 0; j < items[i].length; j++) {
+                            items[i][j] = items[i + 1][j];
+                            items[i + 1][j] = null;
+                        }
                     }
                 }
-            }
 
-            System.out.println("Item successfully deleted!");
-        } else {
-            System.out.println("Invalid choice!");
+                Notification("success", "Item has been successfully deleted!");
+                Delay();
+
+            } else if (deleteItemChoice + 1 == items.length) {
+                keyword = Search(keyword);
+
+            } else if (deleteItemChoice + 1 == items.length + 1) {
+                break;
+
+            } else {
+                Notification("failure", "Invalid choice!");
+            }
         }
     }
 
     // * Manage Stock Feature
     static void ManageStock() {
-        stocking = true;
+        boolean stocking = true;
         boolean exit = false;
 
         while (stocking) {
@@ -1069,12 +1144,13 @@ public class Main {
 
             System.out.print("Pilihan: ");
             int menuChoice = sc.nextInt();
+            ClearScreen();
 
             switch (menuChoice) {
                 case 1:
                     exit = false;
                     do {
-                        ViewItemList();
+                        ViewItemList(null);
                         System.out.println("[" + (items.length + 1) + "] kembali");
                         // Capture user's choice for stock update
                         System.out.print("Pilih item untuk tambah stok: ");
@@ -1090,7 +1166,8 @@ public class Main {
                                 items[stockChoice - 1][2] = Integer
                                         .toString(Integer.parseInt(items[stockChoice - 1][2]) + jumlahMasuk);
                             } else {
-                                System.out.println("Pilihan tidak valid atau item tidak tersedia!");
+                                Notification("failure", "Invalid choice!");
+                                Delay();
                             }
                         }
                     } while (!exit);
@@ -1099,7 +1176,7 @@ public class Main {
                 case 2:
                     exit = false;
                     do {
-                        ViewItemList();
+                        ViewItemList(null);
                         System.out.println("[" + (items.length + 1) + "] kembali");
                         // Capture user's choice for stock update
                         System.out.print("Pilih item untuk mengurangi stok: ");
@@ -1108,6 +1185,7 @@ public class Main {
                         // Check if user wants to exit
                         if (stockChoice == items.length + 1) {
                             exit = true;
+
                         } else {
                             // Validate user choice and update stock
                             if (stockChoice > 0 && stockChoice <= items.length && items[stockChoice - 1][0] != null) {
@@ -1116,7 +1194,8 @@ public class Main {
                                 items[stockChoice - 1][2] = Integer
                                         .toString(Integer.parseInt(items[stockChoice - 1][2]) - jumlahMasuk);
                             } else {
-                                System.out.println("Pilihan tidak valid atau item tidak tersedia!");
+                                Notification("failure", "Item tidak ditemukan!");
+                                Delay();
                             }
                         }
                     } while (!exit);
@@ -1126,8 +1205,9 @@ public class Main {
                     System.out.println("Keluar manajemen stok!");
                     stocking = false;
                     break;
+
                 default:
-                    System.out.println("Pilihan tidak valid. Silahkan coba lagi.");
+                    Notification("failure", "Invalid choice!");
             }
         }
     }
@@ -1148,6 +1228,7 @@ public class Main {
             System.out.print("Choice: ");
             int choice = sc.nextInt();
             sc.nextLine();
+            ClearScreen();
 
             switch (choice) {
                 case 1: // Diskon item
@@ -1165,6 +1246,7 @@ public class Main {
                             items[editDiscountChoice - 1][3] = Integer.toString(newDiscount);
                             System.out.println("Diskon " + items[editDiscountChoice - 1][0] + " diubah menjadi "
                                     + items[editDiscountChoice - 1][3] + "%");
+                            Delay();
                         }
                     }
                     break;
@@ -1175,23 +1257,21 @@ public class Main {
                     System.out.print("Pilihan: ");
                     int memberDiscountChoice = sc.nextInt();
                     sc.nextLine();
+                    ClearScreen();
 
                     switch (memberDiscountChoice) {
                         case 1: // Edit Diskon
-                            // Implement logic for editing member discount
                             System.out.println("Edit diskon member ");
                             System.out.print("Masukkan diskon baru: ");
                             int newDiscount = sc.nextInt();
                             memberDiskon = newDiscount;
                             break;
                         case 2: // Hapus Diskon
-                            // Implement logic for removing member discount
-                            System.out
-                                    .println(
-                                            "Member discount removal functionality not implemented in this example.");
+                            memberDiskon = 0;
+                            Notification("success", "Diskon member direset!");
                             break;
                         default:
-                            System.out.println("Invalid choice. Please try again.");
+                            Notification("failure", "Invalid choice! Try again.");
                     }
                     break;
 
@@ -1200,7 +1280,7 @@ public class Main {
                     break;
 
                 default:
-                    System.out.println("Invalid choice. Please try again.");
+                    Notification("failure", "Invalid choice! Try again.");
             }
         }
     }
@@ -1390,6 +1470,7 @@ public class Main {
             System.out.print("> Your choice : ");
             int choice = sc.nextInt();
             sc.nextLine();
+            ClearScreen();
 
             if (choice < orders.length && orders[choice - 1][0] != null) {
                 ViewSalesHistoryDetails(choice - 1);
@@ -1399,8 +1480,8 @@ public class Main {
                 break;
 
             } else {
-                System.out.println("Invalid choice!");
-                continue;
+                Notification("failure", "Invalid choice!");
+                break;
             }
         }
     }
@@ -1440,8 +1521,8 @@ public class Main {
                 break;
 
             } else {
-                System.out.println("Invalid choice!");
-                continue;
+                Notification("failure", "Invalid choice!");
+                break;
             }
         }
     }
@@ -1558,8 +1639,8 @@ public class Main {
                 break;
 
             } else {
-                System.out.println("Invalid choice!");
-                continue;
+                Notification("failure", "Invalid choice!");
+                break;
             }
         }
     }
@@ -1598,8 +1679,8 @@ public class Main {
                     break;
 
                 default:
-                    System.out.println("Invalid choice!");
-                    continue;
+                    Notification("failure", "Invalid choice!");
+                    break;
             }
 
             break;
@@ -1644,8 +1725,8 @@ public class Main {
                 break;
 
             } else {
-                System.out.println("Invalid choice!");
-                continue;
+                Notification("failure", "Invalid choice!");
+                break;
             }
         }
     }
@@ -1751,6 +1832,12 @@ public class Main {
                 "║        TOTAL KEUNTUNGAN               %44s       ║\n", totalKeuntungan);
         System.out.println(
                 "╚══════════════════════════════════════════════════════════════════════════════════════════╝");
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println();
     }
 
     static void ProfitReportByAllTime() {
@@ -1787,8 +1874,8 @@ public class Main {
                 break;
 
             } else {
-                System.out.println("Invalid choice!");
-                continue;
+                Notification("failure", "Invalid choice!");
+                break;
             }
         }
     }
@@ -1905,8 +1992,8 @@ public class Main {
                 break;
 
             } else {
-                System.out.println("Invalid choice!");
-                continue;
+                Notification("failure", "Invalid choice!");
+                break;
             }
         }
     }
@@ -1946,8 +2033,8 @@ public class Main {
                     break;
 
                 default:
-                    System.out.println("Invalid choice!");
-                    continue;
+                    Notification("failure", "Invalid choice!");
+                    break;
             }
 
             break;
@@ -1995,8 +2082,8 @@ public class Main {
                 break;
 
             } else {
-                System.out.println("Invalid choice!");
-                continue;
+                Notification("failure", "Invalid choice!");
+                break;
             }
         }
     }
@@ -2021,18 +2108,25 @@ public class Main {
             switch (manageUserChoice) {
                 case 1:
                     ViewUserList();
+                    System.out.println();
                     break;
 
                 case 2:
                     CreateUser();
+                    Delay();
+                    ClearScreen();
                     break;
 
                 case 3:
                     EditUser();
+                    Delay();
+                    ClearScreen();
                     break;
 
                 case 4:
                     DeleteUser();
+                    Delay();
+                    ClearScreen();
                     break;
 
                 case 5:
@@ -2040,7 +2134,9 @@ public class Main {
                     break;
 
                 default:
-                    System.out.println("Invalid choice!");
+                    Notification("failure", "Invalid choice!");
+                    Delay();
+                    ClearScreen();
                     break;
             }
         }
@@ -2092,7 +2188,7 @@ public class Main {
                 users[latestUsers][2] = inputRole;
                 break;
             } else {
-                System.out.println("Invalid role!");
+                Notification("failure", "Invalid Role!");
             }
         }
 
@@ -2105,64 +2201,129 @@ public class Main {
 
         ViewUserList();
 
-        System.out.print("Input the number to edit the user : ");
-        int editUserChoice = sc.nextInt() - 1;
+        System.out.println("[" + (users.length + 1) + "] edit user");
+        System.out.println("[" + (users.length + 2) + "] search for user");
+        System.out.println("[" + (users.length + 3) + "] back");
+        System.out.print("Masukkan pilihan anda : ");
+        int userChoice = sc.nextInt();
         sc.nextLine();
+        ClearScreen();
 
-        if (editUserChoice < users.length && users[editUserChoice][0] != null) {
-            System.out.println("Input (-) to not edit the data!");
-            System.out.print("Input new username (" + users[editUserChoice][0] + ") : ");
-            temp = sc.nextLine();
-            if (!temp.equals("-")) {
-                users[editUserChoice][0] = temp;
-            }
-
-            System.out.print("Input new password (" + users[editUserChoice][1] + ") : ");
-            temp = sc.nextLine();
-            if (!temp.equals("-")) {
-                users[editUserChoice][1] = temp;
-            }
-
-            while (true) {
-                System.out.print("Input new role (" + users[editUserChoice][2] + ") : ");
+        if (userChoice == users.length + 1) {
+            // Edit user
+            int editUserChoice = SearchUser();
+            if (editUserChoice != -1) {
+                ViewUserList();
+                System.out.println("Input (-) to not edit the data!");
+                System.out.print("Input new username (" + users[editUserChoice][0] + ") : ");
                 temp = sc.nextLine();
-                if (!temp.equals("-") && (temp.equals("kasir") || temp.equals("manajer") || temp.equals("admin"))) {
-                    users[editUserChoice][2] = temp;
-                    break;
-
-                } else {
-                    System.out.println("Invalid role!");
-                    continue;
+                if (!temp.equals("-")) {
+                    users[editUserChoice][0] = temp;
                 }
-            }
 
-            System.out.println("User has been successfully edited!");
+                System.out.print("Input new password (" + users[editUserChoice][1] + ") : ");
+                temp = sc.nextLine();
+                if (!temp.equals("-")) {
+                    users[editUserChoice][1] = temp;
+                }
+
+                while (true) {
+                    System.out.print("Input new role (" + users[editUserChoice][2] + ") : ");
+                    temp = sc.nextLine();
+                    if (!temp.equals("-") && (temp.equals("kasir") || temp.equals("manajer") || temp.equals("admin"))) {
+                        users[editUserChoice][2] = temp;
+                        break;
+
+                    } else {
+                        System.out.println("Invalid role!");
+                        continue;
+                    }
+                }
+
+                System.out.println("User has been successfully edited!");
+            }
+        } else if (userChoice == users.length + 2) {
+            // Search for user
+            int searchUserChoice = SearchUser();
+            if (searchUserChoice != -1) {
+                // Display user details or perform additional actions if needed
+                System.out.println("User found: " + users[searchUserChoice][0]);
+            }
+        } else if (userChoice == users.length + 3) {
+            // Back to the main menu or perform other actions if needed
+        } else {
+            System.out.println("Invalid choice!");
         }
+    }
+
+    static int SearchUser() {
+        ViewUserList();
+        System.out.print("Input the username to search for the user : ");
+        String searchUsername = sc.nextLine();
+
+        for (int i = 0; i < users.length; i++) {
+            if (users[i][0] != null && users[i][0].equalsIgnoreCase(searchUsername)) {
+                return i;
+            }
+        }
+
+        System.out.println("User not found!");
+        return -1;
     }
 
     static void DeleteUser() {
 
         ViewUserList();
 
-        System.out.print("Input the number to delete the user : ");
-        int deleteUserChoice = sc.nextInt() - 1;
+        System.out.println("[" + (users.length + 1) + "] delete user");
+        System.out.println("[" + (users.length + 2) + "] search for user");
+        System.out.println("[" + (users.length + 3) + "] back");
+        System.out.print("Masukkan pilihan anda : ");
+        int userChoice = sc.nextInt();
         sc.nextLine();
+        if (userChoice == users.length + 1) {
+            // Delete user
+            int deleteUserChoice = SearchUser();
+            if (deleteUserChoice != -1) {
+                for (int i = 0; i < users[deleteUserChoice].length; i++) {
+                    users[deleteUserChoice][i] = null;
+                }
 
-        if (deleteUserChoice < users.length && users[deleteUserChoice][0] != null) {
-            for (int i = 0; i < users[deleteUserChoice].length; i++) {
-                users[deleteUserChoice][i] = null;
-            }
-
-            for (int i = 0; i < users.length - 1; i++) {
-                if (users[i][0] == null & users[i + 1][0] != null) {
-                    for (int j = 0; j < users[i].length; j++) {
-                        users[i][j] = users[i + 1][j];
-                        users[i + 1][j] = null;
+                for (int i = 0; i < users.length - 1; i++) {
+                    if (users[i][0] == null && users[i + 1][0] != null) {
+                        for (int j = 0; j < users[i].length; j++) {
+                            users[i][j] = users[i + 1][j];
+                            users[i + 1][j] = null;
+                        }
                     }
                 }
-            }
 
-            System.out.println("User successfully deleted!");
+                System.out.println("User successfully deleted!");
+            }
+        } else if (userChoice == users.length + 2) {
+            // Search for user
+            int searchUserChoice = SearchUser();
+            if (searchUserChoice != -1) {
+                for (int i = 0; i < users[searchUserChoice].length; i++) {
+                    users[searchUserChoice][i] = null;
+                }
+
+                for (int i = 0; i < users.length - 1; i++) {
+                    if (users[i][0] == null && users[i + 1][0] != null) {
+                        for (int j = 0; j < users[i].length; j++) {
+                            users[i][j] = users[i + 1][j];
+                            users[i + 1][j] = null;
+                        }
+                    }
+                }
+
+                // Display user details or perform additional actions if needed
+                System.out.println("User found: " + users[searchUserChoice][0]);
+                System.out.println("user successfully deleted");
+                Delay();
+            }
+        } else if (userChoice == users.length + 3) {
+            // Back to the main menu or perform other actions if needed
         } else {
             System.out.println("Invalid choice!");
         }
@@ -2206,10 +2367,11 @@ public class Main {
                     "╚╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╝");
             System.out.println("[1] Login");
             System.out.println("[2] Change language");
-            System.out.println("[2] Exit program");
+            System.out.println("[3] Exit program");
             System.out.print("> Your choice : ");
             int choice = sc.nextInt();
             sc.nextLine();
+            ClearScreen();
 
             switch (choice) {
                 case 1:
@@ -2225,7 +2387,7 @@ public class Main {
                     break;
 
                 default:
-                    System.out.println("Invalid choice!");
+                    Notification("failure", "Invalid choice!");
                     break;
             }
 
@@ -2233,61 +2395,98 @@ public class Main {
         }
     }
 
-    private static String CenterString(int width, String s) {
+    static String CenterString(int width, String s) {
         int padSize = (width - s.length()) / 2;
         return String.format("%" + padSize + "s%s%" + (padSize + (width - s.length()) % 2) + "s", "", s, "");
     }
 
-    private static String PadString(int width, String s) {
+    static String PadString(int width, String s) {
         return String.format("%-" + width + "s", s);
     }
 
     // * login
     static void Login() {
         while (!access) {
+
             System.out.println("╔══════════════════════════════╗");
             System.out.println("║        SILAHKAN LOGIN        ║");
             System.out.println("╚══════════════════════════════╝");
 
             System.out.print("Input username : ");
-            inputUsername = sc.nextLine();
+            String inputUsername = sc.nextLine();
             System.out.print("Input password : ");
-            inputPassword = sc.nextLine();
+            String inputPassword = sc.nextLine();
 
             for (int i = 0; i < users.length; i++) {
                 if (inputUsername.equals(users[i][0]) && inputPassword.equals(users[i][1])) {
                     user_id = i;
-                    System.out.println();
-                    System.out.println("Login berhasil!");
+                    Notification("success", "Login successful!");
                     access = true;
+
+                    Delay();
                     break;
                 }
             }
 
             if (!access) {
-                System.out.println("Username dan password salah!");
-                System.out.println("Silahkan coba lagi!\n");
+                Notification("failure", "Username dan password salah!");
+
+                Delay();
             }
         }
     }
 
     static void Logout() {
         access = false;
-        System.out.println("Logout successful!");
+        Notification("success", "Logout successful!");
     }
 
     static boolean CheckLevel(String level) {
         if (users[user_id][2].equals(level)) {
             return true;
+
         } else {
-            System.out.println("Invalid choice!");
             return false;
         }
 
     }
 
-    static String CenterString() {
-        return "s";
+    static String Search(String keyword) {
+        System.out.println("To reset search keyword input (-)!");
+        System.out.print("> Input name (" + keyword + ") : ");
+        keyword = sc.nextLine();
+        if (!keyword.equals("-")) {
+            return keyword;
+        } else {
+            return null;
+        }
+    }
+
+    static void Delay() {
+        try {
+            Thread.sleep(700);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        ClearScreen();
+    }
+
+    static void ClearScreen() {
+        System.out.println(CLEARSCREEN);
+    }
+
+    static void Notification(String type, String msg) {
+        System.out.println();
+        if (type.equals("success")) {
+            System.out.println("╔════════════════════════════════════════════════╗");
+            System.out.println("║" + GREEN + CenterString(48, msg) + RESET + "║");
+            System.out.println("╚════════════════════════════════════════════════╝");
+        } else if (type.equals("failure")) {
+            System.out.println("╔════════════════════════════════════════════════╗");
+            System.out.println("║" + RED + CenterString(48, msg) + RESET + "║");
+            System.out.println("╚════════════════════════════════════════════════╝");
+        }
     }
 
     public static void main(String[] args) {
@@ -2295,7 +2494,6 @@ public class Main {
         Init();
 
         while (session) {
-
             if (!access) {
                 Start();
             }
@@ -2317,10 +2515,11 @@ public class Main {
             }
             System.out.println("[0] Logout");
             System.out.print("Masukkan pilihan Anda: ");
-            mainChoice = sc.nextInt();
+            int choice = sc.nextInt();
             sc.nextLine();
+            ClearScreen();
 
-            switch (mainChoice) {
+            switch (choice) {
 
                 case 1:
                     CreateOrder();
@@ -2365,10 +2564,10 @@ public class Main {
                     break;
 
                 default:
-                    System.out.println("Your choice does not exist!");
-                    System.out.println("Please try again!");
+                    Notification("failure", "Your choice does not exist!");
                     break;
             }
         }
+
     }
 }
