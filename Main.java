@@ -684,12 +684,7 @@ public class Main {
             } else {
                 System.out.println("Input invalid!");
                 System.out.println("Please try again!");
-                try {
-                    Thread.sleep(700);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                System.out.println(clearScreen);
+                delay();
                 continue;
             }
 
@@ -744,23 +739,13 @@ public class Main {
                     if (PaymentReceipt() == 200) {
                         System.out.println("Transaction Successful! \n");
                         orders[latestOrders][7] = "completed";
-                        try {
-                            Thread.sleep(1000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                        System.out.println(clearScreen);
+                        delay();
                         break;
 
                     } else if (PaymentReceipt() == 401) {
                         System.out.println("Uang tidak cukup!");
                         System.out.println("Proses Pembayaran gagal! \n");
-                        try {
-                            Thread.sleep(1000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                        System.out.println(clearScreen);
+                        delay();
                         continue;
 
                     } else if (PaymentReceipt() == 400) {
@@ -772,33 +757,19 @@ public class Main {
                     if (PaymentReceipt() == 200) {
                         System.out.println("Transaction Successful! \n");
                         orders[latestOrders][7] = "completed";
-                        try {
-                            Thread.sleep(1000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                        System.out.println(clearScreen);
+                        delay();
                         break;
 
                     } else if (PaymentReceipt() == 401) {
                         System.out.println("Uang tidak cukup!");
                         System.out.println("Proses Pembayaran gagal! \n");
-                        try {
-                            Thread.sleep(1000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                        System.out.println(clearScreen);
+                        delay();
                         continue;
 
                     } else if (PaymentReceipt() == 400) {
                         System.out.println("Transaction cancelled! \n");
-                        try {
-                            Thread.sleep(1000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                        System.out.println(clearScreen);
+                        delay();
+                        break;
                     }
 
                 case 3:
@@ -831,12 +802,7 @@ public class Main {
         }
 
         System.out.println("Ordering has been cancelled!");
-        try {
-            Thread.sleep(700);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        System.out.println(clearScreen);
+        delay();
     }
 
     // * Manage Item Menu Feature
@@ -981,12 +947,7 @@ public class Main {
                     items[latestItems][5] = Integer.toString(sc.nextInt());
 
                     System.out.println("New food has been successfully added!");
-                    try {
-                        Thread.sleep(700);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    System.out.println(clearScreen);
+                    delay();
                     break;
 
                 case 2:
@@ -1012,12 +973,7 @@ public class Main {
                     items[latestItems][5] = Integer.toString(sc.nextInt());
 
                     System.out.println("New drink has been successfully added!");
-                    try {
-                        Thread.sleep(700);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    System.out.println(clearScreen);
+                    delay();
                     break;
 
                 case 3:
@@ -1077,12 +1033,7 @@ public class Main {
             }
 
             System.out.println("Item has been successfully edited!");
-            try {
-                Thread.sleep(700);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            System.out.println(clearScreen);
+            delay();
         }
     }
 
@@ -1110,12 +1061,7 @@ public class Main {
             }
 
             System.out.println("Item successfully deleted!");
-            try {
-                Thread.sleep(700);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            System.out.println(clearScreen);
+            delay();
         } else {
             System.out.println("Invalid choice!");
         }
@@ -1162,12 +1108,7 @@ public class Main {
                                         .toString(Integer.parseInt(items[stockChoice - 1][2]) + jumlahMasuk);
                             } else {
                                 System.out.println("Pilihan tidak valid atau item tidak tersedia!");
-                                try {
-                                    Thread.sleep(700);
-                                } catch (InterruptedException e) {
-                                    e.printStackTrace();
-                                }
-                                System.out.println(clearScreen);
+                                delay();
                             }
                         }
                     } while (!exit);
@@ -1194,12 +1135,7 @@ public class Main {
                                         .toString(Integer.parseInt(items[stockChoice - 1][2]) - jumlahMasuk);
                             } else {
                                 System.out.println("Pilihan tidak valid atau item tidak tersedia!");
-                                try {
-                                    Thread.sleep(700);
-                                } catch (InterruptedException e) {
-                                    e.printStackTrace();
-                                }
-                                System.out.println(clearScreen);
+                                delay();
                             }
                         }
                     } while (!exit);
@@ -1249,12 +1185,7 @@ public class Main {
                             items[editDiscountChoice - 1][3] = Integer.toString(newDiscount);
                             System.out.println("Diskon " + items[editDiscountChoice - 1][0] + " diubah menjadi "
                                     + items[editDiscountChoice - 1][3] + "%");
-                            try {
-                                Thread.sleep(700);
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
-                            System.out.println(clearScreen);
+                            delay();
                         }
                     }
                     break;
@@ -1269,14 +1200,12 @@ public class Main {
 
                     switch (memberDiscountChoice) {
                         case 1: // Edit Diskon
-                            // Implement logic for editing member discount
                             System.out.println("Edit diskon member ");
                             System.out.print("Masukkan diskon baru: ");
                             int newDiscount = sc.nextInt();
                             memberDiskon = newDiscount;
                             break;
                         case 2: // Hapus Diskon
-                            // Implement logic for removing member discount
                             System.out
                                     .println(
                                             "Member discount removal functionality not implemented in this example.");
@@ -2124,31 +2053,19 @@ public class Main {
 
                 case 2:
                     CreateUser();
-                    try {
-                        Thread.sleep(700);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
+                    delay();
                     System.out.println(clearScreen);
                     break;
 
                 case 3:
                     EditUser();
-                    try {
-                        Thread.sleep(700);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
+                    delay();
                     System.out.println(clearScreen);
                     break;
 
                 case 4:
                     DeleteUser();
-                    try {
-                        Thread.sleep(700);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
+                    delay();
                     System.out.println(clearScreen);
                     break;
 
@@ -2158,11 +2075,7 @@ public class Main {
 
                 default:
                     System.out.println("Invalid choice!");
-                    try {
-                        Thread.sleep(700);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
+                    delay();
                     System.out.println(clearScreen);
                     break;
             }
@@ -2384,30 +2297,19 @@ public class Main {
                 if (inputUsername.equals(users[i][0]) && inputPassword.equals(users[i][1])) {
                     user_id = i;
                     System.out.println();
-                    System.out.println("Login berhasil!");
+                    System.out.println(GREEN + "Login berhasil!" + RESET);
                     access = true;
 
-                    try {
-                        Thread.sleep(700);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    System.out.println(clearScreen);
+                    delay();
                     break;
                 }
             }
 
             if (!access) {
-                System.out.println("Username dan password salah!");
-                System.out.println("Silahkan coba lagi!\n");
+                System.out.println(RED + "Username dan password salah!");
+                System.out.println("Silahkan coba lagi!\n" + RESET);
 
-                try {
-                    Thread.sleep(700);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-
-                System.out.println(clearScreen);
+                delay();
             }
         }
     }
@@ -2431,93 +2333,99 @@ public class Main {
         return "s";
     }
 
+    static void delay() {
+        try {
+            Thread.sleep(700);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println(clearScreen);
+    }
+
     public static void main(String[] args) {
 
         Init();
         try {
             sc = new Scanner(System.in);
-            Start();
+            while (session) {
+                if (!access) {
+                    Start();
+                }
+
+                // menu
+                System.out.println("╔════════════════════════════════════════════════╗");
+                System.out.println("║       Selamat Datang di Cafe The Orange!       ║");
+                System.out.println("╚════════════════════════════════════════════════╝");
+                System.out.println("[1] Buat Pesanan");
+                System.out.println("[2] Lihat Riwayat Penjualan");
+                if (users[user_id][2].equals("manager") || users[user_id][2].equals("admin")) {
+                    System.out.println("[3] Lihat Laporan Pendapatan");
+                    System.out.println("[4] Manajemen Item Menu");
+                    System.out.println("[5] Manajemen Stok");
+                    System.out.println("[6] Manajemen Diskon");
+                }
+                if (users[user_id][2].equals("admin")) {
+                    System.out.println("[7] Manajemen User");
+                }
+                System.out.println("[0] Logout");
+                System.out.print("Masukkan pilihan Anda: ");
+                mainChoice = sc.nextInt();
+                sc.nextLine();
+                System.out.println(clearScreen);
+
+                switch (mainChoice) {
+
+                    case 1:
+                        CreateOrder();
+                        continue;
+
+                    case 2:
+                        PickHistoryYear();
+                        break;
+
+                    case 3:
+                        if (CheckLevel("manajer") || CheckLevel("admin")) {
+                            PickReportYear();
+                        }
+                        break;
+
+                    case 4:
+                        if (CheckLevel("manajer") || CheckLevel("admin")) {
+                            ManageItems();
+                        }
+                        break;
+
+                    case 5:
+                        if (CheckLevel("manajer") || CheckLevel("admin")) {
+                            ManageStock();
+                        }
+                        break;
+
+                    case 6:
+                        if (CheckLevel("manajer") || CheckLevel("admin")) {
+                            manageDiscount();
+                        }
+                        break;
+
+                    case 7:
+                        if (CheckLevel("admin")) {
+                            ManageUsers();
+                        }
+                        break;
+
+                    case 0:
+                        Logout();
+                        break;
+
+                    default:
+                        System.out.println("Your choice does not exist!");
+                        System.out.println("Please try again!");
+                        break;
+                }
+            }
         } finally {
             if (sc != null) {
                 sc.close();
-            }
-        }
-
-        while (session) {
-
-            if (!access) {
-                Start();
-            }
-
-            // menu
-            System.out.println("╔════════════════════════════════════════════════╗");
-            System.out.println("║       Selamat Datang di Cafe The Orange!       ║");
-            System.out.println("╚════════════════════════════════════════════════╝");
-            System.out.println("[1] Buat Pesanan");
-            System.out.println("[2] Lihat Riwayat Penjualan");
-            if (users[user_id][2].equals("manager") || users[user_id][2].equals("admin")) {
-                System.out.println("[3] Lihat Laporan Pendapatan");
-                System.out.println("[4] Manajemen Item Menu");
-                System.out.println("[5] Manajemen Stok");
-                System.out.println("[6] Manajemen Diskon");
-            }
-            if (users[user_id][2].equals("admin")) {
-                System.out.println("[7] Manajemen User");
-            }
-            System.out.println("[0] Logout");
-            System.out.print("Masukkan pilihan Anda: ");
-            mainChoice = sc.nextInt();
-            sc.nextLine();
-            System.out.println(clearScreen);
-
-            switch (mainChoice) {
-
-                case 1:
-                    CreateOrder();
-                    continue;
-
-                case 2:
-                    PickHistoryYear();
-                    break;
-
-                case 3:
-                    if (CheckLevel("manajer") || CheckLevel("admin")) {
-                        PickReportYear();
-                    }
-                    break;
-
-                case 4:
-                    if (CheckLevel("manajer") || CheckLevel("admin")) {
-                        ManageItems();
-                    }
-                    break;
-
-                case 5:
-                    if (CheckLevel("manajer") || CheckLevel("admin")) {
-                        ManageStock();
-                    }
-                    break;
-
-                case 6:
-                    if (CheckLevel("manajer") || CheckLevel("admin")) {
-                        manageDiscount();
-                    }
-                    break;
-
-                case 7:
-                    if (CheckLevel("admin")) {
-                        ManageUsers();
-                    }
-                    break;
-
-                case 0:
-                    Logout();
-                    break;
-
-                default:
-                    System.out.println("Your choice does not exist!");
-                    System.out.println("Please try again!");
-                    break;
             }
         }
     }
