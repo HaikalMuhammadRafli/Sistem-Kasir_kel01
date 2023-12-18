@@ -2420,6 +2420,19 @@ public class Main {
         System.out.println(CLEARSCREEN);
     }
 
+    static void Notification(String type, String msg) {
+        System.out.println();
+        if (type.equals("success")) {
+            System.out.println("╔════════════════════════════════════════════════╗");
+            System.out.println("║" + GREEN + CenterString(48, msg) + RESET + "║");
+            System.out.println("╚════════════════════════════════════════════════╝");
+        } else if (type.equals("failure")) {
+            System.out.println("╔════════════════════════════════════════════════╗");
+            System.out.println("║" + RED + CenterString(48, msg) + RESET + "║");
+            System.out.println("╚════════════════════════════════════════════════╝");
+        }
+    }
+
     public static void main(String[] args) {
 
         Init();
@@ -2495,8 +2508,7 @@ public class Main {
                     break;
 
                 default:
-                    System.out.println("Your choice does not exist!");
-                    System.out.println("Please try again!");
+                    Notification("failure", "Your choice does not exist!");
                     break;
             }
         }
