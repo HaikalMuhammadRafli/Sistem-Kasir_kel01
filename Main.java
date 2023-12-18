@@ -51,9 +51,7 @@ public class Main {
     static String language[][] = { {}, };
 
     // other variables
-    static boolean session = true, access = false, ordering, stocking, memberValid, paying, managingItem;
-    static String inputUsername, inputPassword, inputUsernameHistory;
-    static int mainChoice, orderChoice, stockChoice, removeItemChoice, paymentChoice, historyChoice, manageItemChoice;
+    static boolean session = true, access = false, memberValid;
     static char isMember;
     static String memberName = " ";
 
@@ -182,7 +180,7 @@ public class Main {
     }
 
     // * Order Feature
-    static void ViewMenuList() {
+    static void ViewMenuList(String keyword) {
         System.out.println(
                 "╔══════════════════════════════════════════════════════════════════════════════════════════╗");
         System.out.println(
@@ -194,15 +192,28 @@ public class Main {
         System.out.println(
                 "╠══════════════════════════════════════════════════════════════════════════════════════════╣");
         for (int i = 0; i < items.length; i++) {
-            if (items[i][0] != null) {
-                System.out.println(String.format(
-                        "║ %3d ║ %16s ║ %16s ║ %12s ║ %10s ║ %16s ║",
-                        i + 1,
-                        items[i][0],
-                        items[i][4],
-                        items[i][1],
-                        items[i][2],
-                        items[i][3]));
+            if (keyword == null) {
+                if (items[i][0] != null) {
+                    System.out.println(String.format(
+                            "║ %3d ║ %16s ║ %16s ║ %12s ║ %10s ║ %16s ║",
+                            i + 1,
+                            items[i][0],
+                            items[i][4],
+                            items[i][1],
+                            items[i][2],
+                            items[i][3]));
+                }
+            } else {
+                if (items[i][0] != null && items[i][0].toLowerCase().contains(keyword.toLowerCase())) {
+                    System.out.println(String.format(
+                            "║ %3d ║ %16s ║ %16s ║ %12s ║ %10s ║ %16s ║",
+                            i + 1,
+                            items[i][0],
+                            items[i][4],
+                            items[i][1],
+                            items[i][2],
+                            items[i][3]));
+                }
             }
         }
 
@@ -212,9 +223,10 @@ public class Main {
                 "║ No  |                                   Other Choices                                    ║");
         System.out.println(
                 "╠══════════════════════════════════════════════════════════════════════════════════════════╣");
-        System.out.println(String.format("║ %3d ║ %82s ║", items.length, "Cancel an item"));
-        System.out.println(String.format("║ %3d ║ %82s ║", items.length + 1, "Finish order"));
-        System.out.println(String.format("║ %3d ║ %82s ║", items.length + 2, "Cancel and exit"));
+        System.out.println(String.format("║ %3d ║ %82s ║", items.length, "Search for an item"));
+        System.out.println(String.format("║ %3d ║ %82s ║", items.length + 1, "Cancel an item"));
+        System.out.println(String.format("║ %3d ║ %82s ║", items.length + 2, "Finish order"));
+        System.out.println(String.format("║ %3d ║ %82s ║", items.length + 3, "Cancel and exit"));
         System.out.println(
                 "╚══════════════════════════════════════════════════════════════════════════════════════════╝");
     }
@@ -459,6 +471,9 @@ public class Main {
     }
 
     static void CreateOrder() {
+
+        String keyword = null;
+
         // mencari baris yang kosong di orders
         if (!(orders[latestOrders][5] == null || orders[latestOrders][5].equals("0"))) {
             GetLatestOrders();
@@ -473,8 +488,7 @@ public class Main {
         // tanggal order
         orders[latestOrders][14] = LocalDate.now().format(dateFormat);
 
-        ordering = true;
-        while (ordering == true) {
+        while (true) {
 
             // mencari baris yang kosong di detail order
             GetLatestOrderDetails();
@@ -531,53 +545,53 @@ public class Main {
 
             System.out.println();
 
-            ViewMenuList();
+            ViewMenuList(keyword);
 
             System.out.println();
 
             System.out.print("> Choice : ");
 
-            orderChoice = sc.nextInt();
+            int choice = sc.nextInt();
             sc.nextLine();
 
-            if (orderChoice < items.length && items[orderChoice - 1][0] != null) {
-                CreateOrderDetail();
-                continue;
+            if (choice < items.length && items[choice - 1][0] != null) {
+                CreateOrderDetail(choice);
 
-            } else if (orderChoice == items.length) {
+            } else if (choice == items.length) {
+                keyword = Search(keyword);
+
+            } else if (choice == items.length + 1) {
                 CancelOrderDetail();
 
-            } else if (orderChoice == items.length + 1) {
+            } else if (choice == items.length + 2) {
                 FinishOrder();
                 break;
 
-            } else if (orderChoice == items.length + 2) {
+            } else if (choice == items.length + 3) {
                 CancelOrder();
                 break;
 
             } else {
                 System.out.println("Menu tersebut tidak ada!");
                 System.out.println("Silahkan coba lagi!\n");
-                continue;
-
             }
         }
     }
 
-    static void CreateOrderDetail() {
+    static void CreateOrderDetail(int choice) {
         // id
         order_details[latestOrder_details][0] = Integer.toString(latestOrders);
 
         // nama
-        order_details[latestOrder_details][1] = items[orderChoice - 1][0];
+        order_details[latestOrder_details][1] = items[choice - 1][0];
 
         // jumlah
-        System.out.print("> Beli Berapa PCS " + items[orderChoice - 1][0] + " ? : ");
+        System.out.print("> Beli Berapa PCS " + items[choice - 1][0] + " ? : ");
         order_details[latestOrder_details][2] = Integer.toString(sc.nextInt());
         sc.nextLine();
 
         // harga
-        order_details[latestOrder_details][3] = items[orderChoice - 1][1];
+        order_details[latestOrder_details][3] = items[choice - 1][1];
 
         // subtotal
         order_details[latestOrder_details][4] = Integer.toString(Integer
@@ -585,11 +599,11 @@ public class Main {
                 * Integer.parseInt(order_details[latestOrder_details][2]));
 
         // discount %
-        order_details[latestOrder_details][7] = items[orderChoice - 1][3];
+        order_details[latestOrder_details][7] = items[choice - 1][3];
 
         // total diskon
         order_details[latestOrder_details][5] = Integer.toString(
-                Integer.parseInt(order_details[latestOrder_details][4]) * Integer.parseInt(items[orderChoice - 1][3])
+                Integer.parseInt(order_details[latestOrder_details][4]) * Integer.parseInt(items[choice - 1][3])
                         / 100);
 
         // total
@@ -600,10 +614,10 @@ public class Main {
         // harga beli
         order_details[latestOrder_details][8] = Integer.toString(Integer
                 .parseInt(order_details[latestOrder_details][2])
-                * Integer.parseInt(items[orderChoice - 1][5]));
+                * Integer.parseInt(items[choice - 1][5]));
 
         // pengurangan stok
-        items[orderChoice - 1][2] = Integer.toString(Integer.parseInt(items[orderChoice - 1][2])
+        items[choice - 1][2] = Integer.toString(Integer.parseInt(items[choice - 1][2])
                 - Integer.parseInt(order_details[latestOrder_details][2]));
     }
 
@@ -613,7 +627,7 @@ public class Main {
         ViewOrderDetailList();
 
         System.out.print("> Choice : ");
-        removeItemChoice = sc.nextInt();
+        int removeItemChoice = sc.nextInt();
 
         if (removeItemChoice < order_details.length && order_details[removeItemChoice][0]
                 .equals(Integer.toString(latestOrders))) {
@@ -684,7 +698,7 @@ public class Main {
             } else {
                 System.out.println("Input invalid!");
                 System.out.println("Please try again!");
-                delay();
+                Delay();
                 continue;
             }
 
@@ -729,7 +743,7 @@ public class Main {
             System.out.println("[2] Bank Card");
             System.out.println("[3] Back");
             System.out.print("Choose your payment method : ");
-            paymentChoice = sc.nextInt();
+            int paymentChoice = sc.nextInt();
             sc.nextLine();
             System.out.println(clearScreen);
 
@@ -739,13 +753,13 @@ public class Main {
                     if (PaymentReceipt() == 200) {
                         System.out.println("Transaction Successful! \n");
                         orders[latestOrders][7] = "completed";
-                        delay();
+                        Delay();
                         break;
 
                     } else if (PaymentReceipt() == 401) {
                         System.out.println("Uang tidak cukup!");
                         System.out.println("Proses Pembayaran gagal! \n");
-                        delay();
+                        Delay();
                         continue;
 
                     } else if (PaymentReceipt() == 400) {
@@ -757,18 +771,18 @@ public class Main {
                     if (PaymentReceipt() == 200) {
                         System.out.println("Transaction Successful! \n");
                         orders[latestOrders][7] = "completed";
-                        delay();
+                        Delay();
                         break;
 
                     } else if (PaymentReceipt() == 401) {
                         System.out.println("Uang tidak cukup!");
                         System.out.println("Proses Pembayaran gagal! \n");
-                        delay();
+                        Delay();
                         continue;
 
                     } else if (PaymentReceipt() == 400) {
                         System.out.println("Transaction cancelled! \n");
-                        delay();
+                        Delay();
                         break;
                     }
 
@@ -802,12 +816,12 @@ public class Main {
         }
 
         System.out.println("Ordering has been cancelled!");
-        delay();
+        Delay();
     }
 
     // * Manage Item Menu Feature
     static void ManageItems() {
-        managingItem = true;
+        boolean managingItem = true;
         while (managingItem == true) {
             System.out.println("╔════════════════════════════════╗");
             System.out.println("║        MANAGE ITEM MENU        ║");
@@ -819,7 +833,7 @@ public class Main {
             System.out.println("[5] Back");
 
             System.out.print("Masukkan pilihan anda : ");
-            manageItemChoice = sc.nextInt();
+            int manageItemChoice = sc.nextInt();
             sc.nextLine();
             System.out.println(clearScreen);
 
@@ -947,7 +961,7 @@ public class Main {
                     items[latestItems][5] = Integer.toString(sc.nextInt());
 
                     System.out.println("New food has been successfully added!");
-                    delay();
+                    Delay();
                     break;
 
                 case 2:
@@ -973,7 +987,7 @@ public class Main {
                     items[latestItems][5] = Integer.toString(sc.nextInt());
 
                     System.out.println("New drink has been successfully added!");
-                    delay();
+                    Delay();
                     break;
 
                 case 3:
@@ -1033,7 +1047,7 @@ public class Main {
             }
 
             System.out.println("Item has been successfully edited!");
-            delay();
+            Delay();
         }
     }
 
@@ -1061,7 +1075,7 @@ public class Main {
             }
 
             System.out.println("Item successfully deleted!");
-            delay();
+            Delay();
         } else {
             System.out.println("Invalid choice!");
         }
@@ -1069,7 +1083,7 @@ public class Main {
 
     // * Manage Stock Feature
     static void ManageStock() {
-        stocking = true;
+        boolean stocking = true;
         boolean exit = false;
 
         while (stocking) {
@@ -1108,7 +1122,7 @@ public class Main {
                                         .toString(Integer.parseInt(items[stockChoice - 1][2]) + jumlahMasuk);
                             } else {
                                 System.out.println("Pilihan tidak valid atau item tidak tersedia!");
-                                delay();
+                                Delay();
                             }
                         }
                     } while (!exit);
@@ -1135,7 +1149,7 @@ public class Main {
                                         .toString(Integer.parseInt(items[stockChoice - 1][2]) - jumlahMasuk);
                             } else {
                                 System.out.println("Pilihan tidak valid atau item tidak tersedia!");
-                                delay();
+                                Delay();
                             }
                         }
                     } while (!exit);
@@ -1185,7 +1199,7 @@ public class Main {
                             items[editDiscountChoice - 1][3] = Integer.toString(newDiscount);
                             System.out.println("Diskon " + items[editDiscountChoice - 1][0] + " diubah menjadi "
                                     + items[editDiscountChoice - 1][3] + "%");
-                            delay();
+                            Delay();
                         }
                     }
                     break;
@@ -2053,19 +2067,19 @@ public class Main {
 
                 case 2:
                     CreateUser();
-                    delay();
+                    Delay();
                     System.out.println(clearScreen);
                     break;
 
                 case 3:
                     EditUser();
-                    delay();
+                    Delay();
                     System.out.println(clearScreen);
                     break;
 
                 case 4:
                     DeleteUser();
-                    delay();
+                    Delay();
                     System.out.println(clearScreen);
                     break;
 
@@ -2075,7 +2089,7 @@ public class Main {
 
                 default:
                     System.out.println("Invalid choice!");
-                    delay();
+                    Delay();
                     System.out.println(clearScreen);
                     break;
             }
@@ -2272,26 +2286,27 @@ public class Main {
         }
     }
 
-    private static String CenterString(int width, String s) {
+    static String CenterString(int width, String s) {
         int padSize = (width - s.length()) / 2;
         return String.format("%" + padSize + "s%s%" + (padSize + (width - s.length()) % 2) + "s", "", s, "");
     }
 
-    private static String PadString(int width, String s) {
+    static String PadString(int width, String s) {
         return String.format("%-" + width + "s", s);
     }
 
     // * login
     static void Login() {
         while (!access) {
+
             System.out.println("╔══════════════════════════════╗");
             System.out.println("║        SILAHKAN LOGIN        ║");
             System.out.println("╚══════════════════════════════╝");
 
             System.out.print("Input username : ");
-            inputUsername = sc.nextLine();
+            String inputUsername = sc.nextLine();
             System.out.print("Input password : ");
-            inputPassword = sc.nextLine();
+            String inputPassword = sc.nextLine();
 
             for (int i = 0; i < users.length; i++) {
                 if (inputUsername.equals(users[i][0]) && inputPassword.equals(users[i][1])) {
@@ -2300,7 +2315,7 @@ public class Main {
                     System.out.println(GREEN + "Login berhasil!" + RESET);
                     access = true;
 
-                    delay();
+                    Delay();
                     break;
                 }
             }
@@ -2309,7 +2324,7 @@ public class Main {
                 System.out.println(RED + "Username dan password salah!");
                 System.out.println("Silahkan coba lagi!\n" + RESET);
 
-                delay();
+                Delay();
             }
         }
     }
@@ -2329,11 +2344,18 @@ public class Main {
 
     }
 
-    static String CenterString() {
-        return "s";
+    static String Search(String keyword) {
+        System.out.println("To reset search keyword input (-)!");
+        System.out.print("> Input name (" + keyword + ") : ");
+        keyword = sc.nextLine();
+        if (!keyword.equals("-")) {
+            return keyword;
+        } else {
+            return null;
+        }
     }
 
-    static void delay() {
+    static void Delay() {
         try {
             Thread.sleep(700);
         } catch (InterruptedException e) {
@@ -2345,88 +2367,83 @@ public class Main {
     public static void main(String[] args) {
 
         Init();
-        try {
-            sc = new Scanner(System.in);
-            while (session) {
-                if (!access) {
-                    Start();
-                }
 
-                // menu
-                System.out.println("╔════════════════════════════════════════════════╗");
-                System.out.println("║       Selamat Datang di Cafe The Orange!       ║");
-                System.out.println("╚════════════════════════════════════════════════╝");
-                System.out.println("[1] Buat Pesanan");
-                System.out.println("[2] Lihat Riwayat Penjualan");
-                if (users[user_id][2].equals("manager") || users[user_id][2].equals("admin")) {
-                    System.out.println("[3] Lihat Laporan Pendapatan");
-                    System.out.println("[4] Manajemen Item Menu");
-                    System.out.println("[5] Manajemen Stok");
-                    System.out.println("[6] Manajemen Diskon");
-                }
-                if (users[user_id][2].equals("admin")) {
-                    System.out.println("[7] Manajemen User");
-                }
-                System.out.println("[0] Logout");
-                System.out.print("Masukkan pilihan Anda: ");
-                mainChoice = sc.nextInt();
-                sc.nextLine();
-                System.out.println(clearScreen);
-
-                switch (mainChoice) {
-
-                    case 1:
-                        CreateOrder();
-                        continue;
-
-                    case 2:
-                        PickHistoryYear();
-                        break;
-
-                    case 3:
-                        if (CheckLevel("manajer") || CheckLevel("admin")) {
-                            PickReportYear();
-                        }
-                        break;
-
-                    case 4:
-                        if (CheckLevel("manajer") || CheckLevel("admin")) {
-                            ManageItems();
-                        }
-                        break;
-
-                    case 5:
-                        if (CheckLevel("manajer") || CheckLevel("admin")) {
-                            ManageStock();
-                        }
-                        break;
-
-                    case 6:
-                        if (CheckLevel("manajer") || CheckLevel("admin")) {
-                            manageDiscount();
-                        }
-                        break;
-
-                    case 7:
-                        if (CheckLevel("admin")) {
-                            ManageUsers();
-                        }
-                        break;
-
-                    case 0:
-                        Logout();
-                        break;
-
-                    default:
-                        System.out.println("Your choice does not exist!");
-                        System.out.println("Please try again!");
-                        break;
-                }
+        while (session) {
+            if (!access) {
+                Start();
             }
-        } finally {
-            if (sc != null) {
-                sc.close();
+
+            // menu
+            System.out.println("╔════════════════════════════════════════════════╗");
+            System.out.println("║       Selamat Datang di Cafe The Orange!       ║");
+            System.out.println("╚════════════════════════════════════════════════╝");
+            System.out.println("[1] Buat Pesanan");
+            System.out.println("[2] Lihat Riwayat Penjualan");
+            if (users[user_id][2].equals("manager") || users[user_id][2].equals("admin")) {
+                System.out.println("[3] Lihat Laporan Pendapatan");
+                System.out.println("[4] Manajemen Item Menu");
+                System.out.println("[5] Manajemen Stok");
+                System.out.println("[6] Manajemen Diskon");
+            }
+            if (users[user_id][2].equals("admin")) {
+                System.out.println("[7] Manajemen User");
+            }
+            System.out.println("[0] Logout");
+            System.out.print("Masukkan pilihan Anda: ");
+            int choice = sc.nextInt();
+            sc.nextLine();
+            System.out.println(clearScreen);
+
+            switch (choice) {
+
+                case 1:
+                    CreateOrder();
+                    continue;
+
+                case 2:
+                    PickHistoryYear();
+                    break;
+
+                case 3:
+                    if (CheckLevel("manajer") || CheckLevel("admin")) {
+                        PickReportYear();
+                    }
+                    break;
+
+                case 4:
+                    if (CheckLevel("manajer") || CheckLevel("admin")) {
+                        ManageItems();
+                    }
+                    break;
+
+                case 5:
+                    if (CheckLevel("manajer") || CheckLevel("admin")) {
+                        ManageStock();
+                    }
+                    break;
+
+                case 6:
+                    if (CheckLevel("manajer") || CheckLevel("admin")) {
+                        manageDiscount();
+                    }
+                    break;
+
+                case 7:
+                    if (CheckLevel("admin")) {
+                        ManageUsers();
+                    }
+                    break;
+
+                case 0:
+                    Logout();
+                    break;
+
+                default:
+                    System.out.println("Your choice does not exist!");
+                    System.out.println("Please try again!");
+                    break;
             }
         }
+
     }
 }
