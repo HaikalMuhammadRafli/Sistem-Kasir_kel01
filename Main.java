@@ -18,7 +18,7 @@ public class Main {
     static DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
     // additional variables
-    static String clearScreen = "\u001b[H\u001b[2J";
+    static String CLEARSCREEN = "\u001b[H\u001b[2J";
     static String RESET = "\u001B[37m";
     static String RED = "\u001B[31m";
     static String GREEN = "\u001B[32m";
@@ -2417,7 +2417,7 @@ public class Main {
     }
 
     static void ClearScreen() {
-        System.out.println(clearScreen);
+        System.out.println(CLEARSCREEN);
     }
 
     public static void main(String[] args) {
