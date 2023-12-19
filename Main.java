@@ -14,6 +14,7 @@ import java.util.Set;
 public class Main {
 
     // declarations
+    static int selectedLanguage;
     static Scanner sc = new Scanner(System.in);
     static DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
@@ -46,13 +47,6 @@ public class Main {
 
     // array and variables for membership
     static String noMembership[][];
-
-    // array for language
-    static int selectedLanguage = 0;
-    static String language[][] = {
-            { "Login", "Switch Language", "Exit Program", "Login Page", "Exiting Program" },
-            { "Masuk", "Ganti Bahasa", "Keluar Program", "Halaman Login", "Keluar Program" }
-    };
 
     // other variables
     static boolean session = true, access = false, memberValid;
@@ -2302,7 +2296,7 @@ public class Main {
     }
 
     static void Start() {
-
+        String language[][] = { { "Login", "Masuk" }, { "Switch Language", "Ganti Bahasa" }, { "Exit", "Keluar" } };
         while (true) {
             System.out.println(
                     "╔╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╗");
@@ -2324,9 +2318,9 @@ public class Main {
                     "╠╬╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╬╣");
             System.out.println(
                     "╚╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╝");
-            System.out.println("[1] " + language[selectedLanguage][0]);
-            System.out.println("[2] " + language[selectedLanguage][1]);
-            System.out.println("[3] " + language[selectedLanguage][2]);
+            System.out.println("[1] " + language[0][selectedLanguage]);
+            System.out.println("[2] " + language[1][selectedLanguage]);
+            System.out.println("[3] " + language[2][selectedLanguage]);
             System.out.print("> Your choice : ");
             int choice = sc.nextInt();
             sc.nextLine();
