@@ -48,7 +48,11 @@ public class Main {
     static String noMembership[][];
 
     // array for language
-    static String language[][] = { {}, };
+    static int selectedLanguage = 0;
+    static String language[][] = {
+            { "Login", "Switch Language", "Exit Program", "Login Page", "Exiting Program" },
+            { "Masuk", "Ganti Bahasa", "Keluar Program", "Halaman Login", "Keluar Program" }
+    };
 
     // other variables
     static boolean session = true, access = false, memberValid;
@@ -2320,7 +2324,24 @@ public class Main {
 
     // * Swtich Language
     static void SwitchLanguage() {
-        //
+        System.out.println("Select Language:");
+        System.out.println("1. English");
+        System.out.println("2. Bahasa Indonesia");
+        System.out.print("> Your choice : ");
+        int languageChoice = sc.nextInt();
+        sc.nextLine();
+
+        switch (languageChoice) {
+            case 1:
+                selectedLanguage = 0; // English
+                break;
+            case 2:
+                selectedLanguage = 1; // Bahasa Indonesia
+                break;
+            default:
+                Notification("failure", "Invalid choice!");
+                break;
+        }
     }
 
     // * Exit Program
@@ -2354,9 +2375,9 @@ public class Main {
                     "╠╬╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╬╣");
             System.out.println(
                     "╚╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╝");
-            System.out.println("[1] Login");
-            System.out.println("[2] Change language");
-            System.out.println("[3] Exit program");
+            System.out.println("[1] " + language[selectedLanguage][0]);
+            System.out.println("[2] " + language[selectedLanguage][1]);
+            System.out.println("[3] " + language[selectedLanguage][2]);
             System.out.print("> Your choice : ");
             int choice = sc.nextInt();
             sc.nextLine();
