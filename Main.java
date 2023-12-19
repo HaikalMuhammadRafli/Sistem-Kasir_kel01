@@ -49,10 +49,6 @@ public class Main {
 
     // array for language
     static int selectedLanguage = 0;
-    static String language[][] = {
-            { "Login", "Switch Language", "Exit Program", "Login Page", "Exiting Program" },
-            { "Masuk", "Ganti Bahasa", "Keluar Program", "Halaman Login", "Keluar Program" }
-    };
 
     // other variables
     static boolean session = true, access = false, memberValid;
@@ -2354,6 +2350,12 @@ public class Main {
 
     static void Start() {
 
+        String language[][] = {
+                { "Login", "Masuk" },
+                { "Switch language", "Ganti bahasa" },
+                { "Exit program", "Keluar program" }
+        };
+
         while (true) {
             System.out.println(
                     "╔╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╗");
@@ -2375,9 +2377,9 @@ public class Main {
                     "╠╬╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╬╣");
             System.out.println(
                     "╚╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╝");
-            System.out.println("[1] " + language[selectedLanguage][0]);
-            System.out.println("[2] " + language[selectedLanguage][1]);
-            System.out.println("[3] " + language[selectedLanguage][2]);
+            System.out.println("[1] " + language[0][selectedLanguage]); // login
+            System.out.println("[2] " + language[1][selectedLanguage]); // switch language
+            System.out.println("[3] " + language[2][selectedLanguage]); // exit program
             System.out.print("> Your choice : ");
             int choice = sc.nextInt();
             sc.nextLine();
