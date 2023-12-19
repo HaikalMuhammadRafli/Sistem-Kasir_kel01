@@ -2195,75 +2195,120 @@ public class Main {
         System.out.println("New user has been successfully added!");
     }
 
+    static void searchUser(String keyword) {
+        System.out.println("To reset search keyword input (-)!");
+        System.out.println("╔══════════════════════════════════════════════════════════════════╗");
+        System.out.println("║                            User List                             ║");
+        System.out.println("╠══════════════════════════════════════════════════════════════════╣");
+        System.out.println("║ No  |       Username       |       Password       |     Role     ║");
+        System.out.println("╠══════════════════════════════════════════════════════════════════╣");
+
+        for (int i = 0; i < users.length; i++) {
+            if (users[i][0] != null && (keyword == null || users[i][0].contains(keyword))) {
+                System.out.println(
+                        String.format("║ %3d ║ %20s ║ %20s ║ %12s ║", (i + 1), users[i][0], users[i][1], users[i][2]));
+            }
+        }
+
+        System.out.println("╚══════════════════════════════════════════════════════════════════╝");
+    }
+
     static void EditUser() {
+        String temp, keyword = null;
 
-        String temp;
+        while (true) {
+            searchUser(keyword); // Menampilkan daftar pengguna berdasarkan pencarian
 
-        ViewUserList();
+            System.out.println("[" + users.length + "] Search for a user");
+            System.out.println("[" + (users.length + 1) + "] Back");
+            System.out.println("Input the number to edit the user!");
+            System.out.print("> Your choice : ");
+            int editUserChoice = sc.nextInt() - 1;
+            sc.nextLine();
+            ClearScreen();
 
-        System.out.print("Input the number to edit the user : ");
-        int editUserChoice = sc.nextInt() - 1;
-        sc.nextLine();
-        ClearScreen();
-
-        if (editUserChoice < users.length && users[editUserChoice][0] != null) {
-            System.out.println("Input (-) to not edit the data!");
-            System.out.print("Input new username (" + users[editUserChoice][0] + ") : ");
-            temp = sc.nextLine();
-            if (!temp.equals("-")) {
-                users[editUserChoice][0] = temp;
-            }
-
-            System.out.print("Input new password (" + users[editUserChoice][1] + ") : ");
-            temp = sc.nextLine();
-            if (!temp.equals("-")) {
-                users[editUserChoice][1] = temp;
-            }
-
-            while (true) {
-                System.out.print("Input new role (" + users[editUserChoice][2] + ") : ");
+            if (editUserChoice < users.length && users[editUserChoice][0] != null) {
+                // Logika untuk mengedit user
+                System.out.println("Input (-) to not edit the data!");
+                System.out.print("> Input new username (" + users[editUserChoice][0] + ") : ");
                 temp = sc.nextLine();
-                if (!temp.equals("-") && (temp.equals("kasir") || temp.equals("manajer") || temp.equals("admin"))) {
-                    users[editUserChoice][2] = temp;
-                    break;
-
-                } else {
-                    Notification("failure", "Invalid Role!");
-                    ;
-                    continue;
+                if (!temp.equals("-")) {
+                    users[editUserChoice][0] = temp;
                 }
-            }
 
-            Notification("success", "User successfully edited!");
+                System.out.print("> Input new password (" + users[editUserChoice][1] + ") : ");
+                temp = sc.nextLine();
+                if (!temp.equals("-")) {
+                    users[editUserChoice][1] = temp;
+                }
+
+                while (true) {
+                    System.out.print("> Input new role (" + users[editUserChoice][2] + ") : ");
+                    temp = sc.nextLine();
+                    if (!temp.equals("-") && (temp.equals("kasir") || temp.equals("manajer") || temp.equals("admin"))) {
+                        users[editUserChoice][2] = temp;
+                        break;
+                    } else {
+                        Notification("failure", "Invalid Role!");
+                        continue;
+                    }
+                }
+
+                Notification("success", "User successfully edited!");
+                break;
+
+            } else if (editUserChoice + 1 == users.length) {
+                keyword = Search(keyword); // Metode untuk mencari user berdasarkan keyword
+
+            } else if (editUserChoice + 1 == users.length + 1) {
+                break;
+
+            } else {
+                Notification("failure", "Invalid choice!");
+            }
         }
     }
 
     static void DeleteUser() {
+        String keyword = null;
 
-        ViewUserList();
+        while (true) {
+            searchUser(keyword); // Menampilkan daftar pengguna berdasarkan pencarian
 
-        System.out.print("Input the number to delete the user : ");
-        int deleteUserChoice = sc.nextInt() - 1;
-        sc.nextLine();
+            System.out.println("[" + users.length + "] Search for a user");
+            System.out.println("[" + (users.length + 1) + "] Back");
+            System.out.println("Input the number to delete the user!");
+            System.out.print("> Your choice : ");
+            int deleteUserChoice = sc.nextInt() - 1;
+            sc.nextLine();
+            ClearScreen();
 
-        if (deleteUserChoice < users.length && users[deleteUserChoice][0] != null) {
-            for (int i = 0; i < users[deleteUserChoice].length; i++) {
-                users[deleteUserChoice][i] = null;
-            }
+            if (deleteUserChoice < users.length && users[deleteUserChoice][0] != null) {
+                // Logika untuk menghapus user
+                for (int i = 0; i < users[deleteUserChoice].length; i++) {
+                    users[deleteUserChoice][i] = null;
+                }
 
-            for (int i = 0; i < users.length - 1; i++) {
-                if (users[i][0] == null && users[i + 1][0] != null) { // Use && instead of &
-                    for (int j = 0; j < users[i].length; j++) {
-                        users[i][j] = users[i + 1][j];
-                        users[i + 1][j] = null;
+                // Mengkompres array untuk mengisi ruang kosong setelah penghapusan
+                for (int i = deleteUserChoice; i < users.length - 1; i++) {
+                    if (users[i][0] == null && users[i + 1][0] != null) {
+                        for (int j = 0; j < users[i].length; j++) {
+                            users[i][j] = users[i + 1][j];
+                            users[i + 1][j] = null;
+                        }
                     }
                 }
-            }
 
-            Notification("success", "User successfully deleted!");
-        } else {
-            Notification("failure", "Invalid Choice");
-            return;
+                Notification("success", "User successfully deleted!");
+            } else if (deleteUserChoice + 1 == users.length) {
+                keyword = Search(keyword); // Metode untuk mencari user berdasarkan keyword
+
+            } else if (deleteUserChoice + 1 == users.length + 1) {
+                break;
+            } else {
+                Notification("failure", "Invalid Choice");
+                return;
+            }
         }
     }
 
