@@ -49,6 +49,7 @@ public class Main {
 
     // array for language
     static int selectedLanguage = 0;
+    static String notifMsg[][] = { { "Invalid choice!", "Pilihan tidak valid!" }, };
 
     // other variables
     static boolean session = true, access = false, memberValid;
