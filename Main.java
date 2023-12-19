@@ -1134,6 +1134,15 @@ public class Main {
         boolean stocking = true;
         boolean exit = false;
 
+        String[][] stockLanguage = {
+                { "Manage Stock", "Kelola Stok" },
+                { "Add Stock", "Tambah Stok" },
+                { "Reduce Stock", "Kurangi Stok" },
+                { "Choose item to add stock", "Pilih item untuk menambahkan stok" },
+                { "Choose item to reduce stock", "Pilih item untuk mengurangi stok" },
+                { "Back", "Kembali" }
+        };
+
         while (stocking) {
             System.out.println();
             System.out.println("╔══════════════════════════════════════════════╗");
@@ -1141,11 +1150,11 @@ public class Main {
             System.out.println("╚══════════════════════════════════════════════╝");
 
             // Menambahkan pilihan menu
-            System.out.println("1. Tambah Stok");
-            System.out.println("2. Kurangi Stok");
-            System.out.println("3. Keluar");
+            System.out.println("1. " + stockLanguage[1][selectedLanguage]); // Add Stock
+            System.out.println("2. " + stockLanguage[2][selectedLanguage]); // Reduce Stock
+            System.out.println("3. " + stockLanguage[5][selectedLanguage]); // Back
 
-            System.out.print("Pilihan: ");
+            System.out.print(stockLanguage[0][selectedLanguage] + ": ");
             int menuChoice = sc.nextInt();
             ClearScreen();
 
@@ -1154,9 +1163,10 @@ public class Main {
                     exit = false;
                     do {
                         ViewItemList(null);
-                        System.out.println("[" + (items.length + 1) + "] kembali");
+                        System.out.println("[" + (items.length + 1) + "] " + stockLanguage[5][selectedLanguage]); // Back
                         // Capture user's choice for stock update
-                        System.out.print("Pilih item untuk tambah stok: ");
+                        System.out.print(
+                                stockLanguage[3][selectedLanguage] + " : ");
                         int stockChoice = sc.nextInt();
                         // Validate user choice and update stock
                         if (stockChoice == items.length + 1) {
@@ -1164,12 +1174,13 @@ public class Main {
                         } else {
                             // Validate user choice and update stock
                             if (stockChoice > 0 && stockChoice <= items.length && items[stockChoice - 1][0] != null) {
-                                System.out.print("Tambah stok " + items[stockChoice - 1][0] + " : ");
+                                System.out.print(
+                                        stockLanguage[1][selectedLanguage] + " " + items[stockChoice - 1][0] + " : ");
                                 int jumlahMasuk = sc.nextInt();
                                 items[stockChoice - 1][2] = Integer
                                         .toString(Integer.parseInt(items[stockChoice - 1][2]) + jumlahMasuk);
                             } else {
-                                Notification("failure", "Invalid choice!");
+                                Notification("failure", stockLanguage[0][selectedLanguage]);
                                 Delay();
                             }
                         }
@@ -1180,9 +1191,10 @@ public class Main {
                     exit = false;
                     do {
                         ViewItemList(null);
-                        System.out.println("[" + (items.length + 1) + "] kembali");
+                        System.out.println("[" + (items.length + 1) + "] " + stockLanguage[5][selectedLanguage]); // Back
                         // Capture user's choice for stock update
-                        System.out.print("Pilih item untuk mengurangi stok: ");
+                        System.out.print(
+                                stockLanguage[4][selectedLanguage] + " : ");
                         int stockChoice = sc.nextInt();
 
                         // Check if user wants to exit
@@ -1192,12 +1204,13 @@ public class Main {
                         } else {
                             // Validate user choice and update stock
                             if (stockChoice > 0 && stockChoice <= items.length && items[stockChoice - 1][0] != null) {
-                                System.out.print("kurangi stok " + items[stockChoice - 1][0] + " : ");
+                                System.out.print(
+                                        stockLanguage[2][selectedLanguage] + " " + items[stockChoice - 1][0] + " : ");
                                 int jumlahMasuk = sc.nextInt();
                                 items[stockChoice - 1][2] = Integer
                                         .toString(Integer.parseInt(items[stockChoice - 1][2]) - jumlahMasuk);
                             } else {
-                                Notification("failure", "Item tidak ditemukan!");
+                                Notification("failure", stockLanguage[0][selectedLanguage]);
                                 Delay();
                             }
                         }
@@ -1205,12 +1218,12 @@ public class Main {
                     break;
 
                 case 3:
-                    System.out.println("Keluar manajemen stok!");
+                    System.out.println(stockLanguage[3][selectedLanguage]);
                     stocking = false;
                     break;
 
                 default:
-                    Notification("failure", "Invalid choice!");
+                    Notification("failure", notifMsg[0][selectedLanguage]);
             }
         }
     }
@@ -1219,62 +1232,86 @@ public class Main {
     static void manageDiscount() {
         boolean continueManaging = true;
 
+        String[][] discountLanguage = {
+                { "Manage Discount", "Kelola Diskon" },
+                { "Edit Discount", "Edit Diskon" },
+                { "Remove Discount", "Hapus Diskon" },
+                { "Choose item to edit discount", "Pilih item untuk mengedit diskon" },
+                { "Enter new discount", "Masukkan diskon baru" },
+                { "Discount updated!", "Diskon diperbarui!" },
+                { "Discount removed!", "Diskon dihapus!" },
+                { "Edit member discount", "Edit diskon member" },
+                { "Enter new member discount", "Masukkan diskon member baru" },
+                { "Member discount updated!", "Diskon member diperbarui!" },
+                { "Member discount removed!", "Diskon member dihapus!" },
+                { "Invalid choice! Try again.", "Pilihan tidak valid! Coba lagi." },
+                { "Back", "Kembali" },
+                { "Item Discount", "Diskon Item" },
+                { "Member Discount", "Diskon Member" },
+                { "Choose the Menu", "Pilih Menu" },
+        };
+
         while (continueManaging) {
             System.out.println();
             System.out.println("╔══════════════════════════════════════╗");
-            System.out.println("║             Manage Discount          ║");
+            System.out.println("║ " + "          " + discountLanguage[0][selectedLanguage] + "            ║");
             System.out.println("╚══════════════════════════════════════╝");
 
-            System.out.println("1. Diskon item");
-            System.out.println("2. Diskon Member" + " (" + memberDiskon + "%)");
-            System.out.println("3. Kembali");
-            System.out.print("Choice: ");
+            System.out.println("1. " + discountLanguage[13][selectedLanguage]); // Item Discount
+            System.out.println("2. " + discountLanguage[14][selectedLanguage] + " (" + memberDiskon + "%)"); // Member
+                                                                                                             // Discount
+            System.out.println("3. " + discountLanguage[12][selectedLanguage]); // Back
+            System.out.print(discountLanguage[15][selectedLanguage] + ": ");
             int choice = sc.nextInt();
             sc.nextLine();
             ClearScreen();
 
             switch (choice) {
-                case 1: // Diskon item
-                    System.out.println("1. Edit Diskon");
+                case 1: // Item Discount
+                    System.out.println("1. " + discountLanguage[1][selectedLanguage]); // Edit Discount
 
-                    if (choice == 1) { // Edit Diskon
+                    if (choice == 1) { // Edit Discount
                         ViewSimpleItemList();
-                        System.out.print("Pilih item: ");
+                        System.out.print(discountLanguage[3][selectedLanguage] + ": "); // Choose item to edit discount
                         int editDiscountChoice = sc.nextInt();
                         if (editDiscountChoice > 0 && editDiscountChoice <= items.length
                                 && items[editDiscountChoice - 1][0] != null) {
                             System.out.print(
-                                    "Masukkan diskon baru " + items[editDiscountChoice - 1][0] + ": ");
+                                    discountLanguage[4][selectedLanguage] + " " + items[editDiscountChoice - 1][0]
+                                            + ": "); // Enter new discount
                             int newDiscount = sc.nextInt();
                             items[editDiscountChoice - 1][3] = Integer.toString(newDiscount);
-                            System.out.println("Diskon " + items[editDiscountChoice - 1][0] + " diubah menjadi "
-                                    + items[editDiscountChoice - 1][3] + "%");
+                            System.out.println(
+                                    discountLanguage[5][selectedLanguage] + " " + items[editDiscountChoice - 1][0] + " "
+                                            + discountLanguage[6][selectedLanguage] + " "
+                                            + items[editDiscountChoice - 1][3]
+                                            + "%"); // Discount updated
                             Delay();
                         }
                     }
                     break;
 
-                case 2: // Diskon Member
-                    System.out.println("1. Edit Diskon");
-                    System.out.println("2. Hapus Diskon");
-                    System.out.print("Pilihan: ");
+                case 2: // Member Discount
+                    System.out.println("1. " + discountLanguage[1][selectedLanguage]); // Edit Discount
+                    System.out.println("2. " + discountLanguage[2][selectedLanguage]); // Remove Discount
+                    System.out.print(discountLanguage[15][selectedLanguage] + ": "); // Enter new member discount
                     int memberDiscountChoice = sc.nextInt();
                     sc.nextLine();
                     ClearScreen();
 
                     switch (memberDiscountChoice) {
-                        case 1: // Edit Diskon
-                            System.out.println("Edit diskon member ");
-                            System.out.print("Masukkan diskon baru: ");
+                        case 1: // Edit Discount
+                            System.out.println(discountLanguage[7][selectedLanguage]); // Edit member discount
+                            System.out.print(discountLanguage[8][selectedLanguage] + ": "); // Enter new member discount
                             int newDiscount = sc.nextInt();
                             memberDiskon = newDiscount;
                             break;
-                        case 2: // Hapus Diskon
+                        case 2: // Remove Discount
                             memberDiskon = 0;
-                            Notification("success", "Diskon member direset!");
+                            System.out.println(discountLanguage[10][selectedLanguage]); // Member discount removed
                             break;
                         default:
-                            Notification("failure", "Invalid choice! Try again.");
+                            System.out.println(discountLanguage[12][selectedLanguage]); // Invalid choice! Try again.
                     }
                     break;
 
@@ -1283,7 +1320,7 @@ public class Main {
                     break;
 
                 default:
-                    Notification("failure", "Invalid choice! Try again.");
+                    System.out.println(discountLanguage[12][selectedLanguage]); // Invalid choice! Try again.
             }
         }
     }
