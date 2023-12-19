@@ -1044,8 +1044,10 @@ public class Main {
                     if (temp.equals("Makanan") || temp.equals("Minuman")) {
                         items[editItemChoice][4] = temp;
                         break;
+
                     } else if (temp.equals("-")) {
                         break;
+
                     } else {
                         Notification("failure", "Invalid Type!");
                         continue;
@@ -2107,7 +2109,7 @@ public class Main {
 
             switch (manageUserChoice) {
                 case 1:
-                    ViewUserList();
+                    ViewUserList(null);
                     System.out.println();
                     break;
 
@@ -2142,7 +2144,7 @@ public class Main {
         }
     }
 
-    static void ViewUserList() {
+    static void ViewUserList(String keyword) {
         System.out.println(
                 "╔══════════════════════════════════════════════════════════════════╗");
         System.out.println(
@@ -2154,13 +2156,25 @@ public class Main {
         System.out.println(
                 "╠══════════════════════════════════════════════════════════════════╣");
         for (int i = 0; i < users.length; i++) {
-            if (users[i][0] != null) {
-                System.out.println(String.format(
-                        "║ %3d ║ %20s ║ %20s ║ %12s ║",
-                        i + 1,
-                        users[i][0],
-                        users[i][1],
-                        users[i][2]));
+            if (keyword == null) {
+                if (users[i][0] != null) {
+                    System.out.println(String.format(
+                            "║ %3d ║ %20s ║ %20s ║ %12s ║",
+                            i + 1,
+                            users[i][0],
+                            users[i][1],
+                            users[i][2]));
+                }
+
+            } else {
+                if (users[i][0] != null && users[i][0].toLowerCase().contains(keyword.toLowerCase())) {
+                    System.out.println(String.format(
+                            "║ %3d ║ %20s ║ %20s ║ %12s ║",
+                            i + 1,
+                            users[i][0],
+                            users[i][1],
+                            users[i][2]));
+                }
             }
         }
         System.out.println(
@@ -2195,29 +2209,12 @@ public class Main {
         System.out.println("New user has been successfully added!");
     }
 
-    static void searchUser(String keyword) {
-        System.out.println("To reset search keyword input (-)!");
-        System.out.println("╔══════════════════════════════════════════════════════════════════╗");
-        System.out.println("║                            User List                             ║");
-        System.out.println("╠══════════════════════════════════════════════════════════════════╣");
-        System.out.println("║ No  |       Username       |       Password       |     Role     ║");
-        System.out.println("╠══════════════════════════════════════════════════════════════════╣");
-
-        for (int i = 0; i < users.length; i++) {
-            if (users[i][0] != null && (keyword == null || users[i][0].contains(keyword))) {
-                System.out.println(
-                        String.format("║ %3d ║ %20s ║ %20s ║ %12s ║", (i + 1), users[i][0], users[i][1], users[i][2]));
-            }
-        }
-
-        System.out.println("╚══════════════════════════════════════════════════════════════════╝");
-    }
-
     static void EditUser() {
+
         String temp, keyword = null;
 
         while (true) {
-            searchUser(keyword); // Menampilkan daftar pengguna berdasarkan pencarian
+            ViewUserList(keyword); // Menampilkan daftar pengguna berdasarkan pencarian
 
             System.out.println("[" + users.length + "] Search for a user");
             System.out.println("[" + (users.length + 1) + "] Back");
@@ -2248,6 +2245,10 @@ public class Main {
                     if (!temp.equals("-") && (temp.equals("kasir") || temp.equals("manajer") || temp.equals("admin"))) {
                         users[editUserChoice][2] = temp;
                         break;
+
+                    } else if (temp.equals("-")) {
+                        break;
+
                     } else {
                         Notification("failure", "Invalid Role!");
                         continue;
@@ -2255,6 +2256,7 @@ public class Main {
                 }
 
                 Notification("success", "User successfully edited!");
+                Delay();
                 break;
 
             } else if (editUserChoice + 1 == users.length) {
@@ -2270,10 +2272,11 @@ public class Main {
     }
 
     static void DeleteUser() {
+
         String keyword = null;
 
         while (true) {
-            searchUser(keyword); // Menampilkan daftar pengguna berdasarkan pencarian
+            ViewUserList(keyword); // Menampilkan daftar pengguna berdasarkan pencarian
 
             System.out.println("[" + users.length + "] Search for a user");
             System.out.println("[" + (users.length + 1) + "] Back");
@@ -2300,11 +2303,14 @@ public class Main {
                 }
 
                 Notification("success", "User successfully deleted!");
+                Delay();
+
             } else if (deleteUserChoice + 1 == users.length) {
                 keyword = Search(keyword); // Metode untuk mencari user berdasarkan keyword
 
             } else if (deleteUserChoice + 1 == users.length + 1) {
                 break;
+
             } else {
                 Notification("failure", "Invalid Choice");
                 return;
