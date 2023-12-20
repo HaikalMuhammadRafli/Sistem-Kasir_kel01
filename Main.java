@@ -874,13 +874,13 @@ public class Main {
         boolean managingItem = true;
 
         String[][] itemLanguage = {
-                { "MANAGE ITEM MENU", "MENU KELOLA ITEM" },
+                { "MANAGE ITEM MENU", "KELOLA MENU" },
                 { "View all", "Lihat Semua" },
-                { "Create new Item Menu", "Buat Menu Item Baru" },
-                { "Edit Item Menu", "Edit Menu Item" },
-                { "Delete Item Menu", "Hapus Menu Item" },
+                { "Create new Item Menu", "Buat Menu Baru" },
+                { "Edit Item Menu", "Edit Menu" },
+                { "Delete Item Menu", "Hapus Menu" },
                 { "Back", "Kembali" },
-                { "Masukkan pilihan anda : ", "Enter your choice: " },
+                { "Enter your choice", "Masukkan pilihan anda : " },
                 { "Invalid choice!", "Pilihan tidak valid!" }
         };
 
@@ -1001,16 +1001,18 @@ public class Main {
         boolean active = true;
 
         String[][] createItemLanguage = {
-                { "Add New Item Menu", "Menu Tambah Item Baru" },
+                { "Add New Item Menu", "Tambah Menu Baru" },
                 { "Add new food", "Tambah Makanan Baru" },
                 { "Add new drink", "Tambah Minuman Baru" },
                 { "Back", "Kembali" },
+                { "Food", "Makanan" },
                 { "Insert food name", "Masukkan nama makanan" },
                 { "Insert food price", "Masukkan harga makanan" },
                 { "Insert food stock", "Masukkan stok makanan" },
                 { "Insert food discount", "Masukkan diskon makanan" },
                 { "Insert food buying price", "Masukkan harga beli makanan" },
                 { "New food has been successfully added!", "Makanan baru berhasil ditambahkan!" },
+                { "Drink", "Minuman" },
                 { "Insert drink name", "Masukkan nama minuman" },
                 { "Insert drink price", "Masukkan harga minuman" },
                 { "Insert drink stock", "Masukkan stok minuman" },
@@ -1040,24 +1042,24 @@ public class Main {
                     items[latestItems][4] = "Makanan";
 
                     System.out.println("╔═══════════════════╗");
-                    System.out.println("║ " + createItemLanguage[5][selectedLanguage] + " ║");
+                    System.out.println("║ " + createItemLanguage[4][selectedLanguage] + " ║");
                     System.out.println("╚═══════════════════╝");
-                    System.out.print(createItemLanguage[4][selectedLanguage] + ": ");
+                    System.out.print(createItemLanguage[5][selectedLanguage] + ": ");
                     items[latestItems][0] = sc.nextLine();
 
-                    System.out.print(createItemLanguage[5][selectedLanguage] + ": ");
+                    System.out.print(createItemLanguage[6][selectedLanguage] + ": ");
                     items[latestItems][1] = Integer.toString(sc.nextInt());
 
-                    System.out.print(createItemLanguage[6][selectedLanguage] + ": ");
+                    System.out.print(createItemLanguage[7][selectedLanguage] + ": ");
                     items[latestItems][2] = Integer.toString(sc.nextInt());
 
-                    System.out.print(createItemLanguage[7][selectedLanguage] + ": ");
+                    System.out.print(createItemLanguage[8][selectedLanguage] + ": ");
                     items[latestItems][3] = Integer.toString(sc.nextInt());
 
-                    System.out.print(createItemLanguage[8][selectedLanguage] + ": ");
+                    System.out.print(createItemLanguage[9][selectedLanguage] + ": ");
                     items[latestItems][5] = Integer.toString(sc.nextInt());
 
-                    System.out.println(createItemLanguage[9][selectedLanguage]);
+                    System.out.println(createItemLanguage[10][selectedLanguage]);
                     Delay();
                     break;
 
@@ -1066,24 +1068,24 @@ public class Main {
                     items[latestItems][4] = "Minuman";
 
                     System.out.println("╔═══════════════════╗");
-                    System.out.println("║        " + createItemLanguage[10][selectedLanguage] + "      ║");
+                    System.out.println("║        " + createItemLanguage[11][selectedLanguage] + "      ║");
                     System.out.println("╚═══════════════════╝");
-                    System.out.print(createItemLanguage[11][selectedLanguage] + ": ");
+                    System.out.print(createItemLanguage[12][selectedLanguage] + ": ");
                     items[latestItems][0] = sc.nextLine();
 
-                    System.out.print(createItemLanguage[12][selectedLanguage] + ": ");
+                    System.out.print(createItemLanguage[13][selectedLanguage] + ": ");
                     items[latestItems][1] = Integer.toString(sc.nextInt());
 
-                    System.out.print(createItemLanguage[13][selectedLanguage] + ": ");
+                    System.out.print(createItemLanguage[14][selectedLanguage] + ": ");
                     items[latestItems][2] = Integer.toString(sc.nextInt());
 
-                    System.out.print(createItemLanguage[14][selectedLanguage] + ": ");
+                    System.out.print(createItemLanguage[15][selectedLanguage] + ": ");
                     items[latestItems][3] = Integer.toString(sc.nextInt());
 
-                    System.out.print(createItemLanguage[15][selectedLanguage] + ": ");
-                    items[latestItems][5] = Integer.toString(sc.nextInt());
+                    System.out.print(createItemLanguage[16][selectedLanguage] + ": ");
+                    items[latestItems][4] = Integer.toString(sc.nextInt());
 
-                    System.out.println(createItemLanguage[16][selectedLanguage]);
+                    System.out.println(createItemLanguage[17][selectedLanguage]);
                     Delay();
                     break;
 
@@ -1092,7 +1094,7 @@ public class Main {
                     break;
 
                 default:
-                    Notification("failure", createItemLanguage[17][selectedLanguage]);
+                    Notification("failure", createItemLanguage[18][selectedLanguage]);
                     break;
             }
         }
@@ -2284,7 +2286,7 @@ public class Main {
         boolean managingUser = true;
 
         String[][] userLanguage = {
-                { "MANAGE USER MENU", "MENU KELOLA PENGGUNA" },
+                { "MANAGE USER MENU", " KELOLA PENGGUNA" },
                 { "View all", "Lihat Semua" },
                 { "Create new User", "Buat Pengguna Baru" },
                 { "Edit User", "Edit Pengguna" },
@@ -2298,13 +2300,18 @@ public class Main {
                 { "Input new password", "Masukkan password baru" },
                 { "Input new role", "Masukkan peran baru" },
                 { "User successfully edited!", "Pengguna berhasil diedit!" },
-                { "Search for a user", "Cari pengguna" }
+                { "Search for a user", "Cari pengguna" },
+                { "Input the number to edit the user!", "Masukkan nomor untuk mengedit user" },
+                { "> Your choice", "Pilihan anda" }
         };
 
         while (managingUser == true) {
-            System.out.println("╔════════════════════════════════╗");
-            System.out.println("║   " + userLanguage[0][selectedLanguage] + "  ║");
-            System.out.println("╚════════════════════════════════╝");
+            System.out.println(
+                    "╔════════════════════════════════╗");
+            System.out.println(
+                    "║   " + userLanguage[0][selectedLanguage] + "  ║");
+            System.out.println(
+                    "╚════════════════════════════════╝");
             System.out.println("[1] " + userLanguage[1][selectedLanguage]); // View all
             System.out.println("[2] " + userLanguage[2][selectedLanguage]); // Create new User
             System.out.println("[3] " + userLanguage[3][selectedLanguage]); // Edit User
@@ -2357,14 +2364,18 @@ public class Main {
         String[][] userLanguage = {
                 { "User List", "Daftar Pengguna" },
                 { "No  |       Username       |       Password       |     Role     |",
-                        "No  |       Nama Pengguna       |       Kata Sandi       |     Peran     |" } };
+                        "No  |       Nama Pengguna       |       Kata Sandi       |     Peran     |" }
+        };
 
-        System.out.println("╔══════════════════════════════════════════════════════════════════╗");
+        System.out.println(
+                "╔══════════════════════════════════════════════════════════════════╗");
         System.out.println(
                 "║                            " + userLanguage[0][selectedLanguage] + "                             ║");
-        System.out.println("╠══════════════════════════════════════════════════════════════════╣");
+        System.out.println(
+                "╠══════════════════════════════════════════════════════════════════╣");
         System.out.println(userLanguage[1][selectedLanguage]);
-        System.out.println("╠══════════════════════════════════════════════════════════════════╣");
+        System.out.println(
+                "╠══════════════════════════════════════════════════════════════════╣");
         for (int i = 0; i < users.length; i++) {
             if (keyword == null) {
                 if (users[i][0] != null) {
@@ -2399,14 +2410,17 @@ public class Main {
                 { "Insert Password : ", "Masukkan Kata Sandi : " },
                 { "Insert Role : ", "Masukkan Peran : " },
                 { "New user has been successfully added!", "Pengguna baru berhasil ditambahkan!" },
-                { "Invalid Role!", "Peran tidak valid!" }
+                { "Invalid Role!", "Peran tidak valid!" },
         };
 
         GetLatestUsers();
 
-        System.out.println("╔════════════════════════════╗");
-        System.out.println("║    " + userLanguage[0][selectedLanguage] + "   ║");
-        System.out.println("╚════════════════════════════╝");
+        System.out.println(
+                "╔════════════════════════════╗");
+        System.out.println(
+                "║    " + userLanguage[0][selectedLanguage] + "   ║");
+        System.out.println(
+                "╚════════════════════════════╝");
         System.out.print(userLanguage[1][selectedLanguage]);
         users[latestUsers][0] = sc.nextLine();
 
@@ -2436,7 +2450,9 @@ public class Main {
                 { "Input new password", "Masukkan kata sandi baru" },
                 { "Input new role", "Masukkan peran baru" },
                 { "User successfully edited!", "Pengguna berhasil diedit!" },
-                { "Invalid Role!", "Peran tidak valid!" }
+                { "Invalid Role!", "Peran tidak valid!" },
+                { "Input the number to edit the user!", "Masukkan nomor untuk mengedit user" },
+                { "> Your choice : ", "> Pilihan anda : " }
         };
 
         String temp, keyword = null;
@@ -2447,8 +2463,8 @@ public class Main {
 
             System.out.println("[" + users.length + "] " + userLanguage[0][selectedLanguage]);
             System.out.println("[" + (users.length + 1) + "] " + userLanguage[1][selectedLanguage]);
-            System.out.println("Input the number to edit the user!");
-            System.out.print("> Your choice : ");
+            System.out.println(userLanguage[6][selectedLanguage]);
+            System.out.print(userLanguage[7][selectedLanguage]);
             int editUserChoice = sc.nextInt() - 1;
             sc.nextLine();
             ClearScreen();
@@ -2505,7 +2521,11 @@ public class Main {
 
         String[][] userLanguage = {
                 { "User successfully deleted!", "Pengguna berhasil dihapus!" },
-                { "Invalid Choice", "Pilihan tidak valid" }
+                { "Invalid Choice", "Pilihan tidak valid" },
+                { "Back", "Kembali" },
+                { "Search for user", "Mencari pengguna" },
+                { "Input the number to edit the user!", "Masukkan nomor untuk mengedit user" },
+                { "> Your choice : ", "> Pilihan anda : " }
         };
 
         String keyword = null;
@@ -2513,10 +2533,10 @@ public class Main {
         while (true) {
             ViewUserList(keyword); // Menampilkan daftar pengguna berdasarkan pencarian
 
-            System.out.println("[" + users.length + "] " + userLanguage[0][selectedLanguage]);
-            System.out.println("[" + (users.length + 1) + "] " + userLanguage[1][selectedLanguage]);
-            System.out.println("Input the number to delete the user!");
-            System.out.print("> Your choice : ");
+            System.out.println("[" + users.length + "] " + userLanguage[3][selectedLanguage]);
+            System.out.println("[" + (users.length + 1) + "] " + userLanguage[2][selectedLanguage]);
+            System.out.println(userLanguage[4][selectedLanguage]);
+            System.out.print(userLanguage[5][selectedLanguage]);
             int deleteUserChoice = sc.nextInt() - 1;
             sc.nextLine();
             ClearScreen();
@@ -2662,7 +2682,7 @@ public class Main {
         while (!access) {
 
             System.out.println("╔══════════════════════════════╗");
-            System.out.println("║        " + loginLanguage[0][selectedLanguage] + "        ║");
+            System.out.println("║         " + loginLanguage[0][selectedLanguage] + "         ║");
             System.out.println("╚══════════════════════════════╝");
 
             System.out.print(loginLanguage[1][selectedLanguage]);
@@ -2716,7 +2736,7 @@ public class Main {
                 { "To reset search keyword input (-)!", "Untuk mereset keyword pencarian masukkan (-)!" },
                 { "Input keyword", "Masukkan keyword" } };
 
-        System.out.println("To reset search keyword input (-)!");
+        System.out.println(language[0][selectedLanguage]);
         System.out.print("> " + language[1][selectedLanguage] + " (" + keyword + ") : ");
         keyword = sc.nextLine();
 
@@ -2768,7 +2788,9 @@ public class Main {
                 { "Manage Stock", "Manajemen Stok" },
                 { "Manage Discount", "Manajemen Diskon" },
                 { "Manage User", "Manajemen User" },
-                { "Your choice : ", "Pilihan anda : " } };
+                { "Your choice : ", "Pilihan anda : " },
+                { "Welcome to cafe the orange", "Selamat datang di cafe the orange" }
+        };
 
         Init();
 
@@ -2781,7 +2803,7 @@ public class Main {
 
             // menu
             System.out.println("╔════════════════════════════════════════════════╗");
-            System.out.println("║       Selamat Datang di Cafe The Orange!       ║");
+            System.out.println("║       " + language[8][selectedLanguage] + "       ║");
             System.out.println("╚════════════════════════════════════════════════╝");
             System.out.println("[1] " + language[0][selectedLanguage]); // make order
             System.out.println("[2] " + language[1][selectedLanguage]); // sales history
