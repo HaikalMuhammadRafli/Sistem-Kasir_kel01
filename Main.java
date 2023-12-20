@@ -2495,7 +2495,8 @@ public class Main {
         String language[][] = {
                 { "Login", "Masuk" },
                 { "Switch language", "Ganti bahasa" },
-                { "Exit program", "Keluar program" }
+                { "Exit program", "Keluar program" },
+                { "Your choice : ", "Pilihan anda : " }
         };
 
         while (true) {
@@ -2522,7 +2523,7 @@ public class Main {
             System.out.println("[1] " + language[0][selectedLanguage]); // login
             System.out.println("[2] " + language[1][selectedLanguage]); // switch language
             System.out.println("[3] " + language[2][selectedLanguage]); // exit program
-            System.out.print("> Your choice : ");
+            System.out.print("> " + language[3][selectedLanguage]);
             int choice = sc.nextInt();
             sc.nextLine();
             ClearScreen();
@@ -2621,8 +2622,13 @@ public class Main {
     }
 
     static String Search(String keyword) {
+
+        String language[][] = {
+                { "To reset search keyword input (-)!", "Untuk mereset keyword pencarian masukkan (-)!" },
+                { "Input keyword", "Masukkan keyword" } };
+
         System.out.println("To reset search keyword input (-)!");
-        System.out.print("> Input name (" + keyword + ") : ");
+        System.out.print("> " + language[1][selectedLanguage] + " (" + keyword + ") : ");
         keyword = sc.nextLine();
         if (!keyword.equals("-")) {
             return keyword;
@@ -2660,9 +2666,20 @@ public class Main {
 
     public static void main(String[] args) {
 
+        String language[][] = { { "Make Order", "Buat Pesanan" },
+                { "Sales History", "Riwayat Penjualan" },
+                { "Profit Report", "Laporan Pendapatan" },
+                { "Manage Menu Item", "Manajemen Item Menu" },
+                { "Manage Stock", "Manajemen Stok" },
+                { "Manage Discount", "Manajemen Diskon" },
+                { "Manage User", "Manajemen User" },
+                { "Your choice : ", "Pilihan anda : " } };
+
         Init();
 
-        while (session) {
+        while (session)
+
+        {
             if (!access) {
                 Start();
             }
@@ -2671,19 +2688,19 @@ public class Main {
             System.out.println("╔════════════════════════════════════════════════╗");
             System.out.println("║       Selamat Datang di Cafe The Orange!       ║");
             System.out.println("╚════════════════════════════════════════════════╝");
-            System.out.println("[1] Buat Pesanan");
-            System.out.println("[2] Lihat Riwayat Penjualan");
+            System.out.println("[1] " + language[0][selectedLanguage]); // make order
+            System.out.println("[2] " + language[1][selectedLanguage]); // sales history
             if (users[user_id][2].equals("manager") || users[user_id][2].equals("admin")) {
-                System.out.println("[3] Lihat Laporan Pendapatan");
-                System.out.println("[4] Manajemen Item Menu");
-                System.out.println("[5] Manajemen Stok");
-                System.out.println("[6] Manajemen Diskon");
+                System.out.println("[3] " + language[2][selectedLanguage]); // profit report
+                System.out.println("[4] " + language[3][selectedLanguage]); // manage menu item
+                System.out.println("[5] " + language[4][selectedLanguage]); // manage stock
+                System.out.println("[6] " + language[5][selectedLanguage]); // manage discount
             }
             if (users[user_id][2].equals("admin")) {
-                System.out.println("[7] Manajemen User");
+                System.out.println("[7] " + language[6][selectedLanguage]); // manage user
             }
             System.out.println("[0] Logout");
-            System.out.print("Masukkan pilihan Anda: ");
+            System.out.print(language[7][selectedLanguage]); // your choice :
             int choice = sc.nextInt();
             sc.nextLine();
             ClearScreen();
