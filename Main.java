@@ -277,6 +277,12 @@ public class Main {
     }
 
     static int SetBankDetails() {
+
+        String language[][] = { { "BANK CARD PAYMENT", "PEMBAYARAN KARTU BANK" },
+                { "Back", "Kembali" },
+                { "Your choice : ", "Pilihan anda : " },
+                { "Input account number : ", "Masukkan nomor rekening : " } };
+
         while (true) {
             if (orders[latestOrders][11].equals("card")) {
                 System.out.println("╔═════════════════════════════════╗");
@@ -286,8 +292,8 @@ public class Main {
                 System.out.println("[1] BCA");
                 System.out.println("[2] MANDIRI");
                 System.out.println("[3] BRI");
-                System.out.println("[4] Back");
-                System.out.print("> Choice : ");
+                System.out.println("[4] " + language[1][selectedLanguage]); // back
+                System.out.print("> " + language[2][selectedLanguage]); // your choice
                 int bankChoice = sc.nextInt();
                 sc.nextLine();
 
@@ -312,7 +318,7 @@ public class Main {
                         continue;
                 }
 
-                System.out.print("> Input account number : ");
+                System.out.print("> " + language[3][selectedLanguage]);
                 orders[latestOrders][12] = sc.nextLine();
                 break;
             }
@@ -323,11 +329,14 @@ public class Main {
 
     static int PaymentReceipt() {
 
+        String language[][] = {
+                {}
+        };
+
         if (orders[latestOrders][11].equals("card")) {
             switch (SetBankDetails()) {
                 case 200:
-                    System.out.println("Bank verified!");
-                    System.out.println();
+                    Notification("success", "Bank account verified!");
                     break;
 
                 case 400:
@@ -473,6 +482,11 @@ public class Main {
 
     static void CreateOrder() {
 
+        String language[][] = {
+                { "Buyer's name : ", "Nama pembeli : " },
+                { "Your choice : ", "Pilihan anda : " }
+        };
+
         String keyword = null;
 
         // mencari baris yang kosong di orders
@@ -499,10 +513,10 @@ public class Main {
             System.out.println("║              Cafe The Orange Menu!              ║");
             System.out.println("╚═════════════════════════════════════════════════╝");
             if (orders[latestOrders][0] == null) {
-                System.out.print("Nama Pembeli : ");
+                System.out.print("> " + language[0][selectedLanguage]); // buyer name
                 orders[latestOrders][0] = sc.nextLine();
             } else {
-                System.out.print("Nama Pembeli : " + orders[latestOrders][0]);
+                System.out.print(language[0][selectedLanguage] + orders[latestOrders][0]); // buyer name
             }
 
             // subtotal
@@ -550,7 +564,7 @@ public class Main {
 
             System.out.println();
 
-            System.out.print("> Choice : ");
+            System.out.print("> " + language[1][selectedLanguage]); // your choice
 
             int choice = sc.nextInt();
             sc.nextLine();
@@ -579,6 +593,9 @@ public class Main {
     }
 
     static void CreateOrderDetail(int choice) {
+
+        String language[][] = { { "How many PCS ", "Beli berapa PCS " } };
+
         // id
         order_details[latestOrder_details][0] = Integer.toString(latestOrders);
 
@@ -586,7 +603,7 @@ public class Main {
         order_details[latestOrder_details][1] = items[choice - 1][0];
 
         // jumlah
-        System.out.print("> Beli Berapa PCS " + items[choice - 1][0] + " ? : ");
+        System.out.print("> " + language[0][selectedLanguage] + items[choice - 1][0] + " ? : "); // how many pcs
         order_details[latestOrder_details][2] = Integer.toString(sc.nextInt());
         sc.nextLine();
 
@@ -622,11 +639,14 @@ public class Main {
     }
 
     static void CancelOrderDetail() {
-        System.out.println("Pilih item yang ingin di cancel!");
+
+        String language[][] = { { "Select the item you want to cancel!", "Pilih item yang ingin di cancel!" },
+                { "Your choice : ", "Pilihan anda : " } };
 
         ViewOrderDetailList();
 
-        System.out.print("> Choice : ");
+        System.out.println(language[0][selectedLanguage]); // Select the item you want to cancel!
+        System.out.print("> " + language[1][selectedLanguage]); // your choice
         int removeItemChoice = sc.nextInt();
 
         if (removeItemChoice < order_details.length && order_details[removeItemChoice][0]
@@ -663,15 +683,22 @@ public class Main {
     }
 
     static void CheckMembership() {
+
+        String language[][] = {
+                { "Have a membership card? (y/t) : ", "Apakah punya kartu member? (y/t) :" },
+                { "Input membership code : ", "Masukkan kode membership : " }
+
+        };
+
         memberValid = false;
 
         while (!memberValid) {
             System.out.println();
-            System.out.print("Apakah punya kartu member? (y/t) :");
+            System.out.print("> " + language[0][selectedLanguage]); // Apakah punya kartu member? (y/t) :
             isMember = sc.next().charAt(0);
 
             if (isMember == 'y' || isMember == 'Y') {
-                System.out.print("Masukkan nomer member : ");
+                System.out.print("> " + language[1][selectedLanguage]);
                 String memberNumber = sc.next();
 
                 ClearScreen();
@@ -733,6 +760,13 @@ public class Main {
 
     static void FinishOrder() {
 
+        String language[][] = {
+                { "Cash", "Uang tunai" },
+                { "Bank card", "Kartu bank" },
+                { "Back", "Kembali" },
+                { "Choose payment method : ", "Pilih metode pembayaran : " }
+        };
+
         CheckMembership();
 
         while (true) {
@@ -740,10 +774,10 @@ public class Main {
             System.out.println("╔══════════════════════════════════════╗");
             System.out.println("║           Payment methods            ║");
             System.out.println("╚══════════════════════════════════════╝");
-            System.out.println("[1] Cash");
-            System.out.println("[2] Bank Card");
-            System.out.println("[3] Back");
-            System.out.print("Choose your payment method : ");
+            System.out.println("[1] " + language[0][selectedLanguage]); // cash
+            System.out.println("[2] " + language[1][selectedLanguage]);
+            System.out.println("[3] " + language[2][selectedLanguage]);
+            System.out.print("> " + language[3][selectedLanguage]); // Choose payment method :
             int paymentChoice = sc.nextInt();
             sc.nextLine();
 
@@ -815,7 +849,7 @@ public class Main {
             orders[latestOrders][i] = null;
         }
 
-        System.out.println("Ordering has been cancelled!");
+        Notification("warning", "Ordering has been cancelled!");
         Delay();
     }
 
@@ -1590,11 +1624,29 @@ public class Main {
                 LocalDate.now().getYear(), "today");
     }
 
+    static String[] GetMonths() {
+        if (selectedLanguage == 0) {
+            String[] months = {
+                    "January", "February", "March", "April", "May", "June",
+                    "July", "August", "September", "October", "November", "December"
+            };
+            return months;
+
+        } else {
+            String[] bulan = {
+                    "Januari", "Februari", "Maret", "April", "Mei", "Juni",
+                    "Juli", "Agustus", "September", "Oktober", "November", "Desember"
+            };
+            return bulan;
+        }
+    }
+
     static void SalesHistoryByMonth(int year) {
-        String[] months = {
-                "January", "February", "March", "April", "May", "June",
-                "July", "August", "September", "October", "November", "December"
-        };
+
+        String language[][] = { { "Back", "Kembali" },
+                { "Your choice : ", "Pilihan anda : " } };
+
+        String months[] = GetMonths();
 
         while (true) {
             System.out.println();
@@ -1605,10 +1657,10 @@ public class Main {
                 System.out.println("[" + (i + 1) + "] " + months[i]);
             }
 
-            System.out.println("[" + (months.length + 1) + "] Back");
+            System.out.println("[" + (months.length + 1) + "] " + language[0][selectedLanguage]); // back
 
             System.out.println();
-            System.out.print("> Your choice : ");
+            System.out.print("> " + language[1][selectedLanguage]); // your choice
             int month = sc.nextInt();
             sc.nextLine();
 
@@ -1627,10 +1679,11 @@ public class Main {
     }
 
     static void SalesHistoryByDay(int year) {
-        String[] months = {
-                "January", "February", "March", "April", "May", "June",
-                "July", "August", "September", "October", "November", "December"
-        };
+
+        String language[][] = { { "Back", "Kembali" },
+                { "Your choice : ", "Pilihan anda : " } };
+
+        String months[] = GetMonths();
 
         while (true) {
             System.out.println();
@@ -1641,10 +1694,10 @@ public class Main {
                 System.out.println("[" + (i + 1) + "] " + months[i]);
             }
 
-            System.out.println("[" + (months.length + 1) + "] Back");
+            System.out.println("[" + (months.length + 1) + "] " + language[0][selectedLanguage]); // back
 
             System.out.println();
-            System.out.print("> Your choice : ");
+            System.out.print("> " + language[1][selectedLanguage]); // your choice
             int month = sc.nextInt();
             sc.nextLine();
 
@@ -1726,7 +1779,7 @@ public class Main {
                 System.out.println("╚══════════════════════════════════════════════════════════════════════╝");
 
                 System.out.println();
-                System.out.print("> Your choice : ");
+                System.out.print("> " + language[1][selectedLanguage]); // your choice
 
                 int day = sc.nextInt();
                 sc.nextLine();
@@ -1745,19 +1798,26 @@ public class Main {
     }
 
     static void SalesHistory(int selectedYear) {
+
+        String language[][] = { { "Today", "Hari ini" },
+                { "By month", "Berdasarkan bulan" },
+                { "By day", "Berdasarkan hari" },
+                { "Back", "Kembali" },
+                { "Your choice : ", "Pilihan anda : " } };
+
         while (true) {
             System.out.println();
             System.out.println("╔══════════════════════════════════════╗");
             System.out.println("║            Sales History             ║");
             System.out.println("╚══════════════════════════════════════╝");
             if (selectedYear == LocalDate.now().getYear()) {
-                System.out.println("[0] Today");
+                System.out.println("[0] " + language[0][selectedLanguage]); // today
             }
 
-            System.out.println("[1] By month");
-            System.out.println("[2] By day");
-            System.out.println("[3] Back");
-            System.out.print("> Your choice : ");
+            System.out.println("[1] " + language[1][selectedLanguage]); // by month
+            System.out.println("[2] " + language[2][selectedLanguage]); // by day
+            System.out.println("[3] " + language[3][selectedLanguage]); // back
+            System.out.print("> " + language[4][selectedLanguage]); // your choice
             int choice = sc.nextInt();
 
             switch (choice) {
@@ -1788,6 +1848,9 @@ public class Main {
 
     static void PickHistoryYear() {
 
+        String language[][] = { { "Back", "Kembali" },
+                { "Your choice : ", "Pilihan anda : " } };
+
         while (true) {
 
             Set<Integer> uniqueYears = new HashSet<>();
@@ -1811,9 +1874,9 @@ public class Main {
                 System.out.println("[" + (i + 1) + "] " + uniqueYearsArray[i]);
             }
 
-            System.out.println("[" + (uniqueYearsArray.length + 1) + "] Back");
+            System.out.println("[" + (uniqueYearsArray.length + 1) + "] " + language[0][selectedLanguage]); // back
 
-            System.out.print("> Your choice : ");
+            System.out.print("> " + language[1][selectedLanguage]); // your choice
             int choice = sc.nextInt() - 1;
 
             if (choice < uniqueYearsArray.length) {
@@ -1944,10 +2007,11 @@ public class Main {
     }
 
     static void ProfitReportByMonth(int year) {
-        String[] months = {
-                "January", "February", "March", "April", "May", "June",
-                "July", "August", "September", "October", "November", "December"
-        };
+
+        String language[][] = { { "Back", "Kembali" },
+                { "Your choice : ", "Pilihan anda : " } };
+
+        String[] months = GetMonths();
 
         while (true) {
             System.out.println();
@@ -1958,10 +2022,10 @@ public class Main {
                 System.out.println("[" + (i + 1) + "] " + months[i]);
             }
 
-            System.out.println("[" + (months.length + 1) + "] Back");
+            System.out.println("[" + (months.length + 1) + "] " + language[0][selectedLanguage]);
 
             System.out.println();
-            System.out.print("> Your choice : ");
+            System.out.print("> " + language[1][selectedLanguage]); // your choice
             int month = sc.nextInt();
             sc.nextLine();
 
@@ -1980,10 +2044,11 @@ public class Main {
     }
 
     static void ProfitReportByDay(int year) {
-        String[] months = {
-                "January", "February", "March", "April", "May", "June",
-                "July", "August", "September", "October", "November", "December"
-        };
+
+        String language[][] = { { "Back", "Kembali" },
+                { "Your choice : ", "Pilihan anda : " } };
+
+        String[] months = GetMonths();
 
         while (true) {
             System.out.println();
@@ -1994,10 +2059,10 @@ public class Main {
                 System.out.println("[" + (i + 1) + "] " + months[i]);
             }
 
-            System.out.println("[" + (months.length + 1) + "] Back");
+            System.out.println("[" + (months.length + 1) + "] " + language[0][selectedLanguage]);
 
             System.out.println();
-            System.out.print("> Your choice : ");
+            System.out.print("> " + language[1][selectedLanguage]); // your choice
             int month = sc.nextInt();
             sc.nextLine();
 
@@ -2079,7 +2144,7 @@ public class Main {
                 System.out.println("╚══════════════════════════════════════════════════════════════════════╝");
 
                 System.out.println();
-                System.out.print("> Your choice : ");
+                System.out.print("> " + language[1][selectedLanguage]); // your choice
 
                 int day = sc.nextInt();
                 sc.nextLine();
@@ -2099,19 +2164,25 @@ public class Main {
 
     static void ProfitReport(int year) {
 
+        String language[][] = { { "This year", "Tahun ini" },
+                { "By month", "Berdasarkan bulan" },
+                { "By day", "Berdasarkan hari" },
+                { "Back", "Kembali" },
+                { "Your choice : ", "Pilihan anda : " } };
+
         while (true) {
             System.out.println();
             System.out.println("╔══════════════════════════════════════╗");
             System.out.println("║         Laporan Pendapatan           ║");
             System.out.println("╚══════════════════════════════════════╝");
 
-            System.out.println("[1] This year");
-            System.out.println("[2] By month");
-            System.out.println("[3] By day");
-            System.out.println("[4] Back");
+            System.out.println("[0] " + language[0][selectedLanguage]); // this year
+            System.out.println("[1] " + language[1][selectedLanguage]); // by month
+            System.out.println("[2] " + language[2][selectedLanguage]); // by day
+            System.out.println("[3] " + language[3][selectedLanguage]); // back
 
             System.out.println();
-            System.out.print("> Your choice : ");
+            System.out.print("> " + language[4][selectedLanguage]); // your choice
             int choice = sc.nextInt();
             sc.nextLine();
 
@@ -2141,6 +2212,11 @@ public class Main {
     }
 
     static void PickReportYear() {
+
+        String language[][] = { { "All time", "Semua waktu" },
+                { "Back", "Kembali" },
+                { "Your choice : ", "Pilihan anda : " } };
+
         while (true) {
             System.out.println();
             System.out.println("╔══════════════════════════════════════╗");
@@ -2163,9 +2239,9 @@ public class Main {
                 System.out.println("[" + (i + 1) + "] " + uniqueYearsArray[i]);
             }
 
-            System.out.println("[" + (uniqueYearsArray.length + 1) + "] All time");
-            System.out.println("[" + (uniqueYearsArray.length + 2) + "] Back");
-            System.out.print("Your choice : ");
+            System.out.println("[" + (uniqueYearsArray.length + 1) + "] " + language[0][selectedLanguage]); // all time
+            System.out.println("[" + (uniqueYearsArray.length + 2) + "] " + language[1][selectedLanguage]);
+            System.out.print("> " + language[2][selectedLanguage]); // your choice
             int choice = sc.nextInt() - 1;
             sc.nextLine();
 
