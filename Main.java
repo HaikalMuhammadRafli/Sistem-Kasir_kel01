@@ -199,7 +199,7 @@ public class Main {
         System.out.println(
                 "╔═══════════════════════════════════════════════════════════════════════════════════════════╗");
         System.out.println(
-                "║ " + CenterString(89, language[0][selectedLanguage]) + " ║");
+                "║ " + CenterString(88, language[0][selectedLanguage]) + " ║");
         System.out.println(
                 "╠═══════════════════════════════════════════════════════════════════════════════════════════╣");
         System.out.println(
@@ -1261,7 +1261,7 @@ public class Main {
             System.out
 
                     .println(
-                            "║             " + CenterString(20, stockLanguage[6][selectedLanguage]) + "             ║");
+                            "║           Cafe The Orange Stock              ║");
             System.out.println("╚══════════════════════════════════════════════╝");
 
             // Menambahkan pilihan menu
