@@ -182,21 +182,37 @@ public class Main {
 
     // * Order Feature
     static void ViewMenuList(String keyword) {
+
+        String language[][] = { { "Menu List", "Daftar Menu" },
+                { "Name", "Nama" },
+                { "Type", "Tipe" },
+                { "Price", "Harga" },
+                { "Stock", "Stok" },
+                { "Discount (%)", "Diskon (%)" },
+                { "Other Actions", "Aksi lainnya" },
+                { "Search Item", "Cari Item" },
+                { "Cancel an item", "Batalkan sebuah item" },
+                { "Finish order", "Selesaikan pesanan" } };
+
         System.out.println(
-                "╔══════════════════════════════════════════════════════════════════════════════════════════╗");
+                "╔═══════════════════════════════════════════════════════════════════════════════════════════╗");
         System.out.println(
-                "║                                        Menu List                                         ║");
+                "║ " + CenterString(89, language[0][selectedLanguage]) + " ║");
         System.out.println(
-                "╠══════════════════════════════════════════════════════════════════════════════════════════╣");
+                "╠═══════════════════════════════════════════════════════════════════════════════════════════╣");
         System.out.println(
-                "║ No  |       Name       |       Tipe       |    Price     |    Stock   |    Discount (%)  ║");
+                "║ " + CenterString(4, "No") + " | " + CenterString(16, language[1][selectedLanguage]) + " | "
+                        + CenterString(16, language[2][selectedLanguage]) + " | "
+                        + CenterString(12, language[3][selectedLanguage]) + " | "
+                        + CenterString(10, language[4][selectedLanguage]) + " | "
+                        + CenterString(16, language[5][selectedLanguage]) + " ║");
         System.out.println(
-                "╠══════════════════════════════════════════════════════════════════════════════════════════╣");
+                "╠═══════════════════════════════════════════════════════════════════════════════════════════╣");
         for (int i = 0; i < items.length; i++) {
             if (keyword == null) {
                 if (items[i][0] != null) {
                     System.out.println(String.format(
-                            "║ %3d ║ %16s ║ %16s ║ %12s ║ %10s ║ %16s ║",
+                            "║ %4d ║ %16s ║ %16s ║ %12s ║ %10s ║ %16s ║",
                             i + 1,
                             items[i][0],
                             items[i][4],
@@ -207,7 +223,7 @@ public class Main {
             } else {
                 if (items[i][0] != null && items[i][0].toLowerCase().contains(keyword.toLowerCase())) {
                     System.out.println(String.format(
-                            "║ %3d ║ %16s ║ %16s ║ %12s ║ %10s ║ %16s ║",
+                            "║ %4d ║ %16s ║ %16s ║ %12s ║ %10s ║ %16s ║",
                             i + 1,
                             items[i][0],
                             items[i][4],
@@ -219,17 +235,17 @@ public class Main {
         }
 
         System.out.println(
-                "╠══════════════════════════════════════════════════════════════════════════════════════════╣");
+                "╠═══════════════════════════════════════════════════════════════════════════════════════════╣");
         System.out.println(
-                "║ No  |                                   Other Choices                                    ║");
+                "║ " + CenterString(4, "No") + " | " + PadStringRGT(82, language[6][selectedLanguage]) + " ║");
         System.out.println(
-                "╠══════════════════════════════════════════════════════════════════════════════════════════╣");
-        System.out.println(String.format("║ %3d ║ %82s ║", items.length, "Search for an item"));
-        System.out.println(String.format("║ %3d ║ %82s ║", items.length + 1, "Cancel an item"));
-        System.out.println(String.format("║ %3d ║ %82s ║", items.length + 2, "Finish order"));
-        System.out.println(String.format("║ %3d ║ %82s ║", items.length + 3, "Cancel and exit"));
+                "╠═══════════════════════════════════════════════════════════════════════════════════════════╣");
+        System.out.println(String.format("║ %4d ║ %82s ║", items.length, language[7][selectedLanguage]));
+        System.out.println(String.format("║ %4d ║ %82s ║", items.length + 1, language[8][selectedLanguage]));
+        System.out.println(String.format("║ %4d ║ %82s ║", items.length + 2, language[9][selectedLanguage]));
+        System.out.println(String.format("║ %4d ║ %82s ║", items.length + 3, language[10][selectedLanguage]));
         System.out.println(
-                "╚══════════════════════════════════════════════════════════════════════════════════════════╝");
+                "╚═══════════════════════════════════════════════════════════════════════════════════════════╝");
     }
 
     static void ViewOrderDetailList() {
@@ -2409,7 +2425,7 @@ public class Main {
             }
         }
 
-        System.out.println(userLanguage[4][selectedLanguage]);
+        Notification("success", userLanguage[4][selectedLanguage]);
     }
 
     static void EditUser() {
@@ -2426,6 +2442,7 @@ public class Main {
         String temp, keyword = null;
 
         while (true) {
+
             ViewUserList(keyword); // Menampilkan daftar pengguna berdasarkan pencarian
 
             System.out.println("[" + users.length + "] " + userLanguage[0][selectedLanguage]);
@@ -2626,13 +2643,17 @@ public class Main {
         }
     }
 
-    static String CenterString(int width, String s) {
-        int padSize = (width - s.length()) / 2;
-        return String.format("%" + padSize + "s%s%" + (padSize + (width - s.length()) % 2) + "s", "", s, "");
+    static String CenterString(int width, String text) {
+        int padSize = (width - text.length()) / 2;
+        return String.format("%" + padSize + "s%s%" + (padSize + (width - text.length()) % 2) + "s", "", text, "");
     }
 
-    static String PadString(int width, String s) {
-        return String.format("%-" + width + "s", s);
+    static String PadStringLFT(int width, String text) {
+        return String.format("%-" + width + "s", text);
+    }
+
+    static String PadStringRGT(int width, String text) {
+        return String.format("%" + width + "s", text);
     }
 
     // * login
@@ -2706,8 +2727,10 @@ public class Main {
         System.out.println("To reset search keyword input (-)!");
         System.out.print("> " + language[1][selectedLanguage] + " (" + keyword + ") : ");
         keyword = sc.nextLine();
+
         if (!keyword.equals("-")) {
             return keyword;
+
         } else {
             return null;
         }
@@ -2738,6 +2761,10 @@ public class Main {
             System.out.println("║" + RED + CenterString(48, msg) + RESET + "║");
             System.out.println("╚════════════════════════════════════════════════╝");
         }
+    }
+
+    static void Header() {
+        //
     }
 
     public static void main(String[] args) {
