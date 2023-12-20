@@ -192,12 +192,14 @@ public class Main {
                 { "Other Actions", "Aksi lainnya" },
                 { "Search Item", "Cari Item" },
                 { "Cancel an item", "Batalkan sebuah item" },
-                { "Finish order", "Selesaikan pesanan" } };
+                { "Finish order", "Selesaikan pesanan" },
+                { "Cancel and Exit", "Batalkan dan Keluar" }
+        };
 
         System.out.println(
                 "╔═══════════════════════════════════════════════════════════════════════════════════════════╗");
         System.out.println(
-                "║ " + CenterString(89, language[0][selectedLanguage]) + " ║");
+                "║ " + CenterString(88, language[0][selectedLanguage]) + " ║");
         System.out.println(
                 "╠═══════════════════════════════════════════════════════════════════════════════════════════╣");
         System.out.println(
@@ -1251,13 +1253,17 @@ public class Main {
                 { "Reduce Stock", "Kurangi Stok" },
                 { "Choose item to add stock", "Pilih item untuk menambahkan stok" },
                 { "Choose item to reduce stock", "Pilih item untuk mengurangi stok" },
-                { "Back", "Kembali" }
+                { "Back", "Kembali" },
+                { "Cafe The Stock", "Stok Cafe The Orange" }
         };
 
         while (stocking) {
             System.out.println();
             System.out.println("╔══════════════════════════════════════════════╗");
-            System.out.println("║              Cafe the Orange Stock           ║");
+            System.out
+
+                    .println(
+                            "║           Cafe The Orange Stock              ║");
             System.out.println("╚══════════════════════════════════════════════╝");
 
             // Menambahkan pilihan menu
@@ -1392,11 +1398,10 @@ public class Main {
                                             + ": "); // Enter new discount
                             int newDiscount = sc.nextInt();
                             items[editDiscountChoice - 1][3] = Integer.toString(newDiscount);
-                            System.out.println(
-                                    discountLanguage[5][selectedLanguage] + " " + items[editDiscountChoice - 1][0] + " "
-                                            + discountLanguage[6][selectedLanguage] + " "
-                                            + items[editDiscountChoice - 1][3]
-                                            + "%"); // Discount updated
+                            System.out.println(items[editDiscountChoice - 1][0] + " "
+                                    + discountLanguage[5][selectedLanguage] + " "
+                                    + items[editDiscountChoice - 1][3]
+                                    + "%"); // Discount updated
                             Delay();
                         }
                     }
@@ -1416,10 +1421,12 @@ public class Main {
                             System.out.print(discountLanguage[8][selectedLanguage] + ": "); // Enter new member discount
                             int newDiscount = sc.nextInt();
                             memberDiskon = newDiscount;
+                            System.out.println(discountLanguage[9][selectedLanguage]); // Member discount updated
                             break;
                         case 2: // Remove Discount
                             memberDiskon = 0;
                             System.out.println(discountLanguage[10][selectedLanguage]); // Member discount removed
+                            Delay();
                             break;
                         default:
                             System.out.println(discountLanguage[12][selectedLanguage]); // Invalid choice! Try again.
