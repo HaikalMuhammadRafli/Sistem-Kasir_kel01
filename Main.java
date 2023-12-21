@@ -842,16 +842,14 @@ public class Main {
                 { "Cash", "Uang tunai" },
                 { "Bank card", "Kartu bank" },
                 { "Back", "Kembali" },
-                { "Choose payment method : ", "Pilih metode pembayaran : " }
+                { "Choose payment method : ", "Pilih metode pembayaran : " },
+                { "Payment methods", "Metode pembayaran" }
         };
 
         CheckMembership();
 
         while (true) {
-            System.out.println();
-            System.out.println("╔══════════════════════════════════════╗");
-            System.out.println("║           Payment methods            ║");
-            System.out.println("╚══════════════════════════════════════╝");
+            Header(language[4][selectedLanguage]);
             System.out.println("[1] " + language[0][selectedLanguage]); // cash
             System.out.println("[2] " + language[1][selectedLanguage]);
             System.out.println("[3] " + language[2][selectedLanguage]);
@@ -951,9 +949,7 @@ public class Main {
         };
 
         while (managingItem == true) {
-            System.out.println("╔════════════════════════════════╗");
-            System.out.println("║" + CenterString(32, itemLanguage[0][selectedLanguage]) + "║");
-            System.out.println("╚════════════════════════════════╝");
+            Header(itemLanguage[0][selectedLanguage]);
             System.out.println("[1] " + itemLanguage[1][selectedLanguage]); // View all
             System.out.println("[2] " + itemLanguage[2][selectedLanguage]); // Create new Item Menu
             System.out.println("[3] " + itemLanguage[3][selectedLanguage]); // Edit Item Menu
@@ -1110,9 +1106,7 @@ public class Main {
             // getting latest items index
             GetLatestItems();
 
-            System.out.println("╔═══════════════════╗");
-            System.out.println("║ " + createItemLanguage[0][selectedLanguage] + " ║");
-            System.out.println("╚═══════════════════╝");
+            Header(createItemLanguage[0][selectedLanguage]);
             System.out.println("[1] " + createItemLanguage[1][selectedLanguage]);
             System.out.println("[2] " + createItemLanguage[2][selectedLanguage]);
             System.out.println("[3] " + createItemLanguage[3][selectedLanguage]);
@@ -1125,9 +1119,7 @@ public class Main {
                     // tipe menu
                     items[latestItems][4] = "Makanan";
 
-                    System.out.println("╔═══════════════════╗");
-                    System.out.println("║ " + createItemLanguage[4][selectedLanguage] + " ║");
-                    System.out.println("╚═══════════════════╝");
+                    Header(createItemLanguage[4][selectedLanguage]);
                     System.out.print(createItemLanguage[5][selectedLanguage] + ": ");
                     items[latestItems][0] = sc.nextLine();
 
@@ -1151,9 +1143,7 @@ public class Main {
                     // tipe menu
                     items[latestItems][4] = "Minuman";
 
-                    System.out.println("╔═══════════════════╗");
-                    System.out.println("║        " + createItemLanguage[11][selectedLanguage] + "      ║");
-                    System.out.println("╚═══════════════════╝");
+                    Header(createItemLanguage[11][selectedLanguage]);
                     System.out.print(createItemLanguage[12][selectedLanguage] + ": ");
                     items[latestItems][0] = sc.nextLine();
 
@@ -1336,17 +1326,12 @@ public class Main {
                 { "Choose item to add stock", "Pilih item untuk menambahkan stok" },
                 { "Choose item to reduce stock", "Pilih item untuk mengurangi stok" },
                 { "Back", "Kembali" },
-                { "Cafe The Stock", "Stok Cafe The Orange" }
+                { "Cafe The Orange Stock", "Stok Cafe The Orange" }
         };
 
         while (stocking) {
             System.out.println();
-            System.out.println("╔══════════════════════════════════════════════╗");
-            System.out
-
-                    .println(
-                            "║           Cafe The Orange Stock              ║");
-            System.out.println("╚══════════════════════════════════════════════╝");
+            Header(stockLanguage[6][selectedLanguage]);
 
             // Menambahkan pilihan menu
             System.out.println("1. " + stockLanguage[1][selectedLanguage]); // Add Stock
@@ -1452,10 +1437,7 @@ public class Main {
 
         while (continueManaging) {
             System.out.println();
-            System.out.println("╔══════════════════════════════════════╗");
-            System.out.println("║" + CenterString(38, discountLanguage[0][selectedLanguage]) + "║");
-            System.out.println("╚══════════════════════════════════════╝");
-
+            Header(discountLanguage[0][selectedLanguage]);
             System.out.println("1. " + discountLanguage[13][selectedLanguage]); // Item Discount
             System.out.println("2. " + discountLanguage[14][selectedLanguage] + " (" + memberDiskon + "%)"); // Member
                                                                                                              // Discount
@@ -1818,15 +1800,15 @@ public class Main {
     static void SalesHistoryByMonth(int year) {
 
         String language[][] = { { "Back", "Kembali" },
-                { "Your choice : ", "Pilihan anda : " } };
+                { "Your choice : ", "Pilihan anda : " },
+                { "Sales History", "Riwayat Penjualan" }
+        };
 
         String months[] = GetMonths();
 
         while (true) {
             System.out.println();
-            System.out.println("╔══════════════════════════════════════╗");
-            System.out.println("║            Sales History             ║");
-            System.out.println("╚══════════════════════════════════════╝");
+            Header(language[2][selectedLanguage]);
             for (int i = 0; i < months.length; i++) {
                 System.out.println("[" + (i + 1) + "] " + months[i]);
             }
@@ -1855,15 +1837,14 @@ public class Main {
     static void SalesHistoryByDay(int year) {
 
         String language[][] = { { "Back", "Kembali" },
-                { "Your choice : ", "Pilihan anda : " } };
+                { "Your choice : ", "Pilihan anda : " },
+                { "Sales History", "Riwayat Penjualan" } };
 
         String months[] = GetMonths();
 
         while (true) {
             System.out.println();
-            System.out.println("╔══════════════════════════════════════╗");
-            System.out.println("║            Sales History             ║");
-            System.out.println("╚══════════════════════════════════════╝");
+            Header(language[2][selectedLanguage]);
             for (int i = 0; i < months.length; i++) {
                 System.out.println("[" + (i + 1) + "] " + months[i]);
             }
@@ -1977,13 +1958,12 @@ public class Main {
                 { "By month", "Berdasarkan bulan" },
                 { "By day", "Berdasarkan hari" },
                 { "Back", "Kembali" },
-                { "Your choice : ", "Pilihan anda : " } };
+                { "Your choice : ", "Pilihan anda : " },
+                { "Sales History", "Riwayat Penjualan" } };
 
         while (true) {
             System.out.println();
-            System.out.println("╔══════════════════════════════════════╗");
-            System.out.println("║            Sales History             ║");
-            System.out.println("╚══════════════════════════════════════╝");
+            Header(language[5][selectedLanguage]);
             if (selectedYear == LocalDate.now().getYear()) {
                 System.out.println("[0] " + language[0][selectedLanguage]); // today
             }
@@ -2023,16 +2003,15 @@ public class Main {
     static void PickHistoryYear() {
 
         String language[][] = { { "Back", "Kembali" },
-                { "Your choice : ", "Pilihan anda : " } };
+                { "Your choice : ", "Pilihan anda : " },
+                { "Sales History", "Riwayat Penjualan" } };
 
         while (true) {
 
             Set<Integer> uniqueYears = new HashSet<>();
 
             System.out.println();
-            System.out.println("╔══════════════════════════════════════╗");
-            System.out.println("║            Sales History             ║");
-            System.out.println("╚══════════════════════════════════════╝");
+            Header(language[2][selectedLanguage]);
 
             for (int i = 0; i < orders.length; i++) {
                 if (orders[i][0] != null) {
@@ -2211,15 +2190,14 @@ public class Main {
     static void ProfitReportByMonth(int year) {
 
         String language[][] = { { "Back", "Kembali" },
-                { "Your choice : ", "Pilihan anda : " } };
+                { "Your choice : ", "Pilihan anda : " },
+                { "Income Reports", "Laporan Pendapatan" }, };
 
         String[] months = GetMonths();
 
         while (true) {
             System.out.println();
-            System.out.println("╔══════════════════════════════════════╗");
-            System.out.println("║         Laporan Pendapatan           ║");
-            System.out.println("╚══════════════════════════════════════╝");
+            Header(language[2][selectedLanguage]);
             for (int i = 0; i < months.length; i++) {
                 System.out.println("[" + (i + 1) + "] " + months[i]);
             }
@@ -2248,15 +2226,15 @@ public class Main {
     static void ProfitReportByDay(int year) {
 
         String language[][] = { { "Back", "Kembali" },
-                { "Your choice : ", "Pilihan anda : " } };
+                { "Your choice : ", "Pilihan anda : " },
+                { "Income Reports", "Laporan Pendapatan" }
+        };
 
         String[] months = GetMonths();
 
         while (true) {
             System.out.println();
-            System.out.println("╔══════════════════════════════════════╗");
-            System.out.println("║         Laporan Pendapatan           ║");
-            System.out.println("╚══════════════════════════════════════╝");
+            Header(language[2][selectedLanguage]);
             for (int i = 0; i < months.length; i++) {
                 System.out.println("[" + (i + 1) + "] " + months[i]);
             }
@@ -2370,13 +2348,12 @@ public class Main {
                 { "By month", "Berdasarkan bulan" },
                 { "By day", "Berdasarkan hari" },
                 { "Back", "Kembali" },
-                { "Your choice : ", "Pilihan anda : " } };
+                { "Your choice : ", "Pilihan anda : " },
+                { "Income Reports", "Laporan Pendapatan" } };
 
         while (true) {
             System.out.println();
-            System.out.println("╔══════════════════════════════════════╗");
-            System.out.println("║         Laporan Pendapatan           ║");
-            System.out.println("╚══════════════════════════════════════╝");
+            Header(language[5][selectedLanguage]);
 
             System.out.println("[0] " + language[0][selectedLanguage]); // this year
             System.out.println("[1] " + language[1][selectedLanguage]); // by month
@@ -2417,13 +2394,12 @@ public class Main {
 
         String language[][] = { { "All time", "Semua waktu" },
                 { "Back", "Kembali" },
-                { "Your choice : ", "Pilihan anda : " } };
+                { "Your choice : ", "Pilihan anda : " },
+                { "Income Reports", "Laporan Pendapatan" } };
 
         while (true) {
             System.out.println();
-            System.out.println("╔══════════════════════════════════════╗");
-            System.out.println("║         Laporan Pendapatan           ║");
-            System.out.println("╚══════════════════════════════════════╝");
+            Header(language[3][selectedLanguage]);
 
             Set<Integer> uniqueYears = new HashSet<>();
 
@@ -2490,12 +2466,7 @@ public class Main {
         };
 
         while (managingUser == true) {
-            System.out.println(
-                    "╔════════════════════════════════╗");
-            System.out.println(
-                    "║" + CenterString(32, userLanguage[0][selectedLanguage]) + "║");
-            System.out.println(
-                    "╚════════════════════════════════╝");
+            Header(userLanguage[0][selectedLanguage]);
             System.out.println("[1] " + userLanguage[1][selectedLanguage]); // View all
             System.out.println("[2] " + userLanguage[2][selectedLanguage]); // Create new User
             System.out.println("[3] " + userLanguage[3][selectedLanguage]); // Edit User
@@ -2602,13 +2573,7 @@ public class Main {
         };
 
         GetLatestUsers();
-
-        System.out.println(
-                "╔════════════════════════════╗");
-        System.out.println(
-                "║    " + userLanguage[0][selectedLanguage] + "   ║");
-        System.out.println(
-                "╚════════════════════════════╝");
+        Header(userLanguage[0][selectedLanguage]);
         System.out.print(userLanguage[1][selectedLanguage]);
         users[latestUsers][0] = sc.nextLine();
 
