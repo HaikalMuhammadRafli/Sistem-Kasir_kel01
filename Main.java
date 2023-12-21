@@ -320,7 +320,6 @@ public class Main {
                 { "Cancel and Exit", "Batalkan dan Keluar" }
         };
 
-        Title();
         System.out.println(
                 "╔═══════════════════════════════════════════════════════════════════════════════════════════╗");
         System.out.println(
@@ -337,7 +336,7 @@ public class Main {
                 "╠═══════════════════════════════════════════════════════════════════════════════════════════╣");
         for (int i = 0; i < items.length; i++) {
             if (keyword == null) {
-                if (items[i][0] != null) {
+                if (items[i][0] != null && items[i][4].equalsIgnoreCase("makanan")) {
                     System.out.println(String.format(
                             "║ %4d ║ %16s ║ %16s ║ %12s ║ %10s ║ %16s ║",
                             i + 1,
@@ -348,7 +347,38 @@ public class Main {
                             items[i][3]));
                 }
             } else {
-                if (items[i][0] != null && items[i][0].toLowerCase().contains(keyword.toLowerCase())) {
+                if (items[i][0] != null && items[i][0].toLowerCase().contains(keyword.toLowerCase())
+                        && items[i][4].equalsIgnoreCase("makanan")) {
+                    System.out.println(String.format(
+                            "║ %4d ║ %16s ║ %16s ║ %12s ║ %10s ║ %16s ║",
+                            i + 1,
+                            items[i][0],
+                            items[i][4],
+                            items[i][1],
+                            items[i][2],
+                            items[i][3]));
+                }
+            }
+        }
+
+        System.out.println(
+                "║-------------------------------------------------------------------------------------------║");
+
+        for (int i = 0; i < items.length; i++) {
+            if (keyword == null) {
+                if (items[i][0] != null && items[i][4].equalsIgnoreCase("minuman")) {
+                    System.out.println(String.format(
+                            "║ %4d ║ %16s ║ %16s ║ %12s ║ %10s ║ %16s ║",
+                            i + 1,
+                            items[i][0],
+                            items[i][4],
+                            items[i][1],
+                            items[i][2],
+                            items[i][3]));
+                }
+            } else {
+                if (items[i][0] != null && items[i][0].toLowerCase().contains(keyword.toLowerCase())
+                        && items[i][4].equalsIgnoreCase("minuman")) {
                     System.out.println(String.format(
                             "║ %4d ║ %16s ║ %16s ║ %12s ║ %10s ║ %16s ║",
                             i + 1,
@@ -383,7 +413,6 @@ public class Main {
                 { "Discount (%)", "Diskon (%)" },
                 { "Discount Total", "Total Diskon" } };
 
-        Title();
         System.out.println(
                 "╔════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗");
         System.out.println(
@@ -767,6 +796,7 @@ public class Main {
 
             int choice = sc.nextInt();
             sc.nextLine();
+            ClearScreen();
 
             if (choice < items.length && items[choice - 1][0] != null) {
                 CreateOrderDetail(choice);
@@ -840,43 +870,66 @@ public class Main {
     static void CancelOrderDetail() {
 
         String language[][] = { { "Select the item you want to cancel!", "Pilih item yang ingin di cancel!" },
-                { "Your choice : ", "Pilihan anda : " } };
+                { "Your choice : ", "Pilihan anda : " },
+                { "Cancel Item Order", "Batalkan Barang Pesanan" },
+                { "Back", "Kembali" } };
 
-        ViewOrderDetailList();
+        while (true) {
+            Header(language[2][selectedLanguage]);
+            ViewOrderDetailList();
 
-        System.out.println(language[0][selectedLanguage]); // Select the item you want to cancel!
-        InputBox(language[1][selectedLanguage]); // your choice
-        int removeItemChoice = sc.nextInt();
+            UpperBox();
+            SideBox();
+            TextBox("[" + order_details.length + "] " + language[3][selectedLanguage]);
+            SideBox();
+            TextBox(language[0][selectedLanguage]); // Select the item you want to cancel!
+            SideBox();
+            InputBox(language[1][selectedLanguage]); // your choice
+            int removeItemChoice = sc.nextInt();
+            SideBox();
+            LowerBox();
 
-        if (removeItemChoice < order_details.length && order_details[removeItemChoice][0]
-                .equals(Integer.toString(latestOrders))) {
+            if (removeItemChoice < order_details.length && order_details[removeItemChoice][0] != null
+                    && order_details[removeItemChoice][0]
+                            .equals(Integer.toString(latestOrders))) {
 
-            // pengembalian stok
-            for (int i = 0; i < items.length; i++) {
-                if (items[i][0].equals(order_details[removeItemChoice][1])) {
-                    items[i][2] = Integer.toString(Integer.parseInt(items[i][2])
-                            + Integer.parseInt(order_details[removeItemChoice][2]));
-                    break;
-                }
-            }
-
-            // membuat satu baris menjadi null untuk dicancel
-            for (int i = 0; i < order_details[removeItemChoice].length; i++) {
-                if (order_details[removeItemChoice][0] != null
-                        && order_details[removeItemChoice][0]
-                                .equals(Integer.toString(latestOrders))) {
-                    order_details[removeItemChoice][i] = null;
-                }
-            }
-
-            // mengurutkan barisan array setelah penghapusan
-            for (int i = 0; i < order_details.length - 1; i++) {
-                if (order_details[i][0] == null && order_details[i + 1][0] != null) {
-                    for (int j = 0; j < order_details[i].length; j++) {
-                        order_details[i][j] = order_details[i + 1][j];
-                        order_details[i + 1][j] = null;
+                // pengembalian stok
+                for (int i = 0; i < items.length; i++) {
+                    if (items[i][0].equals(order_details[removeItemChoice][1])) {
+                        items[i][2] = Integer.toString(Integer.parseInt(items[i][2])
+                                + Integer.parseInt(order_details[removeItemChoice][2]));
+                        break;
                     }
                 }
+
+                // membuat satu baris menjadi null untuk dicancel
+                for (int i = 0; i < order_details[removeItemChoice].length; i++) {
+                    if (order_details[removeItemChoice][0] != null
+                            && order_details[removeItemChoice][0]
+                                    .equals(Integer.toString(latestOrders))) {
+                        order_details[removeItemChoice][i] = null;
+                    }
+                }
+
+                // mengurutkan barisan array setelah penghapusan
+                for (int i = 0; i < order_details.length - 1; i++) {
+                    if (order_details[i][0] == null && order_details[i + 1][0] != null) {
+                        for (int j = 0; j < order_details[i].length; j++) {
+                            order_details[i][j] = order_details[i + 1][j];
+                            order_details[i + 1][j] = null;
+                        }
+                    }
+                }
+                Delay();
+                break;
+
+            } else if (removeItemChoice == order_details.length) {
+                Delay();
+                break;
+
+            } else {
+                Notification("failure", "Item not found!");
+                Delay();
             }
         }
     }
@@ -3104,6 +3157,7 @@ public class Main {
             SideBox();
             InputBox(loginLanguage[1][selectedLanguage]);
             String inputUsername = sc.nextLine();
+            SideBox();
             InputBox(loginLanguage[2][selectedLanguage]);
             String inputPassword = sc.nextLine();
             SideBox();
