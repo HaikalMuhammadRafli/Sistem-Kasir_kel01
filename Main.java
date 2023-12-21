@@ -1982,32 +1982,32 @@ public class Main {
         while (true) {
             Title();
             System.out.println(
-                    "╔════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗");
+                    "╔═════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗");
 
             if (type.equals("today")) {
                 System.out.println(
-                        "║ " + CenterString(118, language[0][selectedLanguage]) + " ║");
+                        "║ " + CenterString(119, language[0][selectedLanguage]) + " ║");
             } else {
                 System.out.printf(
-                        "║                       " + PadStringRGT(36, language[1][selectedLanguage])
+                        "║                       " + PadStringRGT(37, language[1][selectedLanguage])
                                 + " %-8s %-4s                                               ║\n",
                         monthName, year);
             }
 
             System.out.println(
-                    "╠════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╣");
+                    "╠═════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╣");
             System.out.println(
                     "║ " + CenterString(4, "No")
-                            + " | " + PadStringRGT(11, language[2][selectedLanguage])
-                            + " | " + PadStringRGT(12, language[3][selectedLanguage])
-                            + " | " + PadStringRGT(12, "Membership")
-                            + " | " + PadStringRGT(15, "Total")
-                            + " | " + PadStringRGT(16, language[4][selectedLanguage])
-                            + " | " + PadStringRGT(16, language[5][selectedLanguage])
-                            + " | " + PadStringRGT(12, language[6][selectedLanguage])
+                            + " | " + CenterString(11, language[2][selectedLanguage])
+                            + " | " + CenterString(12, language[3][selectedLanguage])
+                            + " | " + CenterString(12, "Membership")
+                            + " | " + CenterString(15, "Total")
+                            + " | " + CenterString(16, language[4][selectedLanguage])
+                            + " | " + CenterString(16, language[5][selectedLanguage])
+                            + " | " + CenterString(12, language[6][selectedLanguage])
                             + " ║");
             System.out.println(
-                    "╠════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╣");
+                    "╠═════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╣");
 
             for (int i = 0; i < orders.length; i++) {
                 if (type.equals("today") || type.equals("day")) {
@@ -2029,7 +2029,7 @@ public class Main {
                     if (orders[i][0] != null && (LocalDate.parse(orders[i][14], dateFormat).getMonthValue() == month)
                             && (LocalDate.parse(orders[i][14], dateFormat).getYear() == year)) {
                         System.out.println(String.format(
-                                "║ %3d ║ %11s ║ %12s ║ %12s ║ %15s ║ %16s ║ %16s ║ %12s ║",
+                                "║ %4d ║ %11s ║ %12s ║ %12s ║ %15s ║ %16s ║ %16s ║ %12s ║",
                                 i + 1,
                                 orders[i][1],
                                 orders[i][0],
@@ -2043,17 +2043,23 @@ public class Main {
             }
 
             System.out.println(
-                    "╚════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝");
+                    "╚═════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝");
 
-            System.out.println();
-            System.out.println(language[7][selectedLanguage]); // Input number to view history details!
-            System.out.println("[" + orders.length + "] " + language[8][selectedLanguage]); // Back
+            UpperBox();
+            SideBox();
+
+            TextBox(language[7][selectedLanguage]); // Input number to view history details!
+            SideBox();
+            TextBox("[" + orders.length + "] " + language[8][selectedLanguage]); // Back
+            SideBox();
+            LowerBox();
+
             InputBox(language[9][selectedLanguage]); // Your choice :
             int choice = sc.nextInt();
             sc.nextLine();
-            ClearScreen();
 
             if (choice < orders.length && orders[choice - 1][0] != null) {
+                ClearScreen();
                 ViewSalesHistoryDetails(choice - 1);
                 AwaitEnter();
                 Delay();
@@ -2118,6 +2124,7 @@ public class Main {
             sc.nextLine();
 
             if (month <= 12) {
+                Delay();
                 ViewSalesHistory(1, month, year, "month");
                 break;
 
@@ -2126,6 +2133,7 @@ public class Main {
 
             } else {
                 Notification("failure", "Invalid choice!");
+                Delay();
                 break;
             }
         }
@@ -2154,6 +2162,8 @@ public class Main {
             InputBox(language[1][selectedLanguage]); // your choice
             int month = sc.nextInt();
             sc.nextLine();
+
+            ClearScreen();
 
             if (month <= 12) {
 
@@ -2237,6 +2247,7 @@ public class Main {
                 int day = sc.nextInt();
                 sc.nextLine();
 
+                Delay();
                 ViewSalesHistory(day, month, year, "day");
                 break;
 
@@ -2262,16 +2273,17 @@ public class Main {
         while (true) {
             System.out.println();
             Header(language[5][selectedLanguage]);
-            if (selectedYear == LocalDate.now().getYear()) {
-                System.out.println("[0] " + language[0][selectedLanguage]); // today
-            }
             UpperBox();
             SideBox();
-            TextBox("1. " + language[1][selectedLanguage]); // by month
+            if (selectedYear == LocalDate.now().getYear()) {
+                TextBox("[0] " + language[0][selectedLanguage]); // today
+                SideBox();
+            }
+            TextBox("[1] " + language[1][selectedLanguage]); // by month
             SideBox();
-            TextBox("2. " + language[2][selectedLanguage]); // by day
+            TextBox("[2] " + language[2][selectedLanguage]); // by day
             SideBox();
-            TextBox("3. " + language[3][selectedLanguage]); // back
+            TextBox("[3] " + language[3][selectedLanguage]); // back
             SideBox();
             LowerBox();
             InputBox(language[4][selectedLanguage]); // your choice
@@ -2279,23 +2291,28 @@ public class Main {
 
             switch (choice) {
                 case 0:
+                    Delay();
                     SalesHistoryByToday();
                     break;
 
                 case 1:
+                    Delay();
                     SalesHistoryByMonth(selectedYear);
                     break;
 
                 case 2:
+                    Delay();
                     SalesHistoryByDay(selectedYear);
                     break;
 
                 case 3:
+                    Delay();
                     PickHistoryYear();
                     break;
 
                 default:
                     Notification("failure", "Invalid choice!");
+                    Delay();
                     break;
             }
 
@@ -2340,14 +2357,17 @@ public class Main {
             int choice = sc.nextInt() - 1;
 
             if (choice < uniqueYearsArray.length) {
+                Delay();
                 SalesHistory(uniqueYearsArray[choice]);
                 break;
 
             } else if (choice == uniqueYearsArray.length) {
+                Delay();
                 break;
 
             } else {
                 Notification("failure", "Invalid choice!");
+                Delay();
                 break;
             }
         }
@@ -2741,18 +2761,22 @@ public class Main {
             sc.nextLine();
 
             if (choice < uniqueYearsArray.length) {
+                Delay();
                 ProfitReport(uniqueYearsArray[choice]);
                 break;
 
             } else if (choice == uniqueYearsArray.length) {
+                Delay();
                 ProfitReportByAllTime();
                 break;
 
             } else if (choice == uniqueYearsArray.length + 1) {
+                Delay();
                 break;
 
             } else {
                 Notification("failure", "Invalid choice!");
+                Delay();
                 break;
             }
         }
