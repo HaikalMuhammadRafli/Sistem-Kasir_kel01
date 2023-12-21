@@ -58,6 +58,7 @@ public class Main {
 
     static void Init() {
         // items dummy data
+        // makanan
         items = new String[20][6];
         items[0][0] = "Ayam Bakar"; // nama item
         items[0][1] = "15000"; // harga
@@ -66,13 +67,132 @@ public class Main {
         items[0][4] = "Makanan"; // tipe
         items[0][5] = "12000"; // harga beli
 
-        // items dummy data
-        items[1][0] = "Es teh"; // nama item
-        items[1][1] = "3000"; // harga
-        items[1][2] = "50"; // stok
-        items[1][3] = "10"; // diskon %
-        items[1][4] = "Minuman"; // tipe
-        items[1][5] = "1000"; // harga beli
+        items[2][0] = "Nasi Goreng";
+        items[2][1] = "12000";
+        items[2][2] = "30";
+        items[2][3] = "15";
+        items[2][4] = "Makanan";
+        items[2][5] = "9000";
+
+        items[3][0] = "Mie Goreng";
+        items[3][1] = "11000";
+        items[3][2] = "25";
+        items[3][3] = "10";
+        items[3][4] = "Makanan";
+        items[3][5] = "8000";
+
+        items[4][0] = "Sate Ayam";
+        items[4][1] = "15000";
+        items[4][2] = "20";
+        items[4][3] = "10";
+        items[4][4] = "Makanan";
+        items[4][5] = "13000";
+
+        items[5][0] = "Bakso";
+        items[5][1] = "12000";
+        items[5][2] = "35";
+        items[5][3] = "10";
+        items[5][4] = "Makanan";
+        items[5][5] = "10000";
+
+        items[6][0] = "Nasi Goreng Seafood";
+        items[6][1] = "18000";
+        items[6][2] = "30";
+        items[6][3] = "15";
+        items[6][4] = "Makanan";
+        items[6][5] = "15000";
+
+        items[7][0] = "Sop Ikan";
+        items[7][1] = "16000";
+        items[7][2] = "25";
+        items[7][3] = "10";
+        items[7][4] = "Makanan";
+        items[7][5] = "14000";
+
+        items[8][0] = "Rendang";
+        items[8][1] = "20000";
+        items[8][2] = "20";
+        items[8][3] = "10";
+        items[8][4] = "Makanan";
+        items[8][5] = "18000";
+
+        items[9][0] = "Soto Ayam";
+        items[9][1] = "14000";
+        items[9][2] = "35";
+        items[9][3] = "10";
+        items[9][4] = "Makanan";
+        items[9][5] = "11000";
+
+        items[15][0] = "Nasi Kuning";
+        items[15][1] = "14000";
+        items[15][2] = "30";
+        items[15][3] = "10";
+        items[15][4] = "Makanan";
+        items[15][5] = "11000";
+
+        items[16][0] = "Gado-Gado";
+        items[16][1] = "16000";
+        items[16][2] = "25";
+        items[16][3] = "10";
+        items[16][4] = "Makanan";
+        items[16][5] = "13000";
+
+        items[17][0] = "Mie Ayam";
+        items[17][1] = "12000";
+        items[17][2] = "35";
+        items[17][3] = "10";
+        items[17][4] = "Makanan";
+        items[17][5] = "10000";
+
+        items[18][0] = "Soto Betawi";
+        items[18][1] = "18000";
+        items[18][2] = "30";
+        items[18][3] = "15";
+        items[18][4] = "Makanan";
+        items[18][5] = "15000";
+
+        items[19][0] = "Nasi Goreng Special";
+        items[19][1] = "20000";
+        items[19][2] = "20";
+        items[19][3] = "10";
+        items[19][4] = "Makanan";
+        items[19][5] = "18000";
+
+        // Minuman
+        items[1][0] = "Es teh";
+        items[1][1] = "3000";
+        items[1][2] = "50";
+        items[1][3] = "10";
+        items[1][4] = "Minuman";
+        items[1][5] = "1000";
+
+        items[10][0] = "Jus Jeruk";
+        items[10][1] = "8000";
+        items[10][2] = "40";
+        items[10][3] = "5";
+        items[10][4] = "Minuman";
+        items[10][5] = "6000";
+
+        items[11][0] = "Soda Gembira";
+        items[11][1] = "10000";
+        items[11][2] = "35";
+        items[11][3] = "10";
+        items[11][4] = "Minuman";
+        items[11][5] = "8000";
+
+        items[12][0] = "Teh Tarik";
+        items[12][1] = "6000";
+        items[12][2] = "50";
+        items[12][3] = "5";
+        items[12][4] = "Minuman";
+        items[12][5] = "5000";
+
+        items[13][0] = "Es Jeruk";
+        items[13][1] = "7000";
+        items[13][2] = "45";
+        items[13][3] = "5";
+        items[13][4] = "Minuman";
+        items[13][5] = "5500";
 
         // users dummy data
         users = new String[20][3];
