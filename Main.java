@@ -2764,8 +2764,13 @@ public class Main {
     // * Swtich Language
     static void SwitchLanguage() {
         Header("SELECT LANGUAGE");
-        System.out.println("1. English");
-        System.out.println("2. Bahasa Indonesia");
+        UpperBox();
+        SideBox();
+        TextBox("[1] English");
+        SideBox();
+        TextBox("[2] Bahasa Indonesia");
+        SideBox();
+        LowerBox();
         System.out.print("> Your choice : ");
         int languageChoice = sc.nextInt();
         sc.nextLine();
@@ -2804,25 +2809,15 @@ public class Main {
 
             Title();
 
-            System.out.println(
-                    "╔╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╗");
-            System.out.println(
-                    "╠╬╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╬╣");
-            System.out.println(
-                    "╠╣                                                                                                                              ╠╣");
-            System.out.println("╠╣ [1] " + PadStringLFT(121, language[0][selectedLanguage]) + "╠╣"); // login
-            System.out.println(
-                    "╠╣                                                                                                                              ╠╣");
-            System.out.println("╠╣ [2] " + PadStringLFT(121, language[1][selectedLanguage]) + "╠╣"); // switch language
-            System.out.println(
-                    "╠╣                                                                                                                              ╠╣");
-            System.out.println("╠╣ [3] " + PadStringLFT(121, language[2][selectedLanguage]) + "╠╣"); // exit program
-            System.out.println(
-                    "╠╣                                                                                                                              ╠╣");
-            System.out.println(
-                    "╠╬╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╬╣");
-            System.out.println(
-                    "╚╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╝");
+            UpperBox();
+            SideBox();
+            TextBox("[1] " + language[0][selectedLanguage]);
+            SideBox();
+            TextBox("[2] " + language[1][selectedLanguage]);
+            SideBox();
+            TextBox("[3] " + language[2][selectedLanguage]);
+            SideBox();
+            LowerBox();
             System.out.print("> " + language[3][selectedLanguage]);
             int choice = sc.nextInt();
             sc.nextLine();
@@ -2987,6 +2982,25 @@ public class Main {
                 "╚════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝");
     }
 
+    static void UpperBox() {
+        System.out.println(
+                "╔════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗");
+    }
+
+    static void TextBox(String text) {
+        System.out.println("║ " + PadStringLFT(126, text) + " ║");
+    }
+
+    static void SideBox() {
+        System.out.println(
+                "║                                                                                                                                ║");
+    }
+
+    static void LowerBox() {
+        System.out.println(
+                "╚════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝");
+    }
+
     static void Title() {
         System.out.println(
                 "╔╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╗");
@@ -3042,18 +3056,29 @@ public class Main {
 
             // menu
             Header(language[8][selectedLanguage]);
-            System.out.println("[1] " + language[0][selectedLanguage]); // make order
-            System.out.println("[2] " + language[1][selectedLanguage]); // sales history
+            UpperBox();
+            SideBox();
+            TextBox("[1] " + language[0][selectedLanguage]); // make order
+            SideBox();
+            TextBox("[2] " + language[1][selectedLanguage]); // sales history
+            SideBox();
             if (users[user_id][2].equals("manager") || users[user_id][2].equals("admin")) {
-                System.out.println("[3] " + language[2][selectedLanguage]); // profit report
-                System.out.println("[4] " + language[3][selectedLanguage]); // manage menu item
-                System.out.println("[5] " + language[4][selectedLanguage]); // manage stock
-                System.out.println("[6] " + language[5][selectedLanguage]); // manage discount
+                TextBox("[3] " + language[2][selectedLanguage]); // profit report
+                SideBox();
+                TextBox("[4] " + language[3][selectedLanguage]); // manage menu item
+                SideBox();
+                TextBox("[5] " + language[4][selectedLanguage]); // manage stock
+                SideBox();
+                TextBox("[6] " + language[5][selectedLanguage]); // manage discount
             }
             if (users[user_id][2].equals("admin")) {
-                System.out.println("[7] " + language[6][selectedLanguage]); // manage user
+                SideBox();
+                TextBox("[7] " + language[6][selectedLanguage]); // manage user
             }
-            System.out.println("[0] Logout");
+            SideBox();
+            TextBox("[0] Logout");
+            SideBox();
+            LowerBox();
             System.out.print(language[7][selectedLanguage]); // your choice :
             int choice = sc.nextInt();
             sc.nextLine();
