@@ -437,12 +437,12 @@ public class Main {
                         "║ %4d ║ %16s ║ %16s ║ %5s ║ %16s ║ %16s ║ %16s ║ %16s ║",
                         i,
                         order_details[i][1],
-                        MoneyFormat(order_details[0][3]),
+                        MoneyFormat(order_details[i][3]),
                         order_details[i][2],
-                        MoneyFormat(order_details[0][4]),
+                        MoneyFormat(order_details[i][4]),
                         order_details[i][7],
-                        MoneyFormat(order_details[0][5]),
-                        MoneyFormat(order_details[0][6])));
+                        MoneyFormat(order_details[i][5]),
+                        MoneyFormat(order_details[i][6])));
             }
         }
 
@@ -608,12 +608,12 @@ public class Main {
                         "║ %4d ║ %16s ║ %16s ║ %5s ║ %16s ║ %16s ║ %16s ║ %16s ║",
                         i,
                         order_details[i][1],
-                        MoneyFormat(order_details[0][3]),
+                        MoneyFormat(order_details[i][3]),
                         order_details[i][2],
-                        MoneyFormat(order_details[0][4]),
+                        MoneyFormat(order_details[i][4]),
                         order_details[i][7],
-                        MoneyFormat(order_details[0][5]),
-                        MoneyFormat(order_details[0][6])));
+                        MoneyFormat(order_details[i][5]),
+                        MoneyFormat(order_details[i][6])));
             }
         }
 
@@ -797,27 +797,33 @@ public class Main {
 
             int choice = sc.nextInt();
             sc.nextLine();
-            ClearScreen();
 
             if (choice < items.length && items[choice - 1][0] != null) {
+                Delay();
                 CreateOrderDetail(choice);
 
             } else if (choice == items.length) {
+                ClearScreen();
                 keyword = Search(keyword);
 
             } else if (choice == items.length + 1) {
+                Delay();
                 CancelOrderDetail();
 
             } else if (choice == items.length + 2) {
+                Delay();
                 FinishOrder();
                 break;
 
             } else if (choice == items.length + 3) {
                 CancelOrder();
+                Notification("warning", "Ordering has been cancelled!");
+                Delay();
                 break;
 
             } else {
                 Notification("failure", "Menu Invalid!");
+                Delay();
             }
         }
     }
@@ -1129,9 +1135,6 @@ public class Main {
         for (int i = 0; i < orders[latestOrders].length; i++) {
             orders[latestOrders][i] = null;
         }
-
-        Notification("warning", "Ordering has been cancelled!");
-        Delay();
     }
 
     // * Manage Item Menu Feature
@@ -1885,12 +1888,12 @@ public class Main {
                         "║ %4d ║ %16s ║ %16s ║ %6s ║ %16s ║ %16s ║ %16s ║ %16s ║",
                         i,
                         order_details[i][1],
-                        MoneyFormat(order_details[0][3]),
+                        MoneyFormat(order_details[i][3]),
                         order_details[i][2],
-                        MoneyFormat(order_details[0][4]),
+                        MoneyFormat(order_details[i][4]),
                         order_details[i][7],
-                        MoneyFormat(order_details[0][5]),
-                        MoneyFormat(order_details[0][6])));
+                        MoneyFormat(order_details[i][5]),
+                        MoneyFormat(order_details[i][6])));
             }
         }
 
@@ -2468,11 +2471,11 @@ public class Main {
                 "╠══════════════════════════════════════════════════════════════════════════════════════════╣");
         System.out.println(
                 "║        " + PadStringLFT(11, language[2][selectedLanguage]) // income
-                        + " :                                                                      ║");
+                        + " :                                                                     ║");
         System.out.printf(
                 "║              " + PadStringLFT(9, language[3][selectedLanguage]) // sales
                         + "                %44s       ║\n",
-                totalPenjualan);
+                MoneyFormatInt(totalPenjualan));
         System.out.println(
                 "║                                                                                          ║");
 
@@ -2482,17 +2485,17 @@ public class Main {
         System.out.printf(
                 "║              " + PadStringLFT(21, language[5][selectedLanguage]) // cost of purchase
                         + "    %-44s       ║\n",
-                totalPembelian);
+                MoneyFormatInt(totalPembelian));
         System.out.printf(
                 "║              " + PadStringLFT(23, language[6][selectedLanguage]) // discount expense
                         + "  %-44s       ║\n",
-                totalDiskon);
+                MoneyFormatInt(totalDiskon));
         System.out.printf(
                 "║              " + PadStringLFT(23, language[7][selectedLanguage]) // discount expense
                         + "  %-44s       ║\n",
-                totalDiskonMember);
+                MoneyFormatInt(totalDiskonMember));
         System.out.printf(
-                "║                                       %44s       ║\n", totalKerugian);
+                "║                                       %44s       ║\n", MoneyFormatInt(totalKerugian));
         System.out.println(
                 "║        ---------------------------------------------------------------------------       ║");
         System.out.println(
@@ -2500,11 +2503,12 @@ public class Main {
         System.out.printf(
                 "║        " + PadStringLFT(16, language[8][selectedLanguage]) // discount expense
                         + "               %44s       ║\n",
-                totalKeuntungan);
+                MoneyFormatInt(totalKeuntungan));
         System.out.println(
                 "╚══════════════════════════════════════════════════════════════════════════════════════════╝");
 
-        Delay();
+        AwaitEnter();
+        ClearScreen();
     }
 
     static void ProfitReportByAllTime() {
@@ -2532,12 +2536,12 @@ public class Main {
             TextBox("[" + (months.length + 1) + "] " + language[0][selectedLanguage]);
             SideBox();
             LowerBox();
-            System.out.println();
             InputBox(language[1][selectedLanguage]); // your choice
             int month = sc.nextInt();
             sc.nextLine();
 
             if (month <= 12) {
+                Delay();
                 ViewProfitReport(0, month, year, "month");
                 break;
 
@@ -2546,6 +2550,7 @@ public class Main {
 
             } else {
                 Notification("failure", "Invalid choice!");
+                Delay();
                 break;
             }
         }
@@ -2576,6 +2581,8 @@ public class Main {
             InputBox(language[1][selectedLanguage]); // your choice
             int month = sc.nextInt();
             sc.nextLine();
+
+            ClearScreen();
 
             if (month <= 12) {
 
@@ -2659,6 +2666,7 @@ public class Main {
                 int day = sc.nextInt();
                 sc.nextLine();
 
+                Delay();
                 ViewProfitReport(day, month, year, "day");
                 break;
 
@@ -2667,6 +2675,7 @@ public class Main {
 
             } else {
                 Notification("failure", "Invalid choice!");
+                Delay();
                 break;
             }
         }
@@ -2700,14 +2709,17 @@ public class Main {
 
             switch (choice) {
                 case 1:
+                    Delay();
                     ViewProfitReport(0, 0, year, "year");
                     break;
 
                 case 2:
+                    Delay();
                     ProfitReportByMonth(year);
                     break;
 
                 case 3:
+                    Delay();
                     ProfitReportByDay(year);
                     break;
 
@@ -2716,6 +2728,7 @@ public class Main {
 
                 default:
                     Notification("failure", "Invalid choice!");
+                    Delay();
                     break;
             }
 
@@ -2830,25 +2843,20 @@ public class Main {
             switch (manageUserChoice) {
                 case 1:
                     ViewUserList(null);
-                    Delay();
+                    AwaitEnter();
+                    ClearScreen();
                     break;
 
                 case 2:
                     CreateUser();
-                    Delay();
-                    ClearScreen();
                     break;
 
                 case 3:
                     EditUser();
-                    Delay();
-                    ClearScreen();
                     break;
 
                 case 4:
                     DeleteUser();
-                    Delay();
-                    ClearScreen();
                     break;
 
                 case 5:
@@ -2858,7 +2866,6 @@ public class Main {
                 default:
                     Notification("failure", "Invalid choice!");
                     Delay();
-                    ClearScreen();
                     break;
             }
         }
@@ -2909,6 +2916,7 @@ public class Main {
         }
         System.out.println(
                 "╚══════════════════════════════════════════════════════════════════╝");
+
     }
 
     static void CreateUser() {
@@ -2924,13 +2932,16 @@ public class Main {
 
         GetLatestUsers();
         Header(userLanguage[0][selectedLanguage]);
+        SideBox();
         InputBox(userLanguage[1][selectedLanguage]);
         users[latestUsers][0] = sc.nextLine();
 
+        SideBox();
         InputBox(userLanguage[2][selectedLanguage]);
         users[latestUsers][1] = sc.nextLine();
 
         while (true) {
+            SideBox();
             InputBox(userLanguage[3][selectedLanguage]);
             String inputRole = sc.nextLine();
 
@@ -2942,7 +2953,11 @@ public class Main {
             }
         }
 
+        SideBox();
+        LowerBox();
+
         Notification("success", userLanguage[4][selectedLanguage]);
+        Delay();
     }
 
     static void EditUser() {
@@ -2957,7 +2972,8 @@ public class Main {
                 { "Input the number to edit the user!", "Masukkan nomor untuk mengedit user" },
                 { "Your choice : ", "Pilihan anda : " },
                 { "Search for a user", "Cari pengguna" },
-                { "Back", "Kembali" }
+                { "Back", "Kembali" },
+                { "Edit User", "Edit Pengguna" }
         };
 
         String temp, keyword = null;
@@ -2981,13 +2997,17 @@ public class Main {
 
             if (editUserChoice < users.length && users[editUserChoice][0] != null) {
                 // Logika untuk mengedit user
-                System.out.println(userLanguage[0][selectedLanguage]);
+                Header(userLanguage[10][selectedLanguage]);
+                SideBox();
+                TextBox(userLanguage[0][selectedLanguage]);
+                SideBox();
                 InputBox(userLanguage[1][selectedLanguage] + " (" + users[editUserChoice][0] + ") : ");
                 temp = sc.nextLine();
                 if (!temp.equals("-")) {
                     users[editUserChoice][0] = temp;
                 }
 
+                SideBox();
                 InputBox(userLanguage[2][selectedLanguage] + " (" + users[editUserChoice][1] + ") : ");
                 temp = sc.nextLine();
                 if (!temp.equals("-")) {
@@ -2995,6 +3015,7 @@ public class Main {
                 }
 
                 while (true) {
+                    SideBox();
                     InputBox(userLanguage[3][selectedLanguage] + " (" + users[editUserChoice][2] + ") : ");
                     temp = sc.nextLine();
                     if (!temp.equals("-") && (temp.equals("kasir") || temp.equals("manajer") || temp.equals("admin"))) {
@@ -3005,12 +3026,14 @@ public class Main {
                         break;
 
                     } else {
-                        Notification("failure", userLanguage[4][selectedLanguage]);
+                        Notification("failure", userLanguage[5][selectedLanguage]);
                         continue;
                     }
                 }
 
-                Notification("success", userLanguage[5][selectedLanguage]);
+                SideBox();
+                LowerBox();
+                Notification("success", userLanguage[4][selectedLanguage]);
                 Delay();
                 break;
 
@@ -3022,6 +3045,7 @@ public class Main {
 
             } else {
                 Notification("failure", "Invalid choice!");
+                Delay();
             }
         }
     }
@@ -3034,7 +3058,7 @@ public class Main {
                 { "Back", "Kembali" },
                 { "Search for user", "Mencari pengguna" },
                 { "Input the number to edit the user!", "Masukkan nomor untuk mengedit user" },
-                { "> Your choice : ", "> Pilihan anda : " }
+                { "Your choice : ", "Pilihan anda : " }
         };
 
         String keyword = null;
@@ -3042,10 +3066,15 @@ public class Main {
         while (true) {
             ViewUserList(keyword); // Menampilkan daftar pengguna berdasarkan pencarian
 
-            System.out.println("[" + users.length + "] " + userLanguage[3][selectedLanguage]);
-            System.out.println("[" + (users.length + 1) + "] " + userLanguage[2][selectedLanguage]);
+            UpperBox();
+            SideBox();
+            TextBox("[" + users.length + "] " + userLanguage[3][selectedLanguage]);
+            SideBox();
+            TextBox("[" + (users.length + 1) + "] " + userLanguage[2][selectedLanguage]);
+            SideBox();
+            LowerBox();
             System.out.println(userLanguage[4][selectedLanguage]);
-            System.out.print(userLanguage[5][selectedLanguage]);
+            InputBox(userLanguage[5][selectedLanguage]);
             int deleteUserChoice = sc.nextInt() - 1;
             sc.nextLine();
             ClearScreen();
@@ -3077,6 +3106,7 @@ public class Main {
 
             } else {
                 Notification("failure", userLanguage[1][selectedLanguage]);
+                Delay();
                 return;
             }
         }
@@ -3304,6 +3334,13 @@ public class Main {
             System.out.println("║" + RED + CenterString(128, msg) + RESET + "║");
             System.out.println(
                     "╚════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝");
+        } else if (type.equals("warning")) {
+
+            System.out.println(
+                    "╔════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗");
+            System.out.println("║" + YELLOW + CenterString(128, msg) + RESET + "║");
+            System.out.println(
+                    "╚════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝");
         }
     }
 
@@ -3341,6 +3378,10 @@ public class Main {
 
     static String MoneyFormat(String money) {
         return String.format("%,d", Integer.parseInt(money));
+    }
+
+    static String MoneyFormatInt(int money) {
+        return String.format("%,d", money);
     }
 
     static void Title() {
