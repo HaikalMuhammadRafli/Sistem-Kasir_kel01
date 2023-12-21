@@ -199,7 +199,7 @@ public class Main {
         System.out.println(
                 "╔═══════════════════════════════════════════════════════════════════════════════════════════╗");
         System.out.println(
-                "║ " + CenterString(88, language[0][selectedLanguage]) + " ║");
+                "║ " + CenterString(89, language[0][selectedLanguage]) + " ║");
         System.out.println(
                 "╠═══════════════════════════════════════════════════════════════════════════════════════════╣");
         System.out.println(
@@ -251,20 +251,35 @@ public class Main {
     }
 
     static void ViewOrderDetailList() {
+
+        String language[][] = { { "Order Detail List", "Daftar Detail Pesanan" },
+                { "Name", "Nama" },
+                { "Price", "Harga" },
+                { "Discount (%)", "Diskon (%)" },
+                { "Discount Total", "Total Diskon" } };
+
         System.out.println(
                 "╔═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗");
         System.out.println(
-                "║                                                        Order Detail List                                                      ║");
+                "║ " + CenterString(125, language[0][selectedLanguage]) + " ║");
         System.out.println(
                 "╠═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╣");
         System.out.println(
-                "║ No  |       Name       |       Price      |  Qty  |     Subtotal     |    Discount (%)  |  Discount Total  |       Total      ║");
+                "║ " + CenterString(4, "No")
+                        + " | " + CenterString(16, language[1][selectedLanguage]) // name
+                        + " | " + CenterString(16, language[2][selectedLanguage]) // price
+                        + " | " + CenterString(6, "Qty")
+                        + " | " + CenterString(16, "Subtotal")
+                        + " | " + CenterString(16, language[3][selectedLanguage]) // discount (%)
+                        + " | " + CenterString(16, language[4][selectedLanguage]) // discoutn total
+                        + " | " + CenterString(16, "Total")
+                        + " ║");
         System.out.println(
                 "╠═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╣");
         for (int i = 0; i < order_details.length; i++) {
             if (order_details[i][0] != null && order_details[i][0].equals(Integer.toString(latestOrders))) {
                 System.out.println(String.format(
-                        "║ %3d ║ %16s ║ %16s ║ %5s ║ %16s ║ %16s ║ %16s ║ %16s ║",
+                        "║ %4d ║ %16s ║ %16s ║ %6s ║ %16s ║ %16s ║ %16s ║ %16s ║",
                         i,
                         order_details[i][1],
                         order_details[i][3],
@@ -279,7 +294,11 @@ public class Main {
         System.out.println(
                 "╠═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╣");
         System.out.println(
-                "║                                                                      |     Subtotal     |  Discount Total  |       Total      ║");
+                "║                                                                      | "
+                        + CenterString(16, "Subtotal")
+                        + " | " + CenterString(16, language[4][selectedLanguage])
+                        + " | " + CenterString(16, "Total")
+                        + " ║");
         System.out.println(
                 "║                                                                       ════════════════════════════════════════════════════════╣");
         if (orders[latestOrders][2] != null) {
@@ -348,7 +367,8 @@ public class Main {
     static int PaymentReceipt() {
 
         String language[][] = {
-                {}
+                { "Customer", "Pelanggan" },
+                { "Cashier", "Kasir" }
         };
 
         if (orders[latestOrders][11].equals("card")) {
@@ -370,7 +390,10 @@ public class Main {
         System.out.println(
                 "╠═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╣");
         System.out.printf(
-                "║        Pelanggan      : %-16s                                                     Kasir : %-16s         ║\n",
+                "║        " + PadStringLFT(9, language[0][selectedLanguage])
+                        + "      : %-65s"
+                        + PadStringRGT(9, language[1][selectedLanguage])
+                        + " : %-16s         ║\n",
                 orders[latestOrders][0], orders[latestOrders][1]);
         System.out.println(
                 "║                                                                                                                               ║");
@@ -882,7 +905,7 @@ public class Main {
                 { "Edit Item Menu", "Edit Menu" },
                 { "Delete Item Menu", "Hapus Menu" },
                 { "Back", "Kembali" },
-                { "Enter your choice", "Masukkan pilihan anda : " },
+                { "Enter your choice : ", "Masukkan pilihan anda : " },
                 { "Invalid choice!", "Pilihan tidak valid!" }
         };
 
@@ -896,7 +919,7 @@ public class Main {
             System.out.println("[4] " + itemLanguage[4][selectedLanguage]); // Delete Item Menu
             System.out.println("[5] " + itemLanguage[5][selectedLanguage]); // Back
 
-            System.out.print(itemLanguage[6][selectedLanguage]);
+            System.out.print("> " + itemLanguage[6][selectedLanguage]);
             int manageItemChoice = sc.nextInt();
             sc.nextLine();
             ClearScreen();
@@ -1117,7 +1140,8 @@ public class Main {
                 { "Input new buying price", "Masukkan harga beli baru" },
                 { "Item has been successfully edited!", "Item berhasil diedit!" },
                 { "Invalid Type!", "Jenis tidak valid!" },
-                { "Invalid choice!", "Pilihan tidak valid!" }
+                { "Invalid choice!", "Pilihan tidak valid!" },
+                { "Input (0) to not edit the data!", "Masukkan (0) untuk tidak mengedit data!" }
         };
 
         while (true) {
@@ -1156,7 +1180,7 @@ public class Main {
                     }
                 }
 
-                System.out.println(editItemLanguage[3][selectedLanguage]);
+                System.out.println(editItemLanguage[11][selectedLanguage]);
                 System.out
                         .print("> " + editItemLanguage[6][selectedLanguage] + " (" + items[editItemChoice][1] + ") : ");
                 temp = Integer.toString(sc.nextInt());
