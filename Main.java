@@ -338,24 +338,24 @@ public class Main {
             if (keyword == null) {
                 if (items[i][0] != null && items[i][4].equalsIgnoreCase("makanan")) {
                     System.out.println(String.format(
-                            "║ %4d ║ %16s ║ %16s ║ %12s ║ %10s ║ %16s ║",
+                            "║ %4d ║ %16s ║ %16s ║ %12s ║ %20s ║ %16s ║",
                             i + 1,
                             items[i][0],
                             items[i][4],
                             MoneyFormat(items[i][1]),
-                            items[i][2],
+                            CheckStockLevel(items[i][2]),
                             items[i][3]));
                 }
             } else {
                 if (items[i][0] != null && items[i][0].toLowerCase().contains(keyword.toLowerCase())
                         && items[i][4].equalsIgnoreCase("makanan")) {
                     System.out.println(String.format(
-                            "║ %4d ║ %16s ║ %16s ║ %12s ║ %10s ║ %16s ║",
+                            "║ %4d ║ %16s ║ %16s ║ %12s ║ %20s ║ %16s ║",
                             i + 1,
                             items[i][0],
                             items[i][4],
                             MoneyFormat(items[i][1]),
-                            items[i][2],
+                            CheckStockLevel(items[i][2]),
                             items[i][3]));
                 }
             }
@@ -368,24 +368,24 @@ public class Main {
             if (keyword == null) {
                 if (items[i][0] != null && items[i][4].equalsIgnoreCase("minuman")) {
                     System.out.println(String.format(
-                            "║ %4d ║ %16s ║ %16s ║ %12s ║ %10s ║ %16s ║",
+                            "║ %4d ║ %16s ║ %16s ║ %12s ║ %20s ║ %16s ║",
                             i + 1,
                             items[i][0],
                             items[i][4],
                             MoneyFormat(items[i][1]),
-                            items[i][2],
+                            CheckStockLevel(items[i][2]),
                             items[i][3]));
                 }
             } else {
                 if (items[i][0] != null && items[i][0].toLowerCase().contains(keyword.toLowerCase())
                         && items[i][4].equalsIgnoreCase("minuman")) {
                     System.out.println(String.format(
-                            "║ %4d ║ %16s ║ %16s ║ %12s ║ %10s ║ %16s ║",
+                            "║ %4d ║ %16s ║ %16s ║ %12s ║ %20s ║ %16s ║",
                             i + 1,
                             items[i][0],
                             items[i][4],
                             MoneyFormat(items[i][1]),
-                            items[i][2],
+                            CheckStockLevel(items[i][2]),
                             items[i][3]));
                 }
             }
@@ -833,51 +833,61 @@ public class Main {
         String language[][] = { { "How many PCS ", "Beli berapa PCS " },
                 { "Adding to cart", "Memasukkan ke keranjang" } };
 
-        Header(language[1][selectedLanguage]);
+        while (true) {
+            Header(language[1][selectedLanguage]);
 
-        // id
-        order_details[latestOrder_details][0] = Integer.toString(latestOrders);
+            // id
+            order_details[latestOrder_details][0] = Integer.toString(latestOrders);
 
-        // nama
-        order_details[latestOrder_details][1] = items[choice - 1][0];
+            // nama
+            order_details[latestOrder_details][1] = items[choice - 1][0];
 
-        // jumlah
-        SideBox();
-        InputBox(language[0][selectedLanguage] + items[choice - 1][0] + " ? : "); // how many pcs
-        order_details[latestOrder_details][2] = Integer.toString(sc.nextInt());
-        sc.nextLine();
+            // jumlah
+            SideBox();
+            InputBox(language[0][selectedLanguage] + items[choice - 1][0] + " ? : "); // how many pcs
+            order_details[latestOrder_details][2] = Integer.toString(sc.nextInt());
+            sc.nextLine();
+            SideBox();
+            LowerBox();
 
-        SideBox();
-        LowerBox();
-        // harga
-        order_details[latestOrder_details][3] = items[choice - 1][1];
+            if (!(Integer.parseInt(order_details[latestOrder_details][2]) > Integer.parseInt(items[choice - 1][2]))) {
+                // harga
+                order_details[latestOrder_details][3] = items[choice - 1][1];
 
-        // subtotal
-        order_details[latestOrder_details][4] = Integer.toString(Integer
-                .parseInt(order_details[latestOrder_details][3])
-                * Integer.parseInt(order_details[latestOrder_details][2]));
+                // subtotal
+                order_details[latestOrder_details][4] = Integer.toString(Integer
+                        .parseInt(order_details[latestOrder_details][3])
+                        * Integer.parseInt(order_details[latestOrder_details][2]));
 
-        // discount %
-        order_details[latestOrder_details][7] = items[choice - 1][3];
+                // discount %
+                order_details[latestOrder_details][7] = items[choice - 1][3];
 
-        // total diskon
-        order_details[latestOrder_details][5] = Integer.toString(
-                Integer.parseInt(order_details[latestOrder_details][4]) * Integer.parseInt(items[choice - 1][3])
-                        / 100);
+                // total diskon
+                order_details[latestOrder_details][5] = Integer.toString(
+                        Integer.parseInt(order_details[latestOrder_details][4]) * Integer.parseInt(items[choice - 1][3])
+                                / 100);
 
-        // total
-        order_details[latestOrder_details][6] = Integer
-                .toString(Integer.parseInt(order_details[latestOrder_details][4])
-                        - Integer.parseInt(order_details[latestOrder_details][5]));
+                // total
+                order_details[latestOrder_details][6] = Integer
+                        .toString(Integer.parseInt(order_details[latestOrder_details][4])
+                                - Integer.parseInt(order_details[latestOrder_details][5]));
 
-        // harga beli
-        order_details[latestOrder_details][8] = Integer.toString(Integer
-                .parseInt(order_details[latestOrder_details][2])
-                * Integer.parseInt(items[choice - 1][5]));
+                // harga beli
+                order_details[latestOrder_details][8] = Integer.toString(Integer
+                        .parseInt(order_details[latestOrder_details][2])
+                        * Integer.parseInt(items[choice - 1][5]));
 
-        // pengurangan stok
-        items[choice - 1][2] = Integer.toString(Integer.parseInt(items[choice - 1][2])
-                - Integer.parseInt(order_details[latestOrder_details][2]));
+                // pengurangan stok
+                items[choice - 1][2] = Integer.toString(Integer.parseInt(items[choice - 1][2])
+                        - Integer.parseInt(order_details[latestOrder_details][2]));
+
+                break;
+
+            } else {
+                Notification("failure", "Insufficient stock!");
+                Delay();
+            }
+        }
     }
 
     static void CancelOrderDetail() {
@@ -966,6 +976,7 @@ public class Main {
             SideBox();
             InputBox(memberLanguage[0][selectedLanguage]); // Apakah punya kartu member? (y/t) :
             isMember = sc.next().charAt(0);
+            sc.nextLine();
 
             SideBox();
             LowerBox();
@@ -974,7 +985,7 @@ public class Main {
                 UpperBox();
                 SideBox();
                 InputBox(memberLanguage[1][selectedLanguage]);
-                String memberNumber = sc.next();
+                String memberNumber = sc.nextLine();
 
                 SideBox();
                 LowerBox();
@@ -998,10 +1009,12 @@ public class Main {
                     orders[latestOrders][9] = Integer.toString(memberDiskon);
                 } else {
                     Notification("failure", "Member not found!");
-                    break;
+                    Delay();
+                    continue;
                 }
             } else if (isMember == 't' || isMember == 'T') {
                 orders[latestOrders][8] = "not member";
+
             } else {
                 Notification("failure", "Invalid choice! Try again.");
                 Delay();
@@ -1028,12 +1041,15 @@ public class Main {
                     memberName,
                     membershipStatus);
             System.out.printf(
-                    "║    " + PadStringLFT(16, memberLanguage[4][selectedLanguage]) + "%-76s" + "║\n",
-                    orders[latestOrders][8].equals("member") ? orders[latestOrders][9] + "%" : "0%");
+                    "║    " + PadStringLFT(16, memberLanguage[4][selectedLanguage]) + "%-74s" + "║\n",
+                    orders[latestOrders][9] + "%");
             System.out.println(
                     "╚════════════════════════════════════════════════════════════════════════════════════════════════╝");
 
             memberValid = true;
+
+            AwaitEnter();
+            ClearScreen();
         }
     }
 
@@ -1234,32 +1250,67 @@ public class Main {
                 "╠═══════════════════════════════════════════════════════════════════════════════════════════════════════════════╣");
         for (int i = 0; i < items.length; i++) {
             if (keyword == null) {
-                if (items[i][0] != null) {
+                if (items[i][0] != null && items[i][4].equalsIgnoreCase("makanan")) {
                     System.out.println(String.format(
-                            "║ %4d ║ %16s ║ %16s ║ %12s ║ %10s ║ %17s ║ %16s ║",
+                            "║ %4d ║ %16s ║ %16s ║ %12s ║ %20s ║ %17s ║ %16s ║",
                             i + 1,
                             items[i][0],
                             items[i][4],
                             MoneyFormat(items[i][1]),
-                            items[i][2],
+                            CheckStockLevel(items[i][2]),
                             items[i][3],
                             MoneyFormat(items[i][5])));
                 }
 
             } else {
-                if (items[i][0] != null && items[i][0].toLowerCase().contains(keyword.toLowerCase())) {
+                if (items[i][0] != null && items[i][0].toLowerCase().contains(keyword.toLowerCase())
+                        && items[i][4].equalsIgnoreCase("makanan")) {
                     System.out.println(String.format(
-                            "║ %3d ║ %16s ║ %16s ║ %12s ║ %10s ║ %17s ║ %17s ║",
+                            "║ %3d ║ %16s ║ %16s ║ %12s ║ %20s ║ %17s ║ %17s ║",
                             i + 1,
                             items[i][0],
                             items[i][4],
                             MoneyFormat(items[i][1]),
-                            items[i][2],
+                            CheckStockLevel(items[i][2]),
                             items[i][3],
                             MoneyFormat(items[i][5])));
                 }
             }
         }
+
+        System.out.println(
+                "║---------------------------------------------------------------------------------------------------------------║");
+
+        for (int i = 0; i < items.length; i++) {
+            if (keyword == null) {
+                if (items[i][0] != null && items[i][4].equalsIgnoreCase("minuman")) {
+                    System.out.println(String.format(
+                            "║ %4d ║ %16s ║ %16s ║ %12s ║ %20s ║ %17s ║ %16s ║",
+                            i + 1,
+                            items[i][0],
+                            items[i][4],
+                            MoneyFormat(items[i][1]),
+                            CheckStockLevel(items[i][2]),
+                            items[i][3],
+                            MoneyFormat(items[i][5])));
+                }
+
+            } else {
+                if (items[i][0] != null && items[i][0].toLowerCase().contains(keyword.toLowerCase())
+                        && items[i][4].equalsIgnoreCase("minuman")) {
+                    System.out.println(String.format(
+                            "║ %3d ║ %16s ║ %16s ║ %12s ║ %20s ║ %17s ║ %17s ║",
+                            i + 1,
+                            items[i][0],
+                            items[i][4],
+                            MoneyFormat(items[i][1]),
+                            CheckStockLevel(items[i][2]),
+                            items[i][3],
+                            MoneyFormat(items[i][5])));
+                }
+            }
+        }
+
         System.out.println(
                 "╚═══════════════════════════════════════════════════════════════════════════════════════════════════════════════╝");
     }
@@ -1294,14 +1345,30 @@ public class Main {
         System.out.println(
                 "╠════════════════════════════════════════════════════════════════════════════════════════════╣");
         for (int i = 0; i < items.length; i++) {
-            if (items[i][0] != null) {
+            if (items[i][0] != null && items[i][4].equalsIgnoreCase("makanan")) {
                 System.out.println(String.format(
                         "║ %4d ║ %16s ║ %16s ║ %12s ║ %10s ║ %17s ║",
                         i + 1,
                         items[i][0],
                         items[i][4],
                         MoneyFormat(items[i][1]),
-                        items[i][2],
+                        CheckStockLevel(items[i][2]),
+                        items[i][3]));
+            }
+        }
+
+        System.out.println(
+                "║--------------------------------------------------------------------------------------------║");
+
+        for (int i = 0; i < items.length; i++) {
+            if (items[i][0] != null && items[i][4].equalsIgnoreCase("minuman")) {
+                System.out.println(String.format(
+                        "║ %4d ║ %16s ║ %16s ║ %12s ║ %10s ║ %17s ║",
+                        i + 1,
+                        items[i][0],
+                        items[i][4],
+                        MoneyFormat(items[i][1]),
+                        CheckStockLevel(items[i][2]),
                         items[i][3]));
             }
         }
@@ -1614,11 +1681,11 @@ public class Main {
             // Menambahkan pilihan menu
             UpperBox();
             SideBox();
-            TextBox("1. " + stockLanguage[1][selectedLanguage]); // Add Stock
+            TextBox("[1] " + stockLanguage[1][selectedLanguage]); // Add Stock
             SideBox();
-            TextBox("2. " + stockLanguage[2][selectedLanguage]); // Reduce Stock
+            TextBox("[2] " + stockLanguage[2][selectedLanguage]); // Reduce Stock
             SideBox();
-            TextBox("3. " + stockLanguage[5][selectedLanguage]); // Back
+            TextBox("[3] " + stockLanguage[5][selectedLanguage]); // Back
             SideBox();
             LowerBox();
             System.out.print(stockLanguage[0][selectedLanguage] + ": ");
@@ -3272,6 +3339,18 @@ public class Main {
             return false;
         }
 
+    }
+
+    static String CheckStockLevel(String stock) {
+        if (Integer.parseInt(stock) <= 10) {
+            return (RED + stock + RESET);
+
+        } else if (Integer.parseInt(stock) <= 30) {
+            return (YELLOW + stock + RESET);
+
+        } else {
+            return (GREEN + stock + RESET);
+        }
     }
 
     static String Search(String keyword) {
