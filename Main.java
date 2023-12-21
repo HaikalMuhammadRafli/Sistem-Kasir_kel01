@@ -246,6 +246,40 @@ public class Main {
         orders[1][14] = "12-12-2022"; // created_at
         orders[1][15] = "150000"; // harga beli stock total
 
+        orders[2][0] = "Budi"; // nama pemesan
+        orders[2][1] = "Rina"; // nama kasir
+        orders[2][2] = "250000"; // subtotal
+        orders[2][3] = "25000"; // total diskon
+        orders[2][4] = "225000"; // total
+        orders[2][5] = "225000"; // jumlah pembayaran
+        orders[2][6] = "0"; // jumlah kembalian
+        orders[2][7] = "completed"; // status pembayaran
+        orders[2][8] = "non-member"; // status membership
+        orders[2][9] = "0"; // diskon membership
+        orders[2][10] = "0"; // total diskon membership
+        orders[2][11] = "credit card"; // metode pembayaran
+        orders[2][12] = "123456789"; // nomor rekening
+        orders[2][13] = "BNI"; // bank
+        orders[2][14] = "02-12-2021"; // created_at
+        orders[2][15] = "200000"; // harga beli stock total
+
+        orders[3][0] = "Citra"; // nama pemesan
+        orders[3][1] = "Rahman"; // nama kasir
+        orders[3][2] = "300000"; // subtotal
+        orders[3][3] = "30000"; // total diskon
+        orders[3][4] = "270000"; // total
+        orders[3][5] = "270000"; // jumlah pembayaran
+        orders[3][6] = "0"; // jumlah kembalian
+        orders[3][7] = "completed"; // status pembayaran
+        orders[3][8] = "member"; // status membership
+        orders[3][9] = "15"; // diskon membership
+        orders[3][10] = "45000"; // total diskon membership
+        orders[3][11] = "cash"; // metode pembayaran
+        orders[3][12] = "987654321"; // nomor rekening
+        orders[3][13] = "Mandiri"; // bank
+        orders[3][14] = "05-12-2022"; // created_at
+        orders[3][15] = "250000"; // harga beli stock total
+
         // order_detail dummy data
         order_details = new String[100][9];
         order_details[0][0] = "0"; // id
@@ -257,6 +291,36 @@ public class Main {
         order_details[0][6] = "100000"; // total per item
         order_details[0][7] = "10"; // diskon item
         order_details[0][8] = "150000"; // harga beli stock
+
+        order_details[1][0] = "1"; // id
+        order_details[1][1] = "Nasi Goreng"; // nama item
+        order_details[1][2] = "5"; // jumlah beli
+        order_details[1][3] = "20000"; // harga item
+        order_details[1][4] = "100000"; // subtotal per item
+        order_details[1][5] = "20000"; // total diskon per item
+        order_details[1][6] = "80000"; // total per item
+        order_details[1][7] = "20"; // diskon item
+        order_details[1][8] = "100000"; // harga beli stock
+
+        order_details[2][0] = "2"; // id
+        order_details[2][1] = "Sate Ayam"; // nama item
+        order_details[2][2] = "8"; // jumlah beli
+        order_details[2][3] = "18000"; // harga item
+        order_details[2][4] = "144000"; // subtotal per item
+        order_details[2][5] = "16000"; // total diskon per item
+        order_details[2][6] = "128000"; // total per item
+        order_details[2][7] = "10"; // diskon item
+        order_details[2][8] = "144000"; // harga beli stock
+
+        order_details[3][0] = "3"; // id
+        order_details[3][1] = "Mie Ayam"; // nama item
+        order_details[3][2] = "7"; // jumlah beli
+        order_details[3][3] = "15000"; // harga item
+        order_details[3][4] = "105000"; // subtotal per item
+        order_details[3][5] = "10000"; // total diskon per item
+        order_details[3][6] = "95000"; // total per item
+        order_details[3][7] = "10"; // diskon item
+        order_details[3][8] = "105000"; // harga beli stock
 
         // membership dummy data
         noMembership = new String[100][2];
