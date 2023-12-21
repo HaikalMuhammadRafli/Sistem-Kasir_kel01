@@ -342,7 +342,7 @@ public class Main {
                             i + 1,
                             items[i][0],
                             items[i][4],
-                            items[i][1],
+                            MoneyFormat(items[i][1]),
                             items[i][2],
                             items[i][3]));
                 }
@@ -354,7 +354,7 @@ public class Main {
                             i + 1,
                             items[i][0],
                             items[i][4],
-                            items[i][1],
+                            MoneyFormat(items[i][1]),
                             items[i][2],
                             items[i][3]));
                 }
@@ -372,7 +372,7 @@ public class Main {
                             i + 1,
                             items[i][0],
                             items[i][4],
-                            items[i][1],
+                            MoneyFormat(items[i][1]),
                             items[i][2],
                             items[i][3]));
                 }
@@ -384,7 +384,7 @@ public class Main {
                             i + 1,
                             items[i][0],
                             items[i][4],
-                            items[i][1],
+                            MoneyFormat(items[i][1]),
                             items[i][2],
                             items[i][3]));
                 }
@@ -437,12 +437,12 @@ public class Main {
                         "║ %4d ║ %16s ║ %16s ║ %5s ║ %16s ║ %16s ║ %16s ║ %16s ║",
                         i,
                         order_details[i][1],
-                        order_details[i][3],
+                        MoneyFormat(order_details[0][3]),
                         order_details[i][2],
-                        order_details[i][4],
+                        MoneyFormat(order_details[0][4]),
                         order_details[i][7],
-                        order_details[i][5],
-                        order_details[i][6]));
+                        MoneyFormat(order_details[0][5]),
+                        MoneyFormat(order_details[0][6])));
             }
         }
 
@@ -460,9 +460,9 @@ public class Main {
             System.out.println(String.format(
                     "║ %69s ║ %16s ║ %16s ║ %16s ║",
                     " ",
-                    orders[latestOrders][2],
-                    orders[latestOrders][3],
-                    orders[latestOrders][4]));
+                    MoneyFormat(orders[latestOrders][2]),
+                    MoneyFormat(orders[latestOrders][3]),
+                    MoneyFormat(orders[latestOrders][4])));
         }
         System.out.println(
                 "╚════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝");
@@ -517,6 +517,7 @@ public class Main {
 
                 InputBox(language[3][selectedLanguage]);
                 orders[latestOrders][12] = sc.nextLine();
+                Delay();
                 break;
             }
         }
@@ -607,12 +608,12 @@ public class Main {
                         "║ %4d ║ %16s ║ %16s ║ %5s ║ %16s ║ %16s ║ %16s ║ %16s ║",
                         i,
                         order_details[i][1],
-                        order_details[i][3],
+                        MoneyFormat(order_details[0][3]),
                         order_details[i][2],
-                        order_details[i][4],
+                        MoneyFormat(order_details[0][4]),
                         order_details[i][7],
-                        order_details[i][5],
-                        order_details[i][6]));
+                        MoneyFormat(order_details[0][5]),
+                        MoneyFormat(order_details[0][6])));
             }
         }
 
@@ -630,9 +631,9 @@ public class Main {
             System.out.println(String.format(
                     "║ %69s ║ %16s ║ %16s ║ %16s ║",
                     " ",
-                    orders[latestOrders][2],
-                    orders[latestOrders][3],
-                    orders[latestOrders][4]));
+                    MoneyFormat(orders[latestOrders][2]),
+                    MoneyFormat(orders[latestOrders][3]),
+                    MoneyFormat(orders[latestOrders][4])));
         }
 
         System.out.println(
@@ -655,7 +656,7 @@ public class Main {
                         "║ %69s ║ %35s ║ %16s ║",
                         " ",
                         orders[latestOrders][9],
-                        orders[latestOrders][10]));
+                        MoneyFormat(orders[latestOrders][10])));
             }
         } else {
             orders[latestOrders][10] = "0";
@@ -673,7 +674,7 @@ public class Main {
                 "╠════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╣");
         System.out.printf(
                 "║ Total :                                                                                                       %16s ║\n",
-                orders[latestOrders][4]);
+                MoneyFormat(orders[latestOrders][4]));
         System.out.println(
                 "╠════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╣");
 
@@ -687,7 +688,7 @@ public class Main {
             System.out.printf(
                     "║ " + PadStringLFT(5, language[10][selectedLanguage])
                             + " :                                                                                                       %16s ║\n",
-                    orders[latestOrders][5]);
+                    MoneyFormat(orders[latestOrders][4]));
         }
 
         if (orders[latestOrders][5] != null
@@ -703,7 +704,7 @@ public class Main {
             System.out.printf(
                     "║ " + PadStringLFT(9, language[11][selectedLanguage])
                             + " :                                                                                                   %16s ║\n",
-                    orders[latestOrders][6]);
+                    MoneyFormat(orders[latestOrders][6]));
             System.out.println(
                     "╚════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝");
 
@@ -956,14 +957,23 @@ public class Main {
 
         while (!memberValid) {
             Header("Membership");
+            SideBox();
             InputBox(memberLanguage[0][selectedLanguage]); // Apakah punya kartu member? (y/t) :
             isMember = sc.next().charAt(0);
 
+            SideBox();
+            LowerBox();
+
             if (isMember == 'y' || isMember == 'Y') {
+                UpperBox();
+                SideBox();
                 InputBox(memberLanguage[1][selectedLanguage]);
                 String memberNumber = sc.next();
 
-                ClearScreen();
+                SideBox();
+                LowerBox();
+
+                Delay();
 
                 boolean memberExists = false;
 
@@ -1227,10 +1237,10 @@ public class Main {
                             i + 1,
                             items[i][0],
                             items[i][4],
-                            items[i][1],
+                            MoneyFormat(items[i][1]),
                             items[i][2],
                             items[i][3],
-                            items[i][5]));
+                            MoneyFormat(items[i][5])));
                 }
 
             } else {
@@ -1240,10 +1250,10 @@ public class Main {
                             i + 1,
                             items[i][0],
                             items[i][4],
-                            items[i][1],
+                            MoneyFormat(items[i][1]),
                             items[i][2],
                             items[i][3],
-                            items[i][5]));
+                            MoneyFormat(items[i][5])));
                 }
             }
         }
@@ -1265,11 +1275,11 @@ public class Main {
 
         Title();
         System.out.println(
-                "╔══════════════════════════════════════════════════════════════════════════════════════════╗");
+                "╔════════════════════════════════════════════════════════════════════════════════════════════╗");
         System.out.println(
-                "║ " + CenterString(98, itemLanguage[0][selectedLanguage]) + "║");
+                "║ " + CenterString(91, itemLanguage[0][selectedLanguage]) + "║");
         System.out.println(
-                "╠══════════════════════════════════════════════════════════════════════════════════════════╣");
+                "╠════════════════════════════════════════════════════════════════════════════════════════════╣");
         System.out.println(
                 "║" + CenterString(6, "No") +
                         "|" + CenterString(18, itemLanguage[1][selectedLanguage]) + // name
@@ -1279,21 +1289,21 @@ public class Main {
                         "|" + CenterString(19, itemLanguage[5][selectedLanguage]) + // discount (%)
                         "║");
         System.out.println(
-                "╠══════════════════════════════════════════════════════════════════════════════════════════╣");
+                "╠════════════════════════════════════════════════════════════════════════════════════════════╣");
         for (int i = 0; i < items.length; i++) {
             if (items[i][0] != null) {
                 System.out.println(String.format(
-                        "║ %6d ║ %18s ║ %18s ║ %14s ║ %12s ║ %19s ║",
+                        "║ %4d ║ %16s ║ %16s ║ %12s ║ %10s ║ %17s ║",
                         i + 1,
                         items[i][0],
                         items[i][4],
-                        items[i][1],
+                        MoneyFormat(items[i][1]),
                         items[i][2],
                         items[i][3]));
             }
         }
         System.out.println(
-                "╚══════════════════════════════════════════════════════════════════════════════════════════╝");
+                "╚════════════════════════════════════════════════════════════════════════════════════════════╝");
     }
 
     static void CreateItem() {
@@ -1683,7 +1693,7 @@ public class Main {
     }
 
     // * Manage Discount Feature
-    static void manageDiscount() {
+    static void ManageDiscount() {
         boolean continueManaging = true;
 
         String[][] discountLanguage = {
@@ -1875,12 +1885,12 @@ public class Main {
                         "║ %4d ║ %16s ║ %16s ║ %6s ║ %16s ║ %16s ║ %16s ║ %16s ║",
                         i,
                         order_details[i][1],
-                        order_details[i][3],
+                        MoneyFormat(order_details[0][3]),
                         order_details[i][2],
-                        order_details[i][4],
+                        MoneyFormat(order_details[0][4]),
                         order_details[i][7],
-                        order_details[i][5],
-                        order_details[i][6]));
+                        MoneyFormat(order_details[0][5]),
+                        MoneyFormat(order_details[0][6])));
             }
         }
 
@@ -2010,7 +2020,7 @@ public class Main {
                                 orders[i][1],
                                 orders[i][0],
                                 orders[i][8],
-                                orders[i][4],
+                                MoneyFormat(orders[i][4]),
                                 orders[i][7],
                                 orders[i][11],
                                 orders[i][14]));
@@ -2024,7 +2034,7 @@ public class Main {
                                 orders[i][1],
                                 orders[i][0],
                                 orders[i][8],
-                                orders[i][4],
+                                MoneyFormat(orders[i][4]),
                                 orders[i][7],
                                 orders[i][11],
                                 orders[i][14]));
@@ -3305,6 +3315,10 @@ public class Main {
         System.out.print("║ > " + msg);
     }
 
+    static String MoneyFormat(String money) {
+        return String.format("%,d", Integer.parseInt(money));
+    }
+
     static void Title() {
         System.out.println(
                 "╔╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╗");
@@ -3422,7 +3436,7 @@ public class Main {
 
                 case 6:
                     if (CheckLevel("manajer") || CheckLevel("admin")) {
-                        manageDiscount();
+                        ManageDiscount();
                     }
                     break;
 
