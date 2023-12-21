@@ -368,7 +368,17 @@ public class Main {
 
         String language[][] = {
                 { "Customer", "Pelanggan" },
-                { "Cashier", "Kasir" }
+                { "Cashier", "Kasir" },
+                { "Payment Method", "Metode Pembayaran" },
+                { "Date", "Tanggal" },
+                { "Order Detail List", "Daftar Detail Pesanan" },
+                { "Name", "Nama" },
+                { "Price", "Harga" },
+                { "Discount (%)", "Diskon (%)" },
+                { "Discount Total", "Total Diskon" },
+                { "Member Discount (%)", "Diskon Member (%)" },
+                { "Pay", "Bayar" },
+                { "Change", "Kembalian" }
         };
 
         if (orders[latestOrders][11].equals("card")) {
@@ -385,44 +395,56 @@ public class Main {
         System.out.println(
                 "╔═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗");
         System.out.printf(
-                "║        Cafe The Orange Receipt                                                               Order - %04d                     ║\n",
+                "║        Cafe The Orange Receipt                                                                            Order - %04d        ║\n",
                 latestOrders);
         System.out.println(
                 "╠═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╣");
         System.out.printf(
-                "║        " + PadStringLFT(9, language[0][selectedLanguage])
-                        + "      : %-65s"
-                        + PadStringRGT(9, language[1][selectedLanguage])
-                        + " : %-16s         ║\n",
+                "║        " + PadStringLFT(12, language[0][selectedLanguage])
+                        + "      : %-61s"
+                        + PadStringLFT(11, language[1][selectedLanguage])
+                        + " : %16s        ║\n",
                 orders[latestOrders][0], orders[latestOrders][1]);
         System.out.println(
                 "║                                                                                                                               ║");
         if (orders[latestOrders][11].equals("card")) {
             System.out.printf(
-                    "║        Payment Method : %-26s                                           Date  : %-16s         ║\n",
+                    "║        " + PadStringLFT(17, language[2][selectedLanguage])
+                            + " : %-61s" + PadStringLFT(10, language[3][selectedLanguage])
+                            + "  : %16s        ║\n",
                     orders[latestOrders][13] + " " + orders[latestOrders][11] + " (" + orders[latestOrders][12] + ")",
                     orders[latestOrders][14]);
         } else {
             System.out.printf(
-                    "║        Payment Method : %-26s                                           Date  : %-16s         ║\n",
+                    "║        " + PadStringLFT(17, language[2][selectedLanguage])
+                            + " : %-61s" + PadStringLFT(10, language[3][selectedLanguage])
+                            + "  : %16s        ║\n",
                     orders[latestOrders][11],
                     orders[latestOrders][14]);
         }
         System.out.println(
                 "╠═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╣");
         System.out.println(
-                "║        Order Detail List                                                                                                      ║");
+                "║        " + PadStringLFT(118, language[4][selectedLanguage]) + " ║");
         System.out.println(
                 "╠═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╣");
         System.out.println(
-                "║ No  |       Name       |       Price      |  Qty  |     Subtotal     |    Discount (%)  |  Discount Total  |       Total      ║");
+                "║ " + CenterString(4, "No")
+                        + " | " + CenterString(16, language[5][selectedLanguage]) // name
+                        + " | " + CenterString(16, language[6][selectedLanguage]) // price
+                        + " | " + CenterString(6, "Qty")
+                        + " | " + CenterString(16, "Subtotal")
+                        + " | " + CenterString(16, language[7][selectedLanguage]) // discount (%)
+                        + " | " + CenterString(16, language[8][selectedLanguage]) // discoutn total
+                        + " | " + CenterString(16, "Total")
+                        + " ║");
         System.out.println(
                 "╠═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╣");
 
         for (int i = 0; i < order_details.length; i++) {
             if (order_details[i][0] != null && order_details[i][0].equals(Integer.toString(latestOrders))) {
                 System.out.println(String.format(
-                        "║ %3d ║ %16s ║ %16s ║ %5s ║ %16s ║ %16s ║ %16s ║ %16s ║",
+                        "║ %4d ║ %16s ║ %16s ║ %6s ║ %16s ║ %16s ║ %16s ║ %16s ║",
                         i,
                         order_details[i][1],
                         order_details[i][3],
@@ -437,7 +459,11 @@ public class Main {
         System.out.println(
                 "╠═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╣");
         System.out.println(
-                "║                                                                      |     Subtotal     |  Discount Total  |       Total      ║");
+                "║                                                                      | "
+                        + CenterString(16, "Subtotal") + " | " + CenterString(16, language[8][selectedLanguage]) // discount
+                                                                                                                 // total
+                        + " | " + CenterString(16, "Total")
+                        + " ║");
         System.out.println(
                 "║                                                                       ════════════════════════════════════════════════════════╣");
         if (orders[latestOrders][2] != null) {
@@ -452,7 +478,12 @@ public class Main {
         System.out.println(
                 "║                                                                       ════════════════════════════════════════════════════════╣");
         System.out.println(
-                "║                                                                      |          Member Discount %          |       Total      ║");
+                "║                                                                      | "
+                        + CenterString(35, language[9][selectedLanguage]) // discount
+                        // total
+                        + " | "
+                        + CenterString(16, "Total")
+                        + " ║");
         System.out.println(
                 "║                                                                       ════════════════════════════════════════════════════════╣");
 
@@ -488,12 +519,14 @@ public class Main {
 
         if (orders[latestOrders][11].equals("cash")) {
             System.out.print(
-                    "║ Bayar :                                                                                                             ");
+                    "║ " + PadStringLFT(5, language[10][selectedLanguage])
+                            + " :                                                                                                             ");
             orders[latestOrders][5] = Integer.toString(sc.nextInt());
         } else {
             orders[latestOrders][5] = orders[latestOrders][4];
             System.out.printf(
-                    "║ Bayar :                                                                                                      %16s ║\n",
+                    "║ " + PadStringLFT(5, language[10][selectedLanguage])
+                            + " :                                                                                                      %16s ║\n",
                     orders[latestOrders][5]);
         }
 
@@ -508,7 +541,8 @@ public class Main {
             System.out.println(
                     "╠═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╣");
             System.out.printf(
-                    "║ Kembalian :                                                                                                  %16s ║\n",
+                    "║ " + PadStringLFT(9, language[11][selectedLanguage])
+                            + " :                                                                                                  %16s ║\n",
                     orders[latestOrders][6]);
             System.out.println(
                     "╚═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝");
@@ -828,6 +862,7 @@ public class Main {
                 case 1:
                     orders[latestOrders][11] = "cash";
                     if (PaymentReceipt() == 200) {
+                        AwaitEnter();
                         Notification("success", "Transaction successful!");
                         orders[latestOrders][7] = "completed";
                         Delay();
@@ -839,13 +874,16 @@ public class Main {
                         continue;
 
                     } else if (PaymentReceipt() == 400) {
-                        Notification("failure", "Transaction cancelled! \n");
+                        Notification("failure", "Transaction cancelled!");
+                        Delay();
+                        break;
                     }
 
                 case 2:
                     orders[latestOrders][11] = "card";
                     if (PaymentReceipt() == 200) {
-                        Notification("success", "Transaction successful! \n");
+                        AwaitEnter();
+                        Notification("success", "Transaction successful!");
                         orders[latestOrders][7] = "completed";
                         Delay();
                         break;
@@ -856,7 +894,7 @@ public class Main {
                         continue;
 
                     } else if (PaymentReceipt() == 400) {
-                        Notification("failure", "Transaction cancelled! \n");
+                        Notification("failure", "Transaction cancelled!");
                         Delay();
                         break;
                     }
@@ -1284,10 +1322,7 @@ public class Main {
         while (stocking) {
             System.out.println();
             System.out.println("╔══════════════════════════════════════════════╗");
-            System.out
-
-                    .println(
-                            "║           Cafe The Orange Stock              ║");
+            System.out.println("║           Cafe The Orange Stock              ║");
             System.out.println("╚══════════════════════════════════════════════╝");
 
             // Menambahkan pilihan menu
@@ -1469,6 +1504,22 @@ public class Main {
 
     // * History Feature
     static void ViewSalesHistoryDetails(int OrderIndex) {
+
+        String language[][] = {
+                { "Customer", "Pelanggan" },
+                { "Cashier", "Kasir" },
+                { "Payment Method", "Metode Pembayaran" },
+                { "Date", "Tanggal" },
+                { "Order Detail List", "Daftar Detail Pesanan" },
+                { "Name", "Nama" },
+                { "Price", "Harga" },
+                { "Discount (%)", "Diskon (%)" },
+                { "Discount Total", "Total Diskon" },
+                { "Member Discount (%)", "Diskon Member (%)" },
+                { "Pay", "Bayar" },
+                { "Change", "Kembalian" }
+        };
+
         System.out.println(
                 "╔═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗");
         System.out.printf(
@@ -1477,36 +1528,51 @@ public class Main {
         System.out.println(
                 "╠═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╣");
         System.out.printf(
-                "║        Pelanggan      : %-16s                                                     Kasir : %-16s         ║\n",
+                "║        " + PadStringLFT(12, language[0][selectedLanguage])
+                        + "      : %-61s"
+                        + PadStringLFT(11, language[1][selectedLanguage])
+                        + " : %16s        ║\n",
                 orders[OrderIndex][0], orders[OrderIndex][1]);
         System.out.println(
                 "║                                                                                                                               ║");
         if (orders[OrderIndex][11].equals("card")) {
             System.out.printf(
-                    "║        Payment Method : %-26s                                           Date  : %-16s         ║\n",
+                    "║        " + PadStringLFT(17, language[2][selectedLanguage])
+                            + " : %-61s" + PadStringLFT(10, language[3][selectedLanguage])
+                            + "  : %16s        ║\n",
                     orders[OrderIndex][13] + " " + orders[OrderIndex][11] + " (" + orders[OrderIndex][12] + ")",
                     orders[OrderIndex][14]);
         } else {
             System.out.printf(
-                    "║        Payment Method : %-26s                                           Date  : %-16s         ║\n",
+                    "║        " + PadStringLFT(17, language[2][selectedLanguage])
+                            + " : %-61s" + PadStringLFT(10, language[3][selectedLanguage])
+                            + "  : %16s        ║\n",
                     orders[OrderIndex][11],
                     orders[OrderIndex][14]);
         }
         System.out.println(
                 "╠═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╣");
         System.out.println(
-                "║        Order Detail List                                                                                                      ║");
+                "║        " + PadStringLFT(118, language[4][selectedLanguage]) + " ║");
         System.out.println(
                 "╠═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╣");
         System.out.println(
-                "║ No  |       Name       |       Price      |  Qty  |     Subtotal     |    Discount (%)  |  Discount Total  |       Total      ║");
+                "║ " + CenterString(4, "No")
+                        + " | " + CenterString(16, language[5][selectedLanguage]) // name
+                        + " | " + CenterString(16, language[6][selectedLanguage]) // price
+                        + " | " + CenterString(6, "Qty")
+                        + " | " + CenterString(16, "Subtotal")
+                        + " | " + CenterString(16, language[7][selectedLanguage]) // discount (%)
+                        + " | " + CenterString(16, language[8][selectedLanguage]) // discoutn total
+                        + " | " + CenterString(16, "Total")
+                        + " ║");
         System.out.println(
                 "╠═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╣");
 
         for (int i = 0; i < order_details.length; i++) {
             if (order_details[i][0] != null && order_details[i][0].equals(Integer.toString(OrderIndex))) {
                 System.out.println(String.format(
-                        "║ %3d ║ %16s ║ %16s ║ %5s ║ %16s ║ %16s ║ %16s ║ %16s ║",
+                        "║ %4d ║ %16s ║ %16s ║ %6s ║ %16s ║ %16s ║ %16s ║ %16s ║",
                         i,
                         order_details[i][1],
                         order_details[i][3],
@@ -1521,7 +1587,11 @@ public class Main {
         System.out.println(
                 "╠═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╣");
         System.out.println(
-                "║                                                                      |     Subtotal     |  Discount Total  |       Total      ║");
+                "║                                                                      | "
+                        + CenterString(16, "Subtotal") + " | " + CenterString(16, language[8][selectedLanguage]) // discount
+                                                                                                                 // total
+                        + " | " + CenterString(16, "Total")
+                        + " ║");
         System.out.println(
                 "║                                                                       ════════════════════════════════════════════════════════╣");
         if (orders[OrderIndex][2] != null) {
@@ -1536,7 +1606,12 @@ public class Main {
         System.out.println(
                 "║                                                                       ════════════════════════════════════════════════════════╣");
         System.out.println(
-                "║                                                                      |          Member Discount %          |       Total      ║");
+                "║                                                                      | "
+                        + CenterString(35, language[9][selectedLanguage]) // discount
+                        // total
+                        + " | "
+                        + CenterString(16, "Total")
+                        + " ║");
         System.out.println(
                 "║                                                                       ════════════════════════════════════════════════════════╣");
 
@@ -1565,13 +1640,15 @@ public class Main {
                 "╠═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╣");
 
         System.out.printf(
-                "║ Bayar :                                                                                                      %16s ║\n",
+                "║ " + PadStringLFT(5, language[10][selectedLanguage])
+                        + " :                                                                                                      %16s ║\n",
                 orders[OrderIndex][5]);
 
         System.out.println(
                 "╠═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╣");
         System.out.printf(
-                "║ Kembalian :                                                                                                  %16s ║\n",
+                "║ " + PadStringLFT(9, language[11][selectedLanguage])
+                        + " :                                                                                                  %16s ║\n",
                 orders[OrderIndex][6]);
         System.out.println(
                 "╚═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝");
@@ -1579,28 +1656,48 @@ public class Main {
 
     static void ViewSalesHistory(int day, int month, int year, String type) {
 
+        String language[][] = { { "Sales History Today", "Riwayat Penjualan Hari Ini" },
+                { "Sales History", "Riwayat Penjualan" },
+                { "Cashier", "Kasir" },
+                { "Customer", "Pelanggan" },
+                { "Payment Status", "Status Pembayaran" },
+                { "Payment Method", "Metode Pembayaran" },
+                { "Created At", "Dibuat Pada" },
+                { "Input number to view history details!", "Masukkan nomor untuk melihat detail riwayat!" },
+                { "Back", "Kembali" },
+                { "Your choice : ", "Pilihan anda : " } };
+
         String monthName = Month.of(month).getDisplayName(TextStyle.FULL, Locale.ENGLISH);
 
         while (true) {
             System.out.println();
             System.out.println(
-                    "╔═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗");
+                    "╔════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗");
 
             if (type.equals("today")) {
                 System.out.println(
-                        "║                                                                                     Sales History Today                                                                                           ║");
+                        "║ " + CenterString(118, language[0][selectedLanguage]) + " ║");
             } else {
                 System.out.printf(
-                        "║                                                                               Sales History %-8s %-4s                                                                                         ║\n",
+                        "║                       " + PadStringRGT(36, language[1][selectedLanguage])
+                                + " %-8s %-4s                                               ║\n",
                         monthName, year);
             }
 
             System.out.println(
-                    "╠═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╣");
+                    "╠════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╣");
             System.out.println(
-                    "║ No  |   Cashier   |   Customer   |  Membership  |    Subtotal    |  Discount Total  |  Membership (%)  |  Member Discount  |      Total      |  Payment Status  |  Payment Method  |  Created At  ║");
+                    "║ " + CenterString(4, "No")
+                            + " | " + PadStringRGT(11, language[2][selectedLanguage])
+                            + " | " + PadStringRGT(12, language[3][selectedLanguage])
+                            + " | " + PadStringRGT(12, "Membership")
+                            + " | " + PadStringRGT(15, "Total")
+                            + " | " + PadStringRGT(16, language[4][selectedLanguage])
+                            + " | " + PadStringRGT(16, language[5][selectedLanguage])
+                            + " | " + PadStringRGT(12, language[6][selectedLanguage])
+                            + " ║");
             System.out.println(
-                    "╠═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╣");
+                    "╠════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╣");
 
             for (int i = 0; i < orders.length; i++) {
                 if (type.equals("today") || type.equals("day")) {
@@ -1608,15 +1705,11 @@ public class Main {
                             && (LocalDate.parse(orders[i][14], dateFormat).getMonthValue() == month)
                             && (LocalDate.parse(orders[i][14], dateFormat).getYear() == year)) {
                         System.out.println(String.format(
-                                "║ %3d ║ %11s ║ %12s ║ %12s ║ %14s ║ %16s ║ %16s ║ %17s ║ %15s ║ %16s ║ %16s ║ %12s ║",
+                                "║ %4d ║ %11s ║ %12s ║ %12s ║ %15s ║ %16s ║ %16s ║ %12s ║",
                                 i + 1,
                                 orders[i][1],
                                 orders[i][0],
                                 orders[i][8],
-                                orders[i][2],
-                                orders[i][3],
-                                orders[i][9],
-                                orders[i][10],
                                 orders[i][4],
                                 orders[i][7],
                                 orders[i][11],
@@ -1626,15 +1719,11 @@ public class Main {
                     if (orders[i][0] != null && (LocalDate.parse(orders[i][14], dateFormat).getMonthValue() == month)
                             && (LocalDate.parse(orders[i][14], dateFormat).getYear() == year)) {
                         System.out.println(String.format(
-                                "║ %3d ║ %11s ║ %12s ║ %12s ║ %14s ║ %16s ║ %16s ║ %17s ║ %15s ║ %16s ║ %16s ║ %12s ║",
+                                "║ %3d ║ %11s ║ %12s ║ %12s ║ %15s ║ %16s ║ %16s ║ %12s ║",
                                 i + 1,
                                 orders[i][1],
                                 orders[i][0],
                                 orders[i][8],
-                                orders[i][2],
-                                orders[i][3],
-                                orders[i][9],
-                                orders[i][10],
                                 orders[i][4],
                                 orders[i][7],
                                 orders[i][11],
@@ -1644,18 +1733,20 @@ public class Main {
             }
 
             System.out.println(
-                    "╚═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝");
+                    "╚════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝");
 
             System.out.println();
-            System.out.println("Input the number to view history details");
-            System.out.println("[" + orders.length + "] Back");
-            System.out.print("> Your choice : ");
+            System.out.println(language[7][selectedLanguage]); // Input number to view history details!
+            System.out.println("[" + orders.length + "] " + language[8][selectedLanguage]); // Back
+            System.out.print("> " + language[9][selectedLanguage]); // Your choice :
             int choice = sc.nextInt();
             sc.nextLine();
             ClearScreen();
 
             if (choice < orders.length && orders[choice - 1][0] != null) {
                 ViewSalesHistoryDetails(choice - 1);
+                AwaitEnter();
+                Delay();
                 continue;
 
             } else if (choice == orders.length) {
@@ -1945,6 +2036,16 @@ public class Main {
     // * Profit Report Feature
     static void ViewProfitReport(int day, int month, int year, String type) {
 
+        String language[][] = { { "Profit Report", "Laporan Pendapatan" },
+                { "All Time", "Semua Waktu" },
+                { "Income", "Pendapatan" },
+                { "Sales", "Penjualan" },
+                { "Expenses", "Beban" },
+                { "Cost of Purchase", "Harga Pokok Pembelian" },
+                { "Discount Expense", "Beban Diskon" },
+                { "Member Discount Expense", "Beban Diskon Membership" },
+                { "TOTAL PROFIT", "TOTAL KEUNTUNGAN" } };
+
         int totalPenjualan = 0, totalDiskon = 0, totalDiskonMember = 0, totalPembelian = 0, totalKeuntungan,
                 totalKerugian;
 
@@ -1993,23 +2094,29 @@ public class Main {
 
         if (type.equals("all time")) {
             System.out.println(
-                    "║        Profit Report                                                      All Time       ║");
+                    "║        " + PadStringLFT(18, language[0][selectedLanguage]) // profit report
+                            + "                                              "
+                            + PadStringRGT(11, language[1][selectedLanguage]) // all time
+                            + "       ║");
 
         } else if (type.equals("year")) {
             System.out.printf(
-                    "║        Profit Report                                                          %4d       ║\n",
+                    "║        " + PadStringLFT(18, language[0][selectedLanguage]) // profit report
+                            + "                                                     %4d       ║\n",
                     year);
 
         } else if (type.equals("month")) {
             String monthName = Month.of(month).getDisplayName(TextStyle.FULL, Locale.ENGLISH);
             System.out.printf(
-                    "║        Profit Report                                                 %8s %4d       ║\n",
+                    "║        " + PadStringLFT(18, language[0][selectedLanguage]) // profit report
+                            + "                                            %8s %4d       ║\n",
                     monthName, year);
 
         } else {
             String monthName = Month.of(month).getDisplayName(TextStyle.FULL, Locale.ENGLISH);
             System.out.printf(
-                    "║        Profit Report                                              %2d %8s %4d       ║\n",
+                    "║        " + PadStringLFT(18, language[0][selectedLanguage]) // profit report
+                            + "                                         %2d %8s %4d       ║\n",
                     day, monthName, year);
 
         }
@@ -2019,20 +2126,30 @@ public class Main {
         System.out.println(
                 "╠══════════════════════════════════════════════════════════════════════════════════════════╣");
         System.out.println(
-                "║        Pendapatan :                                                                      ║");
+                "║        " + PadStringLFT(11, language[2][selectedLanguage]) // income
+                        + " :                                                                      ║");
         System.out.printf(
-                "║              Penjualan                %44s       ║\n", totalPenjualan);
+                "║              " + PadStringLFT(9, language[3][selectedLanguage]) // sales
+                        + "                %44s       ║\n",
+                totalPenjualan);
         System.out.println(
                 "║                                                                                          ║");
 
         System.out.println(
-                "║        Beban      :                                                                      ║");
+                "║        " + PadStringLFT(8, language[4][selectedLanguage]) // expensess
+                        + "   :                                                                      ║");
         System.out.printf(
-                "║              Harga Pokok Pembelian    %-44s       ║\n", totalPembelian);
+                "║              " + PadStringLFT(21, language[5][selectedLanguage]) // cost of purchase
+                        + "    %-44s       ║\n",
+                totalPembelian);
         System.out.printf(
-                "║              Beban Diskon             %-44s       ║\n", totalDiskon);
+                "║              " + PadStringLFT(23, language[6][selectedLanguage]) // discount expense
+                        + "  %-44s       ║\n",
+                totalDiskon);
         System.out.printf(
-                "║              Beban Diskon Membership  %-44s       ║\n", totalDiskonMember);
+                "║              " + PadStringLFT(23, language[7][selectedLanguage]) // discount expense
+                        + "  %-44s       ║\n",
+                totalDiskonMember);
         System.out.printf(
                 "║                                       %44s       ║\n", totalKerugian);
         System.out.println(
@@ -2040,7 +2157,9 @@ public class Main {
         System.out.println(
                 "║                                                                                          ║");
         System.out.printf(
-                "║        TOTAL KEUNTUNGAN               %44s       ║\n", totalKeuntungan);
+                "║        " + PadStringLFT(16, language[8][selectedLanguage]) // discount expense
+                        + "               %44s       ║\n",
+                totalKeuntungan);
         System.out.println(
                 "╚══════════════════════════════════════════════════════════════════════════════════════════╝");
         try {
@@ -2789,12 +2908,18 @@ public class Main {
         ClearScreen();
     }
 
+    static void AwaitEnter() {
+
+        String language[][] = { { "Press Enter to continue... ", "Tekan Enter untuk lanjut..." } };
+        System.out.print("> " + language[0][selectedLanguage]);
+        sc.nextLine();
+    }
+
     static void ClearScreen() {
         System.out.println(CLEARSCREEN);
     }
 
     static void Notification(String type, String msg) {
-        System.out.println();
         if (type.equals("success")) {
             System.out.println("╔════════════════════════════════════════════════╗");
             System.out.println("║" + GREEN + CenterString(48, msg) + RESET + "║");
@@ -2830,6 +2955,10 @@ public class Main {
         {
             if (!access) {
                 Start();
+
+                if (!session) {
+                    break;
+                }
             }
 
             // menu
