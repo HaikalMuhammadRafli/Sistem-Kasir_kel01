@@ -324,11 +324,15 @@ public class Main {
         while (true) {
             if (orders[latestOrders][11].equals("card")) {
                 Header(language[4][selectedLanguage]);
-
-                System.out.println("[1] BCA");
-                System.out.println("[2] MANDIRI");
-                System.out.println("[3] BRI");
-                System.out.println("[4] " + language[1][selectedLanguage]); // back
+                UpperBox();
+                SideBox();
+                TextBox("[1] BCA");
+                SideBox();
+                TextBox("[2] MANDIRI");
+                SideBox();
+                TextBox("[3] BRI");
+                TextBox("[4] " + language[1][selectedLanguage]);
+                SideBox();
                 System.out.print("> " + language[2][selectedLanguage]); // your choice
                 int bankChoice = sc.nextInt();
                 sc.nextLine();
@@ -850,9 +854,15 @@ public class Main {
 
         while (true) {
             Header(language[4][selectedLanguage]);
-            System.out.println("[1] " + language[0][selectedLanguage]); // cash
-            System.out.println("[2] " + language[1][selectedLanguage]);
-            System.out.println("[3] " + language[2][selectedLanguage]);
+            UpperBox();
+            SideBox();
+            TextBox("[1] " + language[0][selectedLanguage]); // cash
+            SideBox();
+            TextBox("[2] " + language[1][selectedLanguage]);
+            SideBox();
+            TextBox("[3] " + language[2][selectedLanguage]);
+            SideBox();
+            LowerBox();
             System.out.print("> " + language[3][selectedLanguage]); // Choose payment method :
             int paymentChoice = sc.nextInt();
             sc.nextLine();
@@ -950,12 +960,19 @@ public class Main {
 
         while (managingItem == true) {
             Header(itemLanguage[0][selectedLanguage]);
-            System.out.println("[1] " + itemLanguage[1][selectedLanguage]); // View all
-            System.out.println("[2] " + itemLanguage[2][selectedLanguage]); // Create new Item Menu
-            System.out.println("[3] " + itemLanguage[3][selectedLanguage]); // Edit Item Menu
-            System.out.println("[4] " + itemLanguage[4][selectedLanguage]); // Delete Item Menu
-            System.out.println("[5] " + itemLanguage[5][selectedLanguage]); // Back
-
+            UpperBox();
+            SideBox();
+            TextBox("[1] " + itemLanguage[1][selectedLanguage]); // View all
+            SideBox();
+            TextBox("[2] " + itemLanguage[2][selectedLanguage]); // Create new Item Menu
+            SideBox();
+            TextBox("[3] " + itemLanguage[3][selectedLanguage]); // Edit Item Menu
+            SideBox();
+            TextBox("[4] " + itemLanguage[4][selectedLanguage]); // Delete Item Menu
+            SideBox();
+            TextBox("[5] " + itemLanguage[5][selectedLanguage]); // Back
+            SideBox();
+            LowerBox();
             System.out.print("> " + itemLanguage[6][selectedLanguage]);
             int manageItemChoice = sc.nextInt();
             sc.nextLine();
@@ -964,6 +981,7 @@ public class Main {
             switch (manageItemChoice) {
                 case 1:
                     ViewItemList(null);
+                    Delay();
                     break;
 
                 case 2:
@@ -1107,9 +1125,15 @@ public class Main {
             GetLatestItems();
 
             Header(createItemLanguage[0][selectedLanguage]);
-            System.out.println("[1] " + createItemLanguage[1][selectedLanguage]);
-            System.out.println("[2] " + createItemLanguage[2][selectedLanguage]);
-            System.out.println("[3] " + createItemLanguage[3][selectedLanguage]);
+            UpperBox();
+            SideBox();
+            TextBox("[1] " + createItemLanguage[1][selectedLanguage]);
+            SideBox();
+            TextBox("[2] " + createItemLanguage[2][selectedLanguage]);
+            SideBox();
+            TextBox("[3] " + createItemLanguage[3][selectedLanguage]);
+            SideBox();
+            LowerBox();
             System.out.print(createItemLanguage[19][selectedLanguage] + ": ");
             int createItemChoice = sc.nextInt();
             sc.nextLine();
@@ -1195,9 +1219,13 @@ public class Main {
 
         while (true) {
             ViewItemList(keyword);
-
-            System.out.println("[" + items.length + "] " + editItemLanguage[0][selectedLanguage]);
-            System.out.println("[" + (items.length + 1) + "] " + editItemLanguage[1][selectedLanguage]);
+            UpperBox();
+            SideBox();
+            TextBox("[" + items.length + "] " + editItemLanguage[0][selectedLanguage]);
+            SideBox();
+            TextBox("[" + (items.length + 1) + "] " + editItemLanguage[1][selectedLanguage]);
+            SideBox();
+            LowerBox();
             System.out.print(editItemLanguage[2][selectedLanguage] + ": ");
             int editItemChoice = sc.nextInt() - 1;
             sc.nextLine();
@@ -1275,9 +1303,13 @@ public class Main {
 
         while (true) {
             ViewItemList(keyword);
-
-            System.out.println("[" + items.length + "] " + deleteItemLanguage[0][selectedLanguage]);
-            System.out.println("[" + (items.length + 1) + "] " + deleteItemLanguage[1][selectedLanguage]);
+            UpperBox();
+            SideBox();
+            TextBox("[" + items.length + "] " + deleteItemLanguage[0][selectedLanguage]);
+            SideBox();
+            TextBox("[" + (items.length + 1) + "] " + deleteItemLanguage[1][selectedLanguage]);
+            SideBox();
+            LowerBox();
             System.out.print(deleteItemLanguage[2][selectedLanguage] + ": ");
             int deleteItemChoice = sc.nextInt() - 1;
             sc.nextLine();
@@ -1334,10 +1366,15 @@ public class Main {
             Header(stockLanguage[6][selectedLanguage]);
 
             // Menambahkan pilihan menu
-            System.out.println("1. " + stockLanguage[1][selectedLanguage]); // Add Stock
-            System.out.println("2. " + stockLanguage[2][selectedLanguage]); // Reduce Stock
-            System.out.println("3. " + stockLanguage[5][selectedLanguage]); // Back
-
+            UpperBox();
+            SideBox();
+            TextBox("1. " + stockLanguage[1][selectedLanguage]); // Add Stock
+            SideBox();
+            TextBox("2. " + stockLanguage[2][selectedLanguage]); // Reduce Stock
+            SideBox();
+            TextBox("3. " + stockLanguage[5][selectedLanguage]); // Back
+            SideBox();
+            LowerBox();
             System.out.print(stockLanguage[0][selectedLanguage] + ": ");
             int menuChoice = sc.nextInt();
             ClearScreen();
@@ -1438,10 +1475,15 @@ public class Main {
         while (continueManaging) {
             System.out.println();
             Header(discountLanguage[0][selectedLanguage]);
-            System.out.println("1. " + discountLanguage[13][selectedLanguage]); // Item Discount
-            System.out.println("2. " + discountLanguage[14][selectedLanguage] + " (" + memberDiskon + "%)"); // Member
-                                                                                                             // Discount
-            System.out.println("3. " + discountLanguage[12][selectedLanguage]); // Back
+            UpperBox();
+            SideBox();
+            TextBox("1. " + discountLanguage[13][selectedLanguage]); // Item Discount
+            SideBox();
+            TextBox("2. " + discountLanguage[14][selectedLanguage] + " (" + memberDiskon + "%)"); // Member Discount
+            SideBox();
+            TextBox("3. " + discountLanguage[12][selectedLanguage]); // Back
+            SideBox();
+            LowerBox();
             System.out.print(discountLanguage[15][selectedLanguage] + ": ");
             int choice = sc.nextInt();
             sc.nextLine();
@@ -1480,9 +1522,17 @@ public class Main {
                     break;
 
                 case 2: // Member Discount
-                    System.out.println("1. " + discountLanguage[1][selectedLanguage]); // Edit Discount
-                    System.out.println("2. " + discountLanguage[2][selectedLanguage]); // Remove Discount
-                    System.out.println("3. " + discountLanguage[12][selectedLanguage]); // Back
+                    System.out.println();
+                    Header(discountLanguage[0][selectedLanguage]);
+                    UpperBox();
+                    SideBox();
+                    TextBox("1. " + discountLanguage[1][selectedLanguage]); // Edit Discount
+                    SideBox();
+                    TextBox("2. " + discountLanguage[2][selectedLanguage]); // Remove Discount
+                    SideBox();
+                    TextBox("3. " + discountLanguage[12][selectedLanguage]); // Back
+                    SideBox();
+                    LowerBox();
                     System.out.print(discountLanguage[15][selectedLanguage] + ": "); // Enter new member discount
                     int memberDiscountChoice = sc.nextInt();
                     sc.nextLine();
@@ -1967,10 +2017,15 @@ public class Main {
             if (selectedYear == LocalDate.now().getYear()) {
                 System.out.println("[0] " + language[0][selectedLanguage]); // today
             }
-
-            System.out.println("[1] " + language[1][selectedLanguage]); // by month
-            System.out.println("[2] " + language[2][selectedLanguage]); // by day
-            System.out.println("[3] " + language[3][selectedLanguage]); // back
+            UpperBox();
+            SideBox();
+            TextBox("1. " + language[1][selectedLanguage]); // by month
+            SideBox();
+            TextBox("2. " + language[2][selectedLanguage]); // by day
+            SideBox();
+            TextBox("3. " + language[3][selectedLanguage]); // back
+            SideBox();
+            LowerBox();
             System.out.print("> " + language[4][selectedLanguage]); // your choice
             int choice = sc.nextInt();
 
@@ -2353,17 +2408,20 @@ public class Main {
 
         while (true) {
             System.out.println();
-            Header(language[5][selectedLanguage]);
-
-            System.out.println("[0] " + language[0][selectedLanguage]); // this year
-            System.out.println("[1] " + language[1][selectedLanguage]); // by month
-            System.out.println("[2] " + language[2][selectedLanguage]); // by day
-            System.out.println("[3] " + language[3][selectedLanguage]); // back
-
-            System.out.println();
-            System.out.print("> " + language[4][selectedLanguage]); // your choice
+            Header(language[0][selectedLanguage]); // this year
+            UpperBox();
+            SideBox();
+            TextBox("1. " + language[1][selectedLanguage]); // by month
+            SideBox();
+            TextBox("2. " + language[2][selectedLanguage]); // by day
+            SideBox();
+            TextBox("3. " + language[3][selectedLanguage]); // back
+            SideBox();
+            LowerBox();
+            System.out.print(language[4][selectedLanguage] + ": "); // your choice
             int choice = sc.nextInt();
             sc.nextLine();
+            ClearScreen();
 
             switch (choice) {
                 case 1:
@@ -2412,13 +2470,17 @@ public class Main {
             }
 
             int uniqueYearsArray[] = uniqueYears.stream().mapToInt(Integer::intValue).toArray();
-
+            UpperBox();
             for (int i = 0; i < uniqueYears.size(); i++) {
-                System.out.println("[" + (i + 1) + "] " + uniqueYearsArray[i]);
+                SideBox();
+                TextBox("[" + (i + 1) + "] " + uniqueYearsArray[i]);
             }
-
-            System.out.println("[" + (uniqueYearsArray.length + 1) + "] " + language[0][selectedLanguage]); // all time
-            System.out.println("[" + (uniqueYearsArray.length + 2) + "] " + language[1][selectedLanguage]);
+            SideBox();
+            TextBox("[" + (uniqueYearsArray.length + 1) + "] " + language[0][selectedLanguage]); // all time
+            SideBox();
+            TextBox("[" + (uniqueYearsArray.length + 2) + "] " + language[1][selectedLanguage]);
+            SideBox();
+            LowerBox();
             System.out.print("> " + language[2][selectedLanguage]); // your choice
             int choice = sc.nextInt() - 1;
             sc.nextLine();
@@ -2467,11 +2529,18 @@ public class Main {
 
         while (managingUser == true) {
             Header(userLanguage[0][selectedLanguage]);
-            System.out.println("[1] " + userLanguage[1][selectedLanguage]); // View all
-            System.out.println("[2] " + userLanguage[2][selectedLanguage]); // Create new User
-            System.out.println("[3] " + userLanguage[3][selectedLanguage]); // Edit User
-            System.out.println("[4] " + userLanguage[4][selectedLanguage]); // Delete User
-            System.out.println("[5] " + userLanguage[5][selectedLanguage]); // Back
+            UpperBox();
+            SideBox();
+            TextBox("1. " + userLanguage[1][selectedLanguage]); // View all
+            SideBox();
+            TextBox("2. " + userLanguage[2][selectedLanguage]); // Create new User
+            SideBox();
+            TextBox("3. " + userLanguage[3][selectedLanguage]); // Edit User
+            SideBox();
+            TextBox("4. " + userLanguage[4][selectedLanguage]); // Delete User
+            SideBox();
+            TextBox("5. " + userLanguage[5][selectedLanguage]); // Back
+            LowerBox();
 
             System.out.print(userLanguage[6][selectedLanguage]);
             int manageUserChoice = sc.nextInt();
@@ -2481,7 +2550,7 @@ public class Main {
             switch (manageUserChoice) {
                 case 1:
                     ViewUserList(null);
-                    System.out.println();
+                    Delay();
                     break;
 
                 case 2:
