@@ -823,7 +823,10 @@ public class Main {
 
     static void CreateOrderDetail(int choice) {
 
-        String language[][] = { { "How many PCS ", "Beli berapa PCS " } };
+        String language[][] = { { "How many PCS ", "Beli berapa PCS " },
+                { "Adding to cart", "Memasukkan ke keranjang" } };
+
+        Header(language[1][selectedLanguage]);
 
         // id
         order_details[latestOrder_details][0] = Integer.toString(latestOrders);
@@ -832,10 +835,13 @@ public class Main {
         order_details[latestOrder_details][1] = items[choice - 1][0];
 
         // jumlah
+        SideBox();
         InputBox(language[0][selectedLanguage] + items[choice - 1][0] + " ? : "); // how many pcs
         order_details[latestOrder_details][2] = Integer.toString(sc.nextInt());
         sc.nextLine();
 
+        SideBox();
+        LowerBox();
         // harga
         order_details[latestOrder_details][3] = items[choice - 1][1];
 
@@ -949,7 +955,7 @@ public class Main {
         memberValid = false;
 
         while (!memberValid) {
-            System.out.println();
+            Header("Membership");
             InputBox(memberLanguage[0][selectedLanguage]); // Apakah punya kartu member? (y/t) :
             isMember = sc.next().charAt(0);
 
