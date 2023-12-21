@@ -2044,7 +2044,7 @@ public class Main {
                 { "Cost of Purchase", "Harga Pokok Pembelian" },
                 { "Discount Expense", "Beban Diskon" },
                 { "Member Discount Expense", "Beban Diskon Membership" },
-                { "TOTAL KEUNTUNGAN", "TOTAL PROFIT" } };
+                { "TOTAL PROFIT", "TOTAL KEUNTUNGAN" } };
 
         int totalPenjualan = 0, totalDiskon = 0, totalDiskonMember = 0, totalPembelian = 0, totalKeuntungan,
                 totalKerugian;
