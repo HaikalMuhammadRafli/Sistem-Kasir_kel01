@@ -759,9 +759,13 @@ public class Main {
 
     static void CheckMembership() {
 
-        String language[][] = {
+        String memberLanguage[][] = {
                 { "Have a membership card? (y/t) : ", "Apakah punya kartu member? (y/t) :" },
-                { "Input membership code : ", "Masukkan kode membership : " }
+                { "Input membership code : ", "Masukkan kode membership : " },
+                { "Membership Status ", "Status membership" },
+                { "member Name : ", "Nama Member : " },
+                { "Member discount : ", "Diskon member : " },
+                { "Membership status : ", "Status membership : " }
 
         };
 
@@ -769,11 +773,11 @@ public class Main {
 
         while (!memberValid) {
             System.out.println();
-            System.out.print("> " + language[0][selectedLanguage]); // Apakah punya kartu member? (y/t) :
+            System.out.print("> " + memberLanguage[0][selectedLanguage]); // Apakah punya kartu member? (y/t) :
             isMember = sc.next().charAt(0);
 
             if (isMember == 'y' || isMember == 'Y') {
-                System.out.print("> " + language[1][selectedLanguage]);
+                System.out.print("> " + memberLanguage[1][selectedLanguage]);
                 String memberNumber = sc.next();
 
                 ClearScreen();
@@ -815,16 +819,17 @@ public class Main {
             System.out.println(
                     "╔════════════════════════════════════════════════════════════════════════════════════════════════╗");
             System.out.println(
-                    "║                                      Membership Status                                         ║");
+                    "║" + CenterString(96, memberLanguage[2][selectedLanguage]) + "║");
             System.out.println(
                     "╠════════════════════════════════════════════════════════════════════════════════════════════════╣");
             String membershipStatus = orders[latestOrders][8].equals("member") ? "Active Member" : "Non-Member";
             System.out.printf(
-                    "║        Member Name    : %-16s                  Status         : %-16s    ║\n",
+                    "║    " + PadStringLFT(16, memberLanguage[3][selectedLanguage]) + "%-40s"
+                            + PadStringRGT(16, memberLanguage[5][selectedLanguage]) + "%-16s" + "║\n",
                     memberName,
                     membershipStatus);
             System.out.printf(
-                    "║        Member Discount : %-16s                                                      ║\n",
+                    "║    " + PadStringLFT(16, memberLanguage[4][selectedLanguage]) + "%-76s" + "║\n",
                     orders[latestOrders][8].equals("member") ? orders[latestOrders][9] + "%" : "0%");
             System.out.println(
                     "╚════════════════════════════════════════════════════════════════════════════════════════════════╝");
@@ -949,7 +954,7 @@ public class Main {
 
         while (managingItem == true) {
             System.out.println("╔════════════════════════════════╗");
-            System.out.println("║        " + itemLanguage[0][selectedLanguage] + "        ║");
+            System.out.println("║" + CenterString(32, itemLanguage[0][selectedLanguage]) + "║");
             System.out.println("╚════════════════════════════════╝");
             System.out.println("[1] " + itemLanguage[1][selectedLanguage]); // View all
             System.out.println("[2] " + itemLanguage[2][selectedLanguage]); // Create new Item Menu
@@ -991,21 +996,38 @@ public class Main {
     }
 
     static void ViewItemList(String keyword) {
+
+        String[][] itemLanguage = {
+                { "Item Menu List", "Daftar Menu Item" },
+                { "Name", "Nama" },
+                { "Type", "Tipe" },
+                { "Price", "Harga" },
+                { "Stock", "Stok" },
+                { "Discount (%)", "Diskon (%)" },
+                { "Buying Price", "Harga Beli" },
+        };
         System.out.println(
                 "╔═══════════════════════════════════════════════════════════════════════════════════════════════════════════════╗");
         System.out.println(
-                "║                                                 Item Menu List                                                ║");
+                "║ " + CenterString(110, itemLanguage[0][selectedLanguage]) + "║");
         System.out.println(
                 "╠═══════════════════════════════════════════════════════════════════════════════════════════════════════════════╣");
         System.out.println(
-                "║ No  |       Name       |       Tipe       |    Price     |    Stock   |    Discount (%)   |    Buying Price   ║");
+                "║" + CenterString(6, "No") +
+                        "|" + CenterString(18, itemLanguage[1][selectedLanguage]) + // name
+                        "|" + CenterString(18, itemLanguage[2][selectedLanguage]) + // tipe
+                        "|" + CenterString(14, itemLanguage[3][selectedLanguage]) + // price
+                        "|" + CenterString(12, itemLanguage[4][selectedLanguage]) + // stok
+                        "|" + CenterString(19, itemLanguage[5][selectedLanguage]) + // discount (%)
+                        "|" + CenterString(18, itemLanguage[6][selectedLanguage]) + // buying price
+                        "║");
         System.out.println(
                 "╠═══════════════════════════════════════════════════════════════════════════════════════════════════════════════╣");
         for (int i = 0; i < items.length; i++) {
             if (keyword == null) {
                 if (items[i][0] != null) {
                     System.out.println(String.format(
-                            "║ %3d ║ %16s ║ %16s ║ %12s ║ %10s ║ %17s ║ %17s ║",
+                            "║ %4d ║ %16s ║ %16s ║ %12s ║ %10s ║ %17s ║ %16s ║",
                             i + 1,
                             items[i][0],
                             items[i][4],
@@ -1304,7 +1326,6 @@ public class Main {
         }
     }
 
-    // * Manage Stock Feature
     static void ManageStock() {
         boolean stocking = true;
         boolean exit = false;
@@ -1322,7 +1343,10 @@ public class Main {
         while (stocking) {
             System.out.println();
             System.out.println("╔══════════════════════════════════════════════╗");
-            System.out.println("║           Cafe The Orange Stock              ║");
+            System.out
+
+                    .println(
+                            "║           Cafe The Orange Stock              ║");
             System.out.println("╚══════════════════════════════════════════════╝");
 
             // Menambahkan pilihan menu
@@ -1430,7 +1454,7 @@ public class Main {
         while (continueManaging) {
             System.out.println();
             System.out.println("╔══════════════════════════════════════╗");
-            System.out.println("║ " + "          " + discountLanguage[0][selectedLanguage] + "            ║");
+            System.out.println("║" + CenterString(38, discountLanguage[0][selectedLanguage]) + "║");
             System.out.println("╚══════════════════════════════════════╝");
 
             System.out.println("1. " + discountLanguage[13][selectedLanguage]); // Item Discount
@@ -1445,23 +1469,31 @@ public class Main {
             switch (choice) {
                 case 1: // Item Discount
                     System.out.println("1. " + discountLanguage[1][selectedLanguage]); // Edit Discount
-
                     if (choice == 1) { // Edit Discount
-                        ViewSimpleItemList();
-                        System.out.print(discountLanguage[3][selectedLanguage] + ": "); // Choose item to edit discount
-                        int editDiscountChoice = sc.nextInt();
-                        if (editDiscountChoice > 0 && editDiscountChoice <= items.length
-                                && items[editDiscountChoice - 1][0] != null) {
-                            System.out.print(
-                                    discountLanguage[4][selectedLanguage] + " " + items[editDiscountChoice - 1][0]
-                                            + ": "); // Enter new discount
-                            int newDiscount = sc.nextInt();
-                            items[editDiscountChoice - 1][3] = Integer.toString(newDiscount);
-                            System.out.println(items[editDiscountChoice - 1][0] + " "
-                                    + discountLanguage[5][selectedLanguage] + " "
-                                    + items[editDiscountChoice - 1][3]
-                                    + "%"); // Discount updated
-                            Delay();
+                        while (true) {
+                            ViewSimpleItemList();
+                            System.out.println("[0] " + discountLanguage[12][selectedLanguage]);
+                            System.out.print(discountLanguage[3][selectedLanguage] + ": "); // Choose item to edit
+                                                                                            // discount
+                            int editDiscountChoice = sc.nextInt();
+
+                            if (editDiscountChoice == 0) {
+                                break; // Kembali jika pengguna memilih 0
+                            }
+
+                            if (editDiscountChoice > 0 && editDiscountChoice <= items.length
+                                    && items[editDiscountChoice - 1][0] != null) {
+                                System.out.print(
+                                        discountLanguage[4][selectedLanguage] + " " + items[editDiscountChoice - 1][0]
+                                                + ": "); // Enter new discount
+                                int newDiscount = sc.nextInt();
+                                items[editDiscountChoice - 1][3] = Integer.toString(newDiscount);
+                                System.out.println(items[editDiscountChoice - 1][0] + " "
+                                        + discountLanguage[5][selectedLanguage] + " "
+                                        + items[editDiscountChoice - 1][3]
+                                        + "% " + discountLanguage[6][selectedLanguage]); // Discount updated
+                                Delay();
+                            }
                         }
                     }
                     break;
@@ -1469,6 +1501,7 @@ public class Main {
                 case 2: // Member Discount
                     System.out.println("1. " + discountLanguage[1][selectedLanguage]); // Edit Discount
                     System.out.println("2. " + discountLanguage[2][selectedLanguage]); // Remove Discount
+                    System.out.println("3. " + discountLanguage[12][selectedLanguage]); // Back
                     System.out.print(discountLanguage[15][selectedLanguage] + ": "); // Enter new member discount
                     int memberDiscountChoice = sc.nextInt();
                     sc.nextLine();
@@ -1486,6 +1519,8 @@ public class Main {
                             memberDiskon = 0;
                             System.out.println(discountLanguage[10][selectedLanguage]); // Member discount removed
                             Delay();
+                            break;
+                        case 3: // Back
                             break;
                         default:
                             System.out.println(discountLanguage[12][selectedLanguage]); // Invalid choice! Try again.
@@ -2459,7 +2494,7 @@ public class Main {
             System.out.println(
                     "╔════════════════════════════════╗");
             System.out.println(
-                    "║   " + userLanguage[0][selectedLanguage] + "  ║");
+                    "║" + CenterString(32, userLanguage[0][selectedLanguage]) + "║");
             System.out.println(
                     "╚════════════════════════════════╝");
             System.out.println("[1] " + userLanguage[1][selectedLanguage]); // View all
@@ -2513,17 +2548,21 @@ public class Main {
     static void ViewUserList(String keyword) {
         String[][] userLanguage = {
                 { "User List", "Daftar Pengguna" },
-                { "No  |       Username       |       Password       |     Role     |",
-                        "No  |       Nama Pengguna       |       Kata Sandi       |     Peran     |" }
+                { "UserName", "Nama Pengguna" },
+                { "Password", "Kata Sandi" },
+                { "Role", "Peran" }
         };
 
         System.out.println(
                 "╔══════════════════════════════════════════════════════════════════╗");
         System.out.println(
-                "║                            " + userLanguage[0][selectedLanguage] + "                             ║");
+                "║" + CenterString(66, userLanguage[0][selectedLanguage]) + "║");
         System.out.println(
                 "╠══════════════════════════════════════════════════════════════════╣");
-        System.out.println(userLanguage[1][selectedLanguage]);
+        System.out.println("║" + CenterString(5, "No") +
+                "|" + CenterString(22, userLanguage[1][selectedLanguage]) +
+                "|" + CenterString(22, userLanguage[2][selectedLanguage]) +
+                "|" + CenterString(14, userLanguage[3][selectedLanguage]) + "║");
         System.out.println(
                 "╠══════════════════════════════════════════════════════════════════╣");
         for (int i = 0; i < users.length; i++) {
