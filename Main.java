@@ -19,6 +19,10 @@ public class Main {
 
     // additional variables
     static String CLEARSCREEN = "\u001b[H\u001b[2J";
+
+    static String BOLD = "\033[1m";
+    static String REGULAR = "\033[0m";
+
     static String RESET = "\u001B[37m";
     static String RED = "\u001B[31m";
     static String GREEN = "\u001B[32m";
@@ -196,6 +200,7 @@ public class Main {
                 { "Cancel and Exit", "Batalkan dan Keluar" }
         };
 
+        Title();
         System.out.println(
                 "╔═══════════════════════════════════════════════════════════════════════════════════════════╗");
         System.out.println(
@@ -258,28 +263,29 @@ public class Main {
                 { "Discount (%)", "Diskon (%)" },
                 { "Discount Total", "Total Diskon" } };
 
+        Title();
         System.out.println(
-                "╔═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗");
+                "╔════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗");
         System.out.println(
-                "║ " + CenterString(125, language[0][selectedLanguage]) + " ║");
+                "║ " + CenterString(126, language[0][selectedLanguage]) + " ║");
         System.out.println(
-                "╠═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╣");
+                "╠════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╣");
         System.out.println(
                 "║ " + CenterString(4, "No")
                         + " | " + CenterString(16, language[1][selectedLanguage]) // name
                         + " | " + CenterString(16, language[2][selectedLanguage]) // price
-                        + " | " + CenterString(6, "Qty")
+                        + " | " + CenterString(5, "Qty")
                         + " | " + CenterString(16, "Subtotal")
                         + " | " + CenterString(16, language[3][selectedLanguage]) // discount (%)
                         + " | " + CenterString(16, language[4][selectedLanguage]) // discoutn total
                         + " | " + CenterString(16, "Total")
                         + " ║");
         System.out.println(
-                "╠═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╣");
+                "╠════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╣");
         for (int i = 0; i < order_details.length; i++) {
             if (order_details[i][0] != null && order_details[i][0].equals(Integer.toString(latestOrders))) {
                 System.out.println(String.format(
-                        "║ %4d ║ %16s ║ %16s ║ %6s ║ %16s ║ %16s ║ %16s ║ %16s ║",
+                        "║ %4d ║ %16s ║ %16s ║ %5s ║ %16s ║ %16s ║ %16s ║ %16s ║",
                         i,
                         order_details[i][1],
                         order_details[i][3],
@@ -292,25 +298,25 @@ public class Main {
         }
 
         System.out.println(
-                "╠═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╣");
+                "╠════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╣");
         System.out.println(
-                "║                                                                      | "
+                "║                                                                       | "
                         + CenterString(16, "Subtotal")
                         + " | " + CenterString(16, language[4][selectedLanguage])
                         + " | " + CenterString(16, "Total")
                         + " ║");
         System.out.println(
-                "║                                                                       ════════════════════════════════════════════════════════╣");
+                "║                                                                       ═════════════════════════════════════════════════════════╣");
         if (orders[latestOrders][2] != null) {
             System.out.println(String.format(
-                    "║ %68s ║ %16s ║ %16s ║ %16s ║",
+                    "║ %69s ║ %16s ║ %16s ║ %16s ║",
                     " ",
                     orders[latestOrders][2],
                     orders[latestOrders][3],
                     orders[latestOrders][4]));
         }
         System.out.println(
-                "╚═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝");
+                "╚════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝");
     }
 
     static int SetBankDetails() {
@@ -331,9 +337,11 @@ public class Main {
                 TextBox("[2] MANDIRI");
                 SideBox();
                 TextBox("[3] BRI");
+                SideBox();
                 TextBox("[4] " + language[1][selectedLanguage]);
                 SideBox();
-                System.out.print("> " + language[2][selectedLanguage]); // your choice
+                LowerBox();
+                InputBox(language[2][selectedLanguage]); // your choice
                 int bankChoice = sc.nextInt();
                 sc.nextLine();
 
@@ -358,7 +366,7 @@ public class Main {
                         continue;
                 }
 
-                System.out.print("> " + language[3][selectedLanguage]);
+                InputBox(language[3][selectedLanguage]);
                 orders[latestOrders][12] = sc.nextLine();
                 break;
             }
@@ -396,58 +404,58 @@ public class Main {
         }
 
         System.out.println(
-                "╔═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗");
+                "╔════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗");
         System.out.printf(
-                "║        Cafe The Orange Receipt                                                                            Order - %04d        ║\n",
+                "║        Cafe The Orange Receipt                                                                             Order - %04d        ║\n",
                 latestOrders);
         System.out.println(
-                "╠═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╣");
+                "╠════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╣");
         System.out.printf(
                 "║        " + PadStringLFT(12, language[0][selectedLanguage])
-                        + "      : %-61s"
+                        + "      : %-62s"
                         + PadStringLFT(11, language[1][selectedLanguage])
                         + " : %16s        ║\n",
                 orders[latestOrders][0], orders[latestOrders][1]);
         System.out.println(
-                "║                                                                                                                               ║");
+                "║                                                                                                                                ║");
         if (orders[latestOrders][11].equals("card")) {
             System.out.printf(
                     "║        " + PadStringLFT(17, language[2][selectedLanguage])
-                            + " : %-61s" + PadStringLFT(10, language[3][selectedLanguage])
+                            + " : %-62s" + PadStringLFT(10, language[3][selectedLanguage])
                             + "  : %16s        ║\n",
                     orders[latestOrders][13] + " " + orders[latestOrders][11] + " (" + orders[latestOrders][12] + ")",
                     orders[latestOrders][14]);
         } else {
             System.out.printf(
                     "║        " + PadStringLFT(17, language[2][selectedLanguage])
-                            + " : %-61s" + PadStringLFT(10, language[3][selectedLanguage])
+                            + " : %-62s" + PadStringLFT(10, language[3][selectedLanguage])
                             + "  : %16s        ║\n",
                     orders[latestOrders][11],
                     orders[latestOrders][14]);
         }
         System.out.println(
-                "╠═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╣");
+                "╠════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╣");
         System.out.println(
-                "║        " + PadStringLFT(118, language[4][selectedLanguage]) + " ║");
+                "║        " + PadStringLFT(119, language[4][selectedLanguage]) + " ║");
         System.out.println(
-                "╠═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╣");
+                "╠════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╣");
         System.out.println(
                 "║ " + CenterString(4, "No")
                         + " | " + CenterString(16, language[5][selectedLanguage]) // name
                         + " | " + CenterString(16, language[6][selectedLanguage]) // price
-                        + " | " + CenterString(6, "Qty")
+                        + " | " + CenterString(5, "Qty")
                         + " | " + CenterString(16, "Subtotal")
                         + " | " + CenterString(16, language[7][selectedLanguage]) // discount (%)
                         + " | " + CenterString(16, language[8][selectedLanguage]) // discoutn total
                         + " | " + CenterString(16, "Total")
                         + " ║");
         System.out.println(
-                "╠═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╣");
+                "╠════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╣");
 
         for (int i = 0; i < order_details.length; i++) {
             if (order_details[i][0] != null && order_details[i][0].equals(Integer.toString(latestOrders))) {
                 System.out.println(String.format(
-                        "║ %4d ║ %16s ║ %16s ║ %6s ║ %16s ║ %16s ║ %16s ║ %16s ║",
+                        "║ %4d ║ %16s ║ %16s ║ %5s ║ %16s ║ %16s ║ %16s ║ %16s ║",
                         i,
                         order_details[i][1],
                         order_details[i][3],
@@ -460,18 +468,18 @@ public class Main {
         }
 
         System.out.println(
-                "╠═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╣");
+                "╠════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╣");
         System.out.println(
-                "║                                                                      | "
+                "║                                                                       | "
                         + CenterString(16, "Subtotal") + " | " + CenterString(16, language[8][selectedLanguage]) // discount
                                                                                                                  // total
                         + " | " + CenterString(16, "Total")
                         + " ║");
         System.out.println(
-                "║                                                                       ════════════════════════════════════════════════════════╣");
+                "║                                                                       ═════════════════════════════════════════════════════════╣");
         if (orders[latestOrders][2] != null) {
             System.out.println(String.format(
-                    "║ %68s ║ %16s ║ %16s ║ %16s ║",
+                    "║ %69s ║ %16s ║ %16s ║ %16s ║",
                     " ",
                     orders[latestOrders][2],
                     orders[latestOrders][3],
@@ -479,23 +487,23 @@ public class Main {
         }
 
         System.out.println(
-                "║                                                                       ════════════════════════════════════════════════════════╣");
+                "║                                                                       ═════════════════════════════════════════════════════════╣");
         System.out.println(
-                "║                                                                      | "
+                "║                                                                       | "
                         + CenterString(35, language[9][selectedLanguage]) // discount
                         // total
                         + " | "
                         + CenterString(16, "Total")
                         + " ║");
         System.out.println(
-                "║                                                                       ════════════════════════════════════════════════════════╣");
+                "║                                                                       ═════════════════════════════════════════════════════════╣");
 
         if (orders[latestOrders][8] != null && orders[latestOrders][8].equals("member")) {
             if (orders[latestOrders][4] != null) {
                 orders[latestOrders][10] = Integer
                         .toString(Integer.parseInt(orders[latestOrders][4]) * memberDiskon / 100);
                 System.out.println(String.format(
-                        "║ %68s ║ %35s ║ %16s ║",
+                        "║ %69s ║ %35s ║ %16s ║",
                         " ",
                         orders[latestOrders][9],
                         orders[latestOrders][10]));
@@ -503,7 +511,7 @@ public class Main {
         } else {
             orders[latestOrders][10] = "0";
             System.out.println(String.format(
-                    "║ %68s ║ %35s ║ %16s ║",
+                    "║ %69s ║ %35s ║ %16s ║",
                     " ",
                     "0", "0"));
         }
@@ -513,23 +521,23 @@ public class Main {
                         - Integer.parseInt(orders[latestOrders][10]));
 
         System.out.println(
-                "╠═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╣");
+                "╠════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╣");
         System.out.printf(
-                "║ Total :                                                                                                      %16s ║\n",
+                "║ Total :                                                                                                       %16s ║\n",
                 orders[latestOrders][4]);
         System.out.println(
-                "╠═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╣");
+                "╠════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╣");
 
         if (orders[latestOrders][11].equals("cash")) {
             System.out.print(
                     "║ " + PadStringLFT(5, language[10][selectedLanguage])
-                            + " :                                                                                                             ");
+                            + " :                                                                                                              ");
             orders[latestOrders][5] = Integer.toString(sc.nextInt());
         } else {
             orders[latestOrders][5] = orders[latestOrders][4];
             System.out.printf(
                     "║ " + PadStringLFT(5, language[10][selectedLanguage])
-                            + " :                                                                                                      %16s ║\n",
+                            + " :                                                                                                       %16s ║\n",
                     orders[latestOrders][5]);
         }
 
@@ -542,13 +550,13 @@ public class Main {
                     .toString(Integer.parseInt(orders[latestOrders][5])
                             - Integer.parseInt(orders[latestOrders][4]));
             System.out.println(
-                    "╠═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╣");
+                    "╠════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╣");
             System.out.printf(
                     "║ " + PadStringLFT(9, language[11][selectedLanguage])
-                            + " :                                                                                                  %16s ║\n",
+                            + " :                                                                                                   %16s ║\n",
                     orders[latestOrders][6]);
             System.out.println(
-                    "╚═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝");
+                    "╚════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝");
 
             return 200;
 
@@ -590,10 +598,10 @@ public class Main {
 
             Header(language[2][selectedLanguage]);
             if (orders[latestOrders][0] == null) {
-                System.out.print("> " + language[0][selectedLanguage]); // buyer name
+                InputBox(language[0][selectedLanguage]); // buyer name
                 orders[latestOrders][0] = sc.nextLine();
             } else {
-                System.out.print(language[0][selectedLanguage] + orders[latestOrders][0]); // buyer name
+                TextBox(language[0][selectedLanguage] + orders[latestOrders][0]); // buyer name
             }
 
             // subtotal
@@ -631,17 +639,11 @@ public class Main {
                 }
             }
 
-            System.out.println();
-
             ViewOrderDetailList();
-
-            System.out.println();
 
             ViewMenuList(keyword);
 
-            System.out.println();
-
-            System.out.print("> " + language[1][selectedLanguage]); // your choice
+            InputBox(language[1][selectedLanguage]); // your choice
 
             int choice = sc.nextInt();
             sc.nextLine();
@@ -680,7 +682,7 @@ public class Main {
         order_details[latestOrder_details][1] = items[choice - 1][0];
 
         // jumlah
-        System.out.print("> " + language[0][selectedLanguage] + items[choice - 1][0] + " ? : "); // how many pcs
+        InputBox(language[0][selectedLanguage] + items[choice - 1][0] + " ? : "); // how many pcs
         order_details[latestOrder_details][2] = Integer.toString(sc.nextInt());
         sc.nextLine();
 
@@ -723,7 +725,7 @@ public class Main {
         ViewOrderDetailList();
 
         System.out.println(language[0][selectedLanguage]); // Select the item you want to cancel!
-        System.out.print("> " + language[1][selectedLanguage]); // your choice
+        InputBox(language[1][selectedLanguage]); // your choice
         int removeItemChoice = sc.nextInt();
 
         if (removeItemChoice < order_details.length && order_details[removeItemChoice][0]
@@ -775,11 +777,11 @@ public class Main {
 
         while (!memberValid) {
             System.out.println();
-            System.out.print("> " + memberLanguage[0][selectedLanguage]); // Apakah punya kartu member? (y/t) :
+            InputBox(memberLanguage[0][selectedLanguage]); // Apakah punya kartu member? (y/t) :
             isMember = sc.next().charAt(0);
 
             if (isMember == 'y' || isMember == 'Y') {
-                System.out.print("> " + memberLanguage[1][selectedLanguage]);
+                InputBox(memberLanguage[1][selectedLanguage]);
                 String memberNumber = sc.next();
 
                 ClearScreen();
@@ -863,7 +865,7 @@ public class Main {
             TextBox("[3] " + language[2][selectedLanguage]);
             SideBox();
             LowerBox();
-            System.out.print("> " + language[3][selectedLanguage]); // Choose payment method :
+            InputBox(language[3][selectedLanguage]); // Choose payment method :
             int paymentChoice = sc.nextInt();
             sc.nextLine();
 
@@ -954,7 +956,7 @@ public class Main {
                 { "Edit Item Menu", "Edit Menu" },
                 { "Delete Item Menu", "Hapus Menu" },
                 { "Back", "Kembali" },
-                { "Enter your choice : ", "Masukkan pilihan anda : " },
+                { "Your choice : ", "Pilihan anda : " },
                 { "Invalid choice!", "Pilihan tidak valid!" }
         };
 
@@ -973,7 +975,7 @@ public class Main {
             TextBox("[5] " + itemLanguage[5][selectedLanguage]); // Back
             SideBox();
             LowerBox();
-            System.out.print("> " + itemLanguage[6][selectedLanguage]);
+            InputBox(itemLanguage[6][selectedLanguage]);
             int manageItemChoice = sc.nextInt();
             sc.nextLine();
             ClearScreen();
@@ -981,7 +983,8 @@ public class Main {
             switch (manageItemChoice) {
                 case 1:
                     ViewItemList(null);
-                    Delay();
+                    AwaitEnter();
+                    ClearScreen();
                     break;
 
                 case 2:
@@ -998,6 +1001,7 @@ public class Main {
 
                 case 5:
                     managingItem = false;
+                    ClearScreen();
                     break;
 
                 default:
@@ -1018,6 +1022,7 @@ public class Main {
                 { "Discount (%)", "Diskon (%)" },
                 { "Buying Price", "Harga Beli" },
         };
+        Title();
         System.out.println(
                 "╔═══════════════════════════════════════════════════════════════════════════════════════════════════════════════╗");
         System.out.println(
@@ -1068,20 +1073,38 @@ public class Main {
     }
 
     static void ViewSimpleItemList() {
+
+        String[][] itemLanguage = {
+                { "Item Menu List", "Daftar Menu Item" },
+                { "Name", "Nama" },
+                { "Type", "Tipe" },
+                { "Price", "Harga" },
+                { "Stock", "Stok" },
+                { "Discount (%)", "Diskon (%)" },
+                { "Buying Price", "Harga Beli" },
+        };
+
+        Title();
         System.out.println(
                 "╔══════════════════════════════════════════════════════════════════════════════════════════╗");
         System.out.println(
-                "║                                      Item Menu List                                      ║");
+                "║ " + CenterString(98, itemLanguage[0][selectedLanguage]) + "║");
         System.out.println(
                 "╠══════════════════════════════════════════════════════════════════════════════════════════╣");
         System.out.println(
-                "║ No  |       Name       |       Tipe       |    Price     |    Stock   |    Discount (%)  ║");
+                "║" + CenterString(6, "No") +
+                        "|" + CenterString(18, itemLanguage[1][selectedLanguage]) + // name
+                        "|" + CenterString(18, itemLanguage[2][selectedLanguage]) + // tipe
+                        "|" + CenterString(14, itemLanguage[3][selectedLanguage]) + // price
+                        "|" + CenterString(12, itemLanguage[4][selectedLanguage]) + // stok
+                        "|" + CenterString(19, itemLanguage[5][selectedLanguage]) + // discount (%)
+                        "║");
         System.out.println(
                 "╠══════════════════════════════════════════════════════════════════════════════════════════╣");
         for (int i = 0; i < items.length; i++) {
             if (items[i][0] != null) {
                 System.out.println(String.format(
-                        "║ %3d ║ %16s ║ %16s ║ %12s ║ %10s ║ %16s ║",
+                        "║ %6d ║ %18s ║ %18s ║ %14s ║ %12s ║ %19s ║",
                         i + 1,
                         items[i][0],
                         items[i][4],
@@ -1095,7 +1118,6 @@ public class Main {
     }
 
     static void CreateItem() {
-        boolean active = true;
 
         String[][] createItemLanguage = {
                 { "Add New Item Menu", "Tambah Menu Baru" },
@@ -1120,7 +1142,7 @@ public class Main {
                 { "> Your choice ", "> Pilihan anda " }
         };
 
-        while (active) {
+        while (true) {
             // getting latest items index
             GetLatestItems();
 
@@ -1137,6 +1159,7 @@ public class Main {
             System.out.print(createItemLanguage[19][selectedLanguage] + ": ");
             int createItemChoice = sc.nextInt();
             sc.nextLine();
+            ClearScreen();
 
             switch (createItemChoice) {
                 case 1:
@@ -1144,22 +1167,31 @@ public class Main {
                     items[latestItems][4] = "Makanan";
 
                     Header(createItemLanguage[4][selectedLanguage]);
-                    System.out.print(createItemLanguage[5][selectedLanguage] + ": ");
+                    UpperBox();
+                    SideBox();
+                    InputBox(createItemLanguage[5][selectedLanguage] + " : ");
                     items[latestItems][0] = sc.nextLine();
 
-                    System.out.print(createItemLanguage[6][selectedLanguage] + ": ");
+                    SideBox();
+                    InputBox(createItemLanguage[6][selectedLanguage] + ": ");
                     items[latestItems][1] = Integer.toString(sc.nextInt());
 
-                    System.out.print(createItemLanguage[7][selectedLanguage] + ": ");
+                    SideBox();
+                    InputBox(createItemLanguage[7][selectedLanguage] + ": ");
                     items[latestItems][2] = Integer.toString(sc.nextInt());
 
-                    System.out.print(createItemLanguage[8][selectedLanguage] + ": ");
+                    SideBox();
+                    InputBox(createItemLanguage[8][selectedLanguage] + ": ");
                     items[latestItems][3] = Integer.toString(sc.nextInt());
 
-                    System.out.print(createItemLanguage[9][selectedLanguage] + ": ");
+                    SideBox();
+                    InputBox(createItemLanguage[9][selectedLanguage] + ": ");
                     items[latestItems][5] = Integer.toString(sc.nextInt());
 
-                    System.out.println(createItemLanguage[10][selectedLanguage]);
+                    SideBox();
+                    LowerBox();
+
+                    Notification("success", createItemLanguage[10][selectedLanguage]);
                     Delay();
                     break;
 
@@ -1168,33 +1200,45 @@ public class Main {
                     items[latestItems][4] = "Minuman";
 
                     Header(createItemLanguage[11][selectedLanguage]);
-                    System.out.print(createItemLanguage[12][selectedLanguage] + ": ");
+                    UpperBox();
+                    SideBox();
+                    InputBox(createItemLanguage[12][selectedLanguage] + ": ");
                     items[latestItems][0] = sc.nextLine();
 
-                    System.out.print(createItemLanguage[13][selectedLanguage] + ": ");
+                    SideBox();
+                    InputBox(createItemLanguage[13][selectedLanguage] + ": ");
                     items[latestItems][1] = Integer.toString(sc.nextInt());
 
-                    System.out.print(createItemLanguage[14][selectedLanguage] + ": ");
+                    SideBox();
+                    InputBox(createItemLanguage[14][selectedLanguage] + ": ");
                     items[latestItems][2] = Integer.toString(sc.nextInt());
 
-                    System.out.print(createItemLanguage[15][selectedLanguage] + ": ");
+                    SideBox();
+                    InputBox(createItemLanguage[15][selectedLanguage] + ": ");
                     items[latestItems][3] = Integer.toString(sc.nextInt());
 
-                    System.out.print(createItemLanguage[16][selectedLanguage] + ": ");
+                    SideBox();
+                    InputBox(createItemLanguage[16][selectedLanguage] + ": ");
                     items[latestItems][4] = Integer.toString(sc.nextInt());
 
-                    System.out.println(createItemLanguage[17][selectedLanguage]);
+                    SideBox();
+                    LowerBox();
+
+                    Notification("success", createItemLanguage[17][selectedLanguage]);
                     Delay();
                     break;
 
                 case 3:
-                    active = false;
+                    Delay();
                     break;
 
                 default:
                     Notification("failure", createItemLanguage[18][selectedLanguage]);
-                    break;
+                    Delay();
+                    continue;
             }
+
+            break;
         }
     }
 
@@ -1214,7 +1258,9 @@ public class Main {
                 { "Item has been successfully edited!", "Item berhasil diedit!" },
                 { "Invalid Type!", "Jenis tidak valid!" },
                 { "Invalid choice!", "Pilihan tidak valid!" },
-                { "Input (0) to not edit the data!", "Masukkan (0) untuk tidak mengedit data!" }
+                { "Input (0) to not edit the data!", "Masukkan (0) untuk tidak mengedit data!" },
+                { "Your choice : ", "Pilihan anda : " },
+                { "Edit Item Menu", "Edit Menu Item" }
         };
 
         while (true) {
@@ -1226,23 +1272,27 @@ public class Main {
             TextBox("[" + (items.length + 1) + "] " + editItemLanguage[1][selectedLanguage]);
             SideBox();
             LowerBox();
-            System.out.print(editItemLanguage[2][selectedLanguage] + ": ");
+            System.out.println(editItemLanguage[2][selectedLanguage]);
+            InputBox(editItemLanguage[12][selectedLanguage]);
             int editItemChoice = sc.nextInt() - 1;
             sc.nextLine();
             ClearScreen();
 
             if (editItemChoice < items.length && items[editItemChoice][0] != null) {
-                System.out.println(editItemLanguage[3][selectedLanguage]);
-                System.out
-                        .print("> " + editItemLanguage[4][selectedLanguage] + " (" + items[editItemChoice][0] + ") : ");
+                Header(editItemLanguage[13][selectedLanguage]);
+                UpperBox();
+                SideBox();
+                TextBox(editItemLanguage[3][selectedLanguage]);
+                SideBox();
+                InputBox(editItemLanguage[4][selectedLanguage] + " (" + items[editItemChoice][0] + ") : ");
                 temp = sc.nextLine();
                 if (!temp.equals("-")) {
                     items[editItemChoice][0] = temp;
                 }
 
                 while (true) {
-                    System.out.print(
-                            "> " + editItemLanguage[5][selectedLanguage] + " (" + items[editItemChoice][4] + ") : ");
+                    SideBox();
+                    InputBox(editItemLanguage[5][selectedLanguage] + " (" + items[editItemChoice][4] + ") : ");
                     temp = sc.nextLine();
                     if (temp.equals("Makanan") || temp.equals("Minuman")) {
                         items[editItemChoice][4] = temp;
@@ -1257,21 +1307,26 @@ public class Main {
                     }
                 }
 
-                System.out.println(editItemLanguage[11][selectedLanguage]);
-                System.out
-                        .print("> " + editItemLanguage[6][selectedLanguage] + " (" + items[editItemChoice][1] + ") : ");
+                SideBox();
+                TextBox(editItemLanguage[11][selectedLanguage]);
+                SideBox();
+                InputBox(editItemLanguage[6][selectedLanguage] + " (" + items[editItemChoice][1] + ") : ");
                 temp = Integer.toString(sc.nextInt());
                 if (!temp.equals("0")) {
                     items[editItemChoice][1] = temp;
                 }
 
-                System.out.println(editItemLanguage[3][selectedLanguage]);
-                System.out
-                        .print("> " + editItemLanguage[7][selectedLanguage] + " (" + items[editItemChoice][5] + ") : ");
+                SideBox();
+                TextBox(editItemLanguage[3][selectedLanguage]);
+                SideBox();
+                InputBox(editItemLanguage[7][selectedLanguage] + " (" + items[editItemChoice][5] + ") : ");
                 temp = Integer.toString(sc.nextInt());
                 if (!temp.equals("0")) {
                     items[editItemChoice][5] = temp;
                 }
+
+                SideBox();
+                LowerBox();
 
                 Notification("success", editItemLanguage[8][selectedLanguage]);
                 Delay();
@@ -1313,7 +1368,6 @@ public class Main {
             System.out.print(deleteItemLanguage[2][selectedLanguage] + ": ");
             int deleteItemChoice = sc.nextInt() - 1;
             sc.nextLine();
-            ClearScreen();
 
             if (deleteItemChoice < items.length && items[deleteItemChoice][0] != null) {
                 for (int i = 0; i < items[deleteItemChoice].length; i++) {
@@ -1586,6 +1640,7 @@ public class Main {
                 { "Change", "Kembalian" }
         };
 
+        Title();
         System.out.println(
                 "╔═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗");
         System.out.printf(
@@ -1736,7 +1791,7 @@ public class Main {
         String monthName = Month.of(month).getDisplayName(TextStyle.FULL, Locale.ENGLISH);
 
         while (true) {
-            System.out.println();
+            Title();
             System.out.println(
                     "╔════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗");
 
@@ -1804,7 +1859,7 @@ public class Main {
             System.out.println();
             System.out.println(language[7][selectedLanguage]); // Input number to view history details!
             System.out.println("[" + orders.length + "] " + language[8][selectedLanguage]); // Back
-            System.out.print("> " + language[9][selectedLanguage]); // Your choice :
+            InputBox(language[9][selectedLanguage]); // Your choice :
             int choice = sc.nextInt();
             sc.nextLine();
             ClearScreen();
@@ -1859,14 +1914,17 @@ public class Main {
         while (true) {
             System.out.println();
             Header(language[2][selectedLanguage]);
+            UpperBox();
+            SideBox();
             for (int i = 0; i < months.length; i++) {
-                System.out.println("[" + (i + 1) + "] " + months[i]);
+                TextBox("[" + (i + 1) + "] " + months[i]);
+                SideBox();
             }
 
-            System.out.println("[" + (months.length + 1) + "] " + language[0][selectedLanguage]); // back
-
-            System.out.println();
-            System.out.print("> " + language[1][selectedLanguage]); // your choice
+            TextBox("[" + (months.length + 1) + "] " + language[0][selectedLanguage]); // back
+            SideBox();
+            LowerBox();
+            InputBox(language[1][selectedLanguage]); // your choice
             int month = sc.nextInt();
             sc.nextLine();
 
@@ -1895,14 +1953,16 @@ public class Main {
         while (true) {
             System.out.println();
             Header(language[2][selectedLanguage]);
+            SideBox();
             for (int i = 0; i < months.length; i++) {
-                System.out.println("[" + (i + 1) + "] " + months[i]);
+                TextBox("[" + (i + 1) + "] " + months[i]);
+                SideBox();
             }
+            TextBox("[" + (months.length + 1) + "] " + language[0][selectedLanguage]); // back
+            SideBox();
+            LowerBox();
 
-            System.out.println("[" + (months.length + 1) + "] " + language[0][selectedLanguage]); // back
-
-            System.out.println();
-            System.out.print("> " + language[1][selectedLanguage]); // your choice
+            InputBox(language[1][selectedLanguage]); // your choice
             int month = sc.nextInt();
             sc.nextLine();
 
@@ -1983,8 +2043,7 @@ public class Main {
                 System.out.println();
                 System.out.println("╚══════════════════════════════════════════════════════════════════════╝");
 
-                System.out.println();
-                System.out.print("> " + language[1][selectedLanguage]); // your choice
+                InputBox(language[1][selectedLanguage]); // your choice
 
                 int day = sc.nextInt();
                 sc.nextLine();
@@ -2026,7 +2085,7 @@ public class Main {
             TextBox("3. " + language[3][selectedLanguage]); // back
             SideBox();
             LowerBox();
-            System.out.print("> " + language[4][selectedLanguage]); // your choice
+            InputBox(language[4][selectedLanguage]); // your choice
             int choice = sc.nextInt();
 
             switch (choice) {
@@ -2078,13 +2137,17 @@ public class Main {
 
             int uniqueYearsArray[] = uniqueYears.stream().mapToInt(Integer::intValue).toArray();
 
+            UpperBox();
+            SideBox();
             for (int i = 0; i < uniqueYears.size(); i++) {
-                System.out.println("[" + (i + 1) + "] " + uniqueYearsArray[i]);
+                TextBox("[" + (i + 1) + "] " + uniqueYearsArray[i]);
+                SideBox();
             }
 
-            System.out.println("[" + (uniqueYearsArray.length + 1) + "] " + language[0][selectedLanguage]); // back
-
-            System.out.print("> " + language[1][selectedLanguage]); // your choice
+            TextBox("[" + (uniqueYearsArray.length + 1) + "] " + language[0][selectedLanguage]); // back
+            SideBox();
+            LowerBox();
+            InputBox(language[1][selectedLanguage]); // your choice
             int choice = sc.nextInt() - 1;
 
             if (choice < uniqueYearsArray.length) {
@@ -2155,6 +2218,7 @@ public class Main {
         totalKerugian = totalDiskon + totalDiskonMember + totalPembelian;
         totalKeuntungan = totalPenjualan - totalKerugian;
 
+        Title();
         System.out.println(
                 "╔══════════════════════════════════════════════════════════════════════════════════════════╗");
         System.out.println(
@@ -2230,12 +2294,8 @@ public class Main {
                 totalKeuntungan);
         System.out.println(
                 "╚══════════════════════════════════════════════════════════════════════════════════════════╝");
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        System.out.println();
+
+        Delay();
     }
 
     static void ProfitReportByAllTime() {
@@ -2253,14 +2313,18 @@ public class Main {
         while (true) {
             System.out.println();
             Header(language[2][selectedLanguage]);
+            UpperBox();
+            SideBox();
             for (int i = 0; i < months.length; i++) {
-                System.out.println("[" + (i + 1) + "] " + months[i]);
+                TextBox("[" + (i + 1) + "] " + months[i]);
+                SideBox();
             }
 
-            System.out.println("[" + (months.length + 1) + "] " + language[0][selectedLanguage]);
-
+            TextBox("[" + (months.length + 1) + "] " + language[0][selectedLanguage]);
+            SideBox();
+            LowerBox();
             System.out.println();
-            System.out.print("> " + language[1][selectedLanguage]); // your choice
+            InputBox(language[1][selectedLanguage]); // your choice
             int month = sc.nextInt();
             sc.nextLine();
 
@@ -2290,14 +2354,17 @@ public class Main {
         while (true) {
             System.out.println();
             Header(language[2][selectedLanguage]);
+            UpperBox();
+            SideBox();
             for (int i = 0; i < months.length; i++) {
-                System.out.println("[" + (i + 1) + "] " + months[i]);
+                TextBox("[" + (i + 1) + "] " + months[i]);
+                SideBox();
             }
 
-            System.out.println("[" + (months.length + 1) + "] " + language[0][selectedLanguage]);
-
-            System.out.println();
-            System.out.print("> " + language[1][selectedLanguage]); // your choice
+            TextBox("[" + (months.length + 1) + "] " + language[0][selectedLanguage]);
+            SideBox();
+            LowerBox();
+            InputBox(language[1][selectedLanguage]); // your choice
             int month = sc.nextInt();
             sc.nextLine();
 
@@ -2378,8 +2445,7 @@ public class Main {
                 System.out.println();
                 System.out.println("╚══════════════════════════════════════════════════════════════════════╝");
 
-                System.out.println();
-                System.out.print("> " + language[1][selectedLanguage]); // your choice
+                InputBox(language[1][selectedLanguage]); // your choice
 
                 int day = sc.nextInt();
                 sc.nextLine();
@@ -2471,17 +2537,17 @@ public class Main {
 
             int uniqueYearsArray[] = uniqueYears.stream().mapToInt(Integer::intValue).toArray();
             UpperBox();
-            for (int i = 0; i < uniqueYears.size(); i++) {
-                SideBox();
-                TextBox("[" + (i + 1) + "] " + uniqueYearsArray[i]);
-            }
             SideBox();
+            for (int i = 0; i < uniqueYears.size(); i++) {
+                TextBox("[" + (i + 1) + "] " + uniqueYearsArray[i]);
+                SideBox();
+            }
             TextBox("[" + (uniqueYearsArray.length + 1) + "] " + language[0][selectedLanguage]); // all time
             SideBox();
             TextBox("[" + (uniqueYearsArray.length + 2) + "] " + language[1][selectedLanguage]);
             SideBox();
             LowerBox();
-            System.out.print("> " + language[2][selectedLanguage]); // your choice
+            InputBox(language[2][selectedLanguage]); // your choice
             int choice = sc.nextInt() - 1;
             sc.nextLine();
 
@@ -2531,15 +2597,16 @@ public class Main {
             Header(userLanguage[0][selectedLanguage]);
             UpperBox();
             SideBox();
-            TextBox("1. " + userLanguage[1][selectedLanguage]); // View all
+            TextBox("[1] " + userLanguage[1][selectedLanguage]); // View all
             SideBox();
-            TextBox("2. " + userLanguage[2][selectedLanguage]); // Create new User
+            TextBox("[2] " + userLanguage[2][selectedLanguage]); // Create new User
             SideBox();
-            TextBox("3. " + userLanguage[3][selectedLanguage]); // Edit User
+            TextBox("[3] " + userLanguage[3][selectedLanguage]); // Edit User
             SideBox();
-            TextBox("4. " + userLanguage[4][selectedLanguage]); // Delete User
+            TextBox("[4] " + userLanguage[4][selectedLanguage]); // Delete User
             SideBox();
-            TextBox("5. " + userLanguage[5][selectedLanguage]); // Back
+            TextBox("[5] " + userLanguage[5][selectedLanguage]); // Back
+            SideBox();
             LowerBox();
 
             System.out.print(userLanguage[6][selectedLanguage]);
@@ -2592,6 +2659,7 @@ public class Main {
                 { "Role", "Peran" }
         };
 
+        Title();
         System.out.println(
                 "╔══════════════════════════════════════════════════════════════════╗");
         System.out.println(
@@ -2643,14 +2711,14 @@ public class Main {
 
         GetLatestUsers();
         Header(userLanguage[0][selectedLanguage]);
-        System.out.print(userLanguage[1][selectedLanguage]);
+        InputBox(userLanguage[1][selectedLanguage]);
         users[latestUsers][0] = sc.nextLine();
 
-        System.out.print(userLanguage[2][selectedLanguage]);
+        InputBox(userLanguage[2][selectedLanguage]);
         users[latestUsers][1] = sc.nextLine();
 
         while (true) {
-            System.out.print(userLanguage[3][selectedLanguage]);
+            InputBox(userLanguage[3][selectedLanguage]);
             String inputRole = sc.nextLine();
 
             if (inputRole.equals("kasir") || inputRole.equals("manajer") || inputRole.equals("admin")) {
@@ -2674,7 +2742,9 @@ public class Main {
                 { "User successfully edited!", "Pengguna berhasil diedit!" },
                 { "Invalid Role!", "Peran tidak valid!" },
                 { "Input the number to edit the user!", "Masukkan nomor untuk mengedit user" },
-                { "> Your choice : ", "> Pilihan anda : " }
+                { "Your choice : ", "Pilihan anda : " },
+                { "Search for a user", "Cari pengguna" },
+                { "Back", "Kembali" }
         };
 
         String temp, keyword = null;
@@ -2683,10 +2753,15 @@ public class Main {
 
             ViewUserList(keyword); // Menampilkan daftar pengguna berdasarkan pencarian
 
-            System.out.println("[" + users.length + "] " + userLanguage[0][selectedLanguage]);
-            System.out.println("[" + (users.length + 1) + "] " + userLanguage[1][selectedLanguage]);
+            UpperBox();
+            SideBox();
+            TextBox("[" + users.length + "] " + userLanguage[8][selectedLanguage]);
+            SideBox();
+            TextBox("[" + (users.length + 1) + "] " + userLanguage[9][selectedLanguage]);
+            SideBox();
+            LowerBox();
             System.out.println(userLanguage[6][selectedLanguage]);
-            System.out.print(userLanguage[7][selectedLanguage]);
+            InputBox(userLanguage[7][selectedLanguage]);
             int editUserChoice = sc.nextInt() - 1;
             sc.nextLine();
             ClearScreen();
@@ -2694,21 +2769,20 @@ public class Main {
             if (editUserChoice < users.length && users[editUserChoice][0] != null) {
                 // Logika untuk mengedit user
                 System.out.println(userLanguage[0][selectedLanguage]);
-                System.out.print("> " + userLanguage[1][selectedLanguage] + " (" + users[editUserChoice][0] + ") : ");
+                InputBox(userLanguage[1][selectedLanguage] + " (" + users[editUserChoice][0] + ") : ");
                 temp = sc.nextLine();
                 if (!temp.equals("-")) {
                     users[editUserChoice][0] = temp;
                 }
 
-                System.out.print("> " + userLanguage[2][selectedLanguage] + " (" + users[editUserChoice][1] + ") : ");
+                InputBox(userLanguage[2][selectedLanguage] + " (" + users[editUserChoice][1] + ") : ");
                 temp = sc.nextLine();
                 if (!temp.equals("-")) {
                     users[editUserChoice][1] = temp;
                 }
 
                 while (true) {
-                    System.out
-                            .print("> " + userLanguage[3][selectedLanguage] + " (" + users[editUserChoice][2] + ") : ");
+                    InputBox(userLanguage[3][selectedLanguage] + " (" + users[editUserChoice][2] + ") : ");
                     temp = sc.nextLine();
                     if (!temp.equals("-") && (temp.equals("kasir") || temp.equals("manajer") || temp.equals("admin"))) {
                         users[editUserChoice][2] = temp;
@@ -2852,7 +2926,7 @@ public class Main {
             TextBox("[3] " + language[2][selectedLanguage]);
             SideBox();
             LowerBox();
-            System.out.print("> " + language[3][selectedLanguage]);
+            InputBox(language[3][selectedLanguage]);
             int choice = sc.nextInt();
             sc.nextLine();
             ClearScreen();
@@ -2907,10 +2981,13 @@ public class Main {
 
             Header(loginLanguage[0][selectedLanguage]);
 
-            System.out.print(loginLanguage[1][selectedLanguage]);
+            SideBox();
+            InputBox(loginLanguage[1][selectedLanguage]);
             String inputUsername = sc.nextLine();
-            System.out.print(loginLanguage[2][selectedLanguage]);
+            InputBox(loginLanguage[2][selectedLanguage]);
             String inputPassword = sc.nextLine();
+            SideBox();
+            LowerBox();
 
             for (int i = 0; i < users.length; i++) {
                 if (inputUsername.equals(users[i][0]) && inputPassword.equals(users[i][1])) {
@@ -2928,6 +3005,7 @@ public class Main {
 
                 Delay();
             }
+
         }
     }
 
@@ -2956,11 +3034,19 @@ public class Main {
 
         String language[][] = {
                 { "To reset search keyword input (-)!", "Untuk mereset keyword pencarian masukkan (-)!" },
-                { "Input keyword", "Masukkan keyword" } };
+                { "Input keyword", "Masukkan keyword" },
+                { "Search Something", "Cari Sesuatu" } };
 
-        System.out.println(language[0][selectedLanguage]);
-        System.out.print("> " + language[1][selectedLanguage] + " (" + keyword + ") : ");
+        Header(language[2][selectedLanguage]);
+        UpperBox();
+        SideBox();
+        TextBox(language[0][selectedLanguage]);
+        SideBox();
+        InputBox(language[1][selectedLanguage] + " (" + keyword + ") : ");
         keyword = sc.nextLine();
+        SideBox();
+        LowerBox();
+        Delay();
 
         if (!keyword.equals("-")) {
             return keyword;
@@ -2983,7 +3069,7 @@ public class Main {
     static void AwaitEnter() {
 
         String language[][] = { { "Press Enter to continue... ", "Tekan Enter untuk lanjut..." } };
-        System.out.print("> " + language[0][selectedLanguage]);
+        InputBox(language[0][selectedLanguage]);
         sc.nextLine();
     }
 
@@ -3011,7 +3097,7 @@ public class Main {
         Title();
         System.out.println(
                 "╔════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗");
-        System.out.println("║" + CenterString(128, msg) + "║");
+        System.out.println("║" + BOLD + CenterString(128, msg) + REGULAR + "║");
         System.out.println(
                 "╚════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝");
     }
@@ -3033,6 +3119,10 @@ public class Main {
     static void LowerBox() {
         System.out.println(
                 "╚════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝");
+    }
+
+    static void InputBox(String msg) {
+        System.out.print("║ > " + msg);
     }
 
     static void Title() {
@@ -3089,7 +3179,11 @@ public class Main {
             }
 
             // menu
-            Header(language[8][selectedLanguage]);
+            if (selectedLanguage == 0) {
+                Header("Welcome " + users[user_id][0] + " to CASS");
+            } else {
+                Header("Selamat datang " + users[user_id][0] + " to CASS");
+            }
             UpperBox();
             SideBox();
             TextBox("[1] " + language[0][selectedLanguage]); // make order
