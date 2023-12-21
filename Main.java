@@ -1104,7 +1104,8 @@ public class Main {
                 { "Insert drink discount", "Masukkan diskon minuman" },
                 { "Insert drink buying price", "Masukkan harga beli minuman" },
                 { "New drink has been successfully added!", "Minuman baru berhasil ditambahkan!" },
-                { "Invalid choice!", "Pilihan tidak valid!" }
+                { "Invalid choice!", "Pilihan tidak valid!" },
+                { "> Your choice ", "> Pilihan anda " }
         };
 
         while (active) {
@@ -1117,7 +1118,7 @@ public class Main {
             System.out.println("[1] " + createItemLanguage[1][selectedLanguage]);
             System.out.println("[2] " + createItemLanguage[2][selectedLanguage]);
             System.out.println("[3] " + createItemLanguage[3][selectedLanguage]);
-            System.out.print(createItemLanguage[15][selectedLanguage] + ": ");
+            System.out.print(createItemLanguage[19][selectedLanguage] + ": ");
             int createItemChoice = sc.nextInt();
             sc.nextLine();
 
@@ -2861,11 +2862,11 @@ public class Main {
     static void Login() {
 
         String[][] loginLanguage = {
-                { "SILAHKAN LOGIN", "PLEASE LOGIN" },
-                { "Input username : ", "Input username : " },
-                { "Input password : ", "Input password : " },
-                { "Login successful!", "Login successful!" },
-                { "Username dan password salah!", "Username and password are incorrect!" }
+                { "PLEASE LOGIN", "SILAHKAN LOGIN" },
+                { "Input username : ", "Masukkan username : " },
+                { "Input password : ", "Masukkan password : " },
+                { "Login successful!", "Login Berhasil!" },
+                { "Username and password are incorrect!", "Username dan password salah!" }
         };
 
         while (!access) {
