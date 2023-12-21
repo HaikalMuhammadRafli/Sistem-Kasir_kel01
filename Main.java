@@ -95,12 +95,12 @@ public class Main {
         items[5][4] = "Makanan";
         items[5][5] = "10000";
 
-        items[6][0] = "Nasi Goreng Seafood";
-        items[6][1] = "18000";
+        items[6][0] = "Nasi Uduk";
+        items[6][1] = "12000";
         items[6][2] = "30";
         items[6][3] = "15";
         items[6][4] = "Makanan";
-        items[6][5] = "15000";
+        items[6][5] = "9000";
 
         items[7][0] = "Sop Ikan";
         items[7][1] = "16000";
@@ -151,12 +151,12 @@ public class Main {
         items[18][4] = "Makanan";
         items[18][5] = "15000";
 
-        items[19][0] = "Nasi Goreng Special";
-        items[19][1] = "20000";
+        items[19][0] = "Capcay";
+        items[19][1] = "13000";
         items[19][2] = "20";
         items[19][3] = "10";
         items[19][4] = "Makanan";
-        items[19][5] = "18000";
+        items[19][5] = "10000";
 
         // Minuman
         items[1][0] = "Es teh";
