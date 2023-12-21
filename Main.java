@@ -318,13 +318,12 @@ public class Main {
         String language[][] = { { "BANK CARD PAYMENT", "PEMBAYARAN KARTU BANK" },
                 { "Back", "Kembali" },
                 { "Your choice : ", "Pilihan anda : " },
-                { "Input account number : ", "Masukkan nomor rekening : " } };
+                { "Input account number : ", "Masukkan nomor rekening : " },
+                { "BANK CARD PAYMENT", "PEMBAYARAN KARTU BANK" } };
 
         while (true) {
             if (orders[latestOrders][11].equals("card")) {
-                System.out.println("╔═════════════════════════════════╗");
-                System.out.println("║        BANK CARD PAYMENT        ║");
-                System.out.println("╚═════════════════════════════════╝");
+                Header(language[4][selectedLanguage]);
 
                 System.out.println("[1] BCA");
                 System.out.println("[2] MANDIRI");
@@ -559,7 +558,8 @@ public class Main {
 
         String language[][] = {
                 { "Buyer's name : ", "Nama pembeli : " },
-                { "Your choice : ", "Pilihan anda : " }
+                { "Your choice : ", "Pilihan anda : " },
+                { "Create Order", "Buat Pesanan" }
         };
 
         String keyword = null;
@@ -584,9 +584,7 @@ public class Main {
             GetLatestOrderDetails();
             ClearScreen();
 
-            System.out.println("╔═════════════════════════════════════════════════╗");
-            System.out.println("║              Cafe The Orange Menu!              ║");
-            System.out.println("╚═════════════════════════════════════════════════╝");
+            Header(language[2][selectedLanguage]);
             if (orders[latestOrders][0] == null) {
                 System.out.print("> " + language[0][selectedLanguage]); // buyer name
                 orders[latestOrders][0] = sc.nextLine();
@@ -2765,7 +2763,7 @@ public class Main {
 
     // * Swtich Language
     static void SwitchLanguage() {
-        System.out.println("Select Language:");
+        Header("SELECT LANGUAGE");
         System.out.println("1. English");
         System.out.println("2. Bahasa Indonesia");
         System.out.print("> Your choice : ");
@@ -2803,21 +2801,28 @@ public class Main {
         };
 
         while (true) {
-            System.out.println("╔╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╗");
-            System.out.println("╠╬╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╬╣");
-            System.out.println("╠╣------------------------------------╠╣");
-            System.out.println("╠╣---██████╗-█████╗-███████╗███████╗--╠╣");
-            System.out.println("╠╣--██╔════╝██╔══██╗██╔════╝██╔════╝--╠╣");
-            System.out.println("╠╣--██║-----███████║███████╗███████╗--╠╣");
-            System.out.println("╠╣--██║-----██╔══██║╚════██║╚════██║--╠╣");
-            System.out.println("╠╣--╚██████╗██║--██║███████║███████║--╠╣");
-            System.out.println("╠╣---╚═════╝╚═╝--╚═╝╚══════╝╚══════╝--╠╣");
-            System.out.println("╠╣------------------------------------╠╣");
-            System.out.println("╠╬╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╬╣");
-            System.out.println("╚╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╝");
-            System.out.println("[1] " + language[0][selectedLanguage]); // login
-            System.out.println("[2] " + language[1][selectedLanguage]); // switch language
-            System.out.println("[3] " + language[2][selectedLanguage]); // exit program
+
+            Title();
+
+            System.out.println(
+                    "╔╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╗");
+            System.out.println(
+                    "╠╬╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╬╣");
+            System.out.println(
+                    "╠╣                                                                                                                              ╠╣");
+            System.out.println("╠╣ [1] " + PadStringLFT(121, language[0][selectedLanguage]) + "╠╣"); // login
+            System.out.println(
+                    "╠╣                                                                                                                              ╠╣");
+            System.out.println("╠╣ [2] " + PadStringLFT(121, language[1][selectedLanguage]) + "╠╣"); // switch language
+            System.out.println(
+                    "╠╣                                                                                                                              ╠╣");
+            System.out.println("╠╣ [3] " + PadStringLFT(121, language[2][selectedLanguage]) + "╠╣"); // exit program
+            System.out.println(
+                    "╠╣                                                                                                                              ╠╣");
+            System.out.println(
+                    "╠╬╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╬╣");
+            System.out.println(
+                    "╚╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╝");
             System.out.print("> " + language[3][selectedLanguage]);
             int choice = sc.nextInt();
             sc.nextLine();
@@ -2871,9 +2876,7 @@ public class Main {
 
         while (!access) {
 
-            System.out.println("╔══════════════════════════════╗");
-            System.out.println("║         " + loginLanguage[0][selectedLanguage] + "         ║");
-            System.out.println("╚══════════════════════════════╝");
+            Header(loginLanguage[0][selectedLanguage]);
 
             System.out.print(loginLanguage[1][selectedLanguage]);
             String inputUsername = sc.nextLine();
@@ -2961,18 +2964,54 @@ public class Main {
 
     static void Notification(String type, String msg) {
         if (type.equals("success")) {
-            System.out.println("╔════════════════════════════════════════════════╗");
-            System.out.println("║" + GREEN + CenterString(48, msg) + RESET + "║");
-            System.out.println("╚════════════════════════════════════════════════╝");
+            System.out.println(
+                    "╔════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗");
+            System.out.println("║" + GREEN + CenterString(128, msg) + RESET + "║");
+            System.out.println(
+                    "╚════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝");
         } else if (type.equals("failure")) {
-            System.out.println("╔════════════════════════════════════════════════╗");
-            System.out.println("║" + RED + CenterString(48, msg) + RESET + "║");
-            System.out.println("╚════════════════════════════════════════════════╝");
+            System.out.println(
+                    "╔════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗");
+            System.out.println("║" + RED + CenterString(128, msg) + RESET + "║");
+            System.out.println(
+                    "╚════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝");
         }
     }
 
-    static void Header() {
-        //
+    static void Header(String msg) {
+        Title();
+        System.out.println(
+                "╔════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗");
+        System.out.println("║" + CenterString(128, msg) + "║");
+        System.out.println(
+                "╚════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝");
+    }
+
+    static void Title() {
+        System.out.println(
+                "╔╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╗");
+        System.out.println(
+                "╠╬╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╬╣");
+        System.out.println(
+                "╠╣------------------------------------------------------------------------------------------------------------------------------╠╣");
+        System.out.println(
+                "╠╣------------------------------------------------██████╗-█████╗-███████╗███████╗-----------------------------------------------╠╣");
+        System.out.println(
+                "╠╣-----------------------------------------------██╔════╝██╔══██╗██╔════╝██╔════╝-----------------------------------------------╠╣");
+        System.out.println(
+                "╠╣-----------------------------------------------██║-----███████║███████╗███████╗-----------------------------------------------╠╣");
+        System.out.println(
+                "╠╣-----------------------------------------------██║-----██╔══██║╚════██║╚════██║-----------------------------------------------╠╣");
+        System.out.println(
+                "╠╣-----------------------------------------------╚██████╗██║--██║███████║███████║-----------------------------------------------╠╣");
+        System.out.println(
+                "╠╣-----------------------------------------------╚═════╝╚═╝--╚═╝╚══════╝╚══════╝------------------------------------------------╠╣");
+        System.out.println(
+                "╠╣------------------------------------------------------------------------------------------------------------------------------╠╣");
+        System.out.println(
+                "╠╬╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╦╬╣");
+        System.out.println(
+                "╚╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╩╝");
     }
 
     public static void main(String[] args) {
@@ -3002,9 +3041,7 @@ public class Main {
             }
 
             // menu
-            System.out.println("╔════════════════════════════════════════════════╗");
-            System.out.println("║       " + language[8][selectedLanguage] + "       ║");
-            System.out.println("╚════════════════════════════════════════════════╝");
+            Header(language[8][selectedLanguage]);
             System.out.println("[1] " + language[0][selectedLanguage]); // make order
             System.out.println("[2] " + language[1][selectedLanguage]); // sales history
             if (users[user_id][2].equals("manager") || users[user_id][2].equals("admin")) {
