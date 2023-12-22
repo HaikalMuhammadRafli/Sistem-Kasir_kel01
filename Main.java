@@ -1408,7 +1408,7 @@ public class Main {
         for (int i = 0; i < items.length; i++) {
             if (items[i][0] != null && items[i][4].equalsIgnoreCase("makanan")) {
                 System.out.println(String.format(
-                        "║ %4d ║ %16s ║ %16s ║ %12s ║ %10s ║ %17s ║",
+                        "║ %4d ║ %16s ║ %16s ║ %12s ║ %20s ║ %17s ║",
                         i + 1,
                         items[i][0],
                         items[i][4],
@@ -1424,7 +1424,7 @@ public class Main {
         for (int i = 0; i < items.length; i++) {
             if (items[i][0] != null && items[i][4].equalsIgnoreCase("minuman")) {
                 System.out.println(String.format(
-                        "║ %4d ║ %16s ║ %16s ║ %12s ║ %10s ║ %17s ║",
+                        "║ %4d ║ %16s ║ %16s ║ %12s ║ %20s ║ %17s ║",
                         i + 1,
                         items[i][0],
                         items[i][4],
@@ -1539,7 +1539,7 @@ public class Main {
 
                     SideBox();
                     InputBox(createItemLanguage[16][selectedLanguage] + ": ");
-                    items[latestItems][4] = Integer.toString(sc.nextInt());
+                    items[latestItems][5] = Integer.toString(sc.nextInt());
 
                     SideBox();
                     LowerBox();
@@ -1758,22 +1758,31 @@ public class Main {
                     exit = false;
                     do {
                         ViewItemList(null);
-                        System.out.println("[" + (items.length + 1) + "] " + stockLanguage[5][selectedLanguage]); // Back
+                        UpperBox();
+                        SideBox();
+                        TextBox("[" + (items.length + 1) + "] " + stockLanguage[5][selectedLanguage]); // Back
                         // Capture user's choice for stock update
-                        System.out.print(
+                        SideBox();
+                        InputBox(
                                 stockLanguage[3][selectedLanguage] + " : ");
                         int stockChoice = sc.nextInt();
                         // Validate user choice and update stock
+
                         if (stockChoice == items.length + 1) {
                             exit = true;
                         } else {
                             // Validate user choice and update stock
                             if (stockChoice > 0 && stockChoice <= items.length && items[stockChoice - 1][0] != null) {
-                                System.out.print(
+                                SideBox();
+                                InputBox(
                                         stockLanguage[1][selectedLanguage] + " " + items[stockChoice - 1][0] + " : ");
                                 int jumlahMasuk = sc.nextInt();
                                 items[stockChoice - 1][2] = Integer
                                         .toString(Integer.parseInt(items[stockChoice - 1][2]) + jumlahMasuk);
+
+                                SideBox();
+                                LowerBox();
+
                             } else {
                                 Notification("failure", stockLanguage[0][selectedLanguage]);
                                 Delay();
@@ -1786,9 +1795,12 @@ public class Main {
                     exit = false;
                     do {
                         ViewItemList(null);
-                        System.out.println("[" + (items.length + 1) + "] " + stockLanguage[5][selectedLanguage]); // Back
+                        UpperBox();
+                        SideBox();
+                        TextBox("[" + (items.length + 1) + "] " + stockLanguage[5][selectedLanguage]); // Back
                         // Capture user's choice for stock update
-                        System.out.print(
+                        SideBox();
+                        InputBox(
                                 stockLanguage[4][selectedLanguage] + " : ");
                         int stockChoice = sc.nextInt();
 
@@ -1799,9 +1811,13 @@ public class Main {
                         } else {
                             // Validate user choice and update stock
                             if (stockChoice > 0 && stockChoice <= items.length && items[stockChoice - 1][0] != null) {
-                                System.out.print(
+                                SideBox();
+                                InputBox(
                                         stockLanguage[2][selectedLanguage] + " " + items[stockChoice - 1][0] + " : ");
                                 int jumlahMasuk = sc.nextInt();
+
+                                SideBox();
+                                LowerBox();
                                 items[stockChoice - 1][2] = Integer
                                         .toString(Integer.parseInt(items[stockChoice - 1][2]) - jumlahMasuk);
                             } else {
@@ -1851,11 +1867,11 @@ public class Main {
             Header(discountLanguage[0][selectedLanguage]);
             UpperBox();
             SideBox();
-            TextBox("1. " + discountLanguage[13][selectedLanguage]); // Item Discount
+            TextBox("[1] " + discountLanguage[13][selectedLanguage]); // Item Discount
             SideBox();
-            TextBox("2. " + discountLanguage[14][selectedLanguage] + " (" + memberDiskon + "%)"); // Member Discount
+            TextBox("[2] " + discountLanguage[14][selectedLanguage] + " (" + memberDiskon + "%)"); // Member Discount
             SideBox();
-            TextBox("3. " + discountLanguage[12][selectedLanguage]); // Back
+            TextBox("[3] " + discountLanguage[12][selectedLanguage]); // Back
             SideBox();
             LowerBox();
             System.out.print(discountLanguage[15][selectedLanguage] + ": ");
@@ -1869,10 +1885,16 @@ public class Main {
                     if (choice == 1) { // Edit Discount
                         while (true) {
                             ViewSimpleItemList();
-                            System.out.println("[0] " + discountLanguage[12][selectedLanguage]);
-                            System.out.print(discountLanguage[3][selectedLanguage] + ": "); // Choose item to edit
-                                                                                            // discount
+
+                            UpperBox();
+                            SideBox();
+                            TextBox("[0] " + discountLanguage[12][selectedLanguage]);
+                            SideBox();
+                            InputBox(discountLanguage[3][selectedLanguage] + ": "); // Choose item to edit
+                                                                                    // discount
                             int editDiscountChoice = sc.nextInt();
+
+                            SideBox();
 
                             if (editDiscountChoice == 0) {
                                 break; // Kembali jika pengguna memilih 0
@@ -1880,7 +1902,7 @@ public class Main {
 
                             if (editDiscountChoice > 0 && editDiscountChoice <= items.length
                                     && items[editDiscountChoice - 1][0] != null) {
-                                System.out.print(
+                                InputBox(
                                         discountLanguage[4][selectedLanguage] + " " + items[editDiscountChoice - 1][0]
                                                 + ": "); // Enter new discount
                                 int newDiscount = sc.nextInt();
@@ -1889,8 +1911,11 @@ public class Main {
                                         + discountLanguage[5][selectedLanguage] + " "
                                         + items[editDiscountChoice - 1][3]
                                         + "% " + discountLanguage[6][selectedLanguage]); // Discount updated
-                                Delay();
                             }
+
+                            SideBox();
+                            LowerBox();
+                            Delay();
                         }
                     }
                     break;
@@ -1900,16 +1925,17 @@ public class Main {
                     Header(discountLanguage[0][selectedLanguage]);
                     UpperBox();
                     SideBox();
-                    TextBox("1. " + discountLanguage[1][selectedLanguage]); // Edit Discount
+                    TextBox("[1] " + discountLanguage[1][selectedLanguage]); // Edit Discount
                     SideBox();
-                    TextBox("2. " + discountLanguage[2][selectedLanguage]); // Remove Discount
+                    TextBox("[2] " + discountLanguage[2][selectedLanguage]); // Remove Discount
                     SideBox();
-                    TextBox("3. " + discountLanguage[12][selectedLanguage]); // Back
+                    TextBox("[3] " + discountLanguage[12][selectedLanguage]); // Back
                     SideBox();
-                    LowerBox();
-                    System.out.print(discountLanguage[15][selectedLanguage] + ": "); // Enter new member discount
+                    InputBox(discountLanguage[15][selectedLanguage] + ": "); // Enter new member discount
                     int memberDiscountChoice = sc.nextInt();
                     sc.nextLine();
+                    SideBox();
+                    LowerBox();
                     ClearScreen();
 
                     switch (memberDiscountChoice) {
@@ -2823,11 +2849,11 @@ public class Main {
             Header(language[0][selectedLanguage]); // this year
             UpperBox();
             SideBox();
-            TextBox("1. " + language[1][selectedLanguage]); // by month
+            TextBox("[1] " + language[1][selectedLanguage]); // by month
             SideBox();
-            TextBox("2. " + language[2][selectedLanguage]); // by day
+            TextBox("[2] " + language[2][selectedLanguage]); // by day
             SideBox();
-            TextBox("3. " + language[3][selectedLanguage]); // back
+            TextBox("[3] " + language[3][selectedLanguage]); // back
             SideBox();
             LowerBox();
             System.out.print(language[4][selectedLanguage] + ": "); // your choice
